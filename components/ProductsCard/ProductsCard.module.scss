@@ -1,0 +1,123 @@
+@import "styles/mixins&variables";
+
+.productsCardWrapper {
+  padding: 6px;
+  width: calc(100% / 7);
+}
+
+.productsCard {
+  position: relative;
+  background-color: transparent;
+  border: 2px solid $commonColor_primary;
+  @include flexible_row(flex-start, center);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s background-color;
+  min-height: 70px;
+  padding-right: $indent_small;
+
+  .deleteBtn {
+    z-index: 5;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+  }
+
+  .productsName {
+    margin-left: $indent_large;
+    color: $commonColor_primary;
+    font-weight: bold;
+  }
+
+  &:hover {
+    background-color: #C3BBEE;
+  }
+
+  &.selected {
+    background-color: $commonColor_primary;
+
+    .productsName {
+      color: white
+    }
+
+    &:hover {
+      background-color: $commonColor_primary;
+    }
+  }
+
+  .imgWrapper {
+    flex-shrink: 0;
+    position: relative;
+    height: 80px;
+    width: 80px;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .productsCardWrapper {
+    width: calc(100% / 5);
+  }
+}
+
+@media (max-width: 992px) {
+  .productsCardWrapper {
+    width: calc(100% / 4);
+  }
+  .productsCard {
+    min-height: 50px;
+
+    .productsName {
+      font-size: $fontSize_small;
+    }
+
+    .imgWrapper {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+@media(max-width: 576px) {
+  .productsCardWrapper {
+    width: calc(100% / 3);
+  }
+
+  .productsCard {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    height: 120px;
+
+    .imgWrapper {
+      position: relative;
+      width: 70px;
+      height: 70px;
+
+      img {
+        border-radius: 0 0 $borderRadius_small $borderRadius_small;
+
+      }
+    }
+
+    .productsName {
+      @include flexible_row(center, center);
+      font-size: $fontSize_extraSmall;
+      text-align: center;
+      flex-shrink: 0;
+      position: relative;
+      height: 30px;
+      color: white;
+      z-index: 2;
+      background-color: $commonColor_primary;
+      width: 102%;
+      margin-left: 0;
+    }
+  }
+
+}

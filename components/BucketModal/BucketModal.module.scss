@@ -1,0 +1,138 @@
+@import "styles/mixins&variables";
+
+.bucketModal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 1000;
+  @include flexible_row(center, center);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.bucketModalContent {
+  position: relative;
+  padding: 10px 10px 0;
+  @include flexible_column();
+  border-radius: 10px;
+  width: 700px;
+  background-color: #F0EFF7;
+  height: 700px;
+
+  .title {
+    text-align: center;
+    margin-bottom: $indent_large;
+    @include title();
+    color: $commonColor_primary;
+  }
+
+  ul {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    overflow-y: auto;
+    align-content: flex-start;
+  }
+}
+
+.productsCardWrapper {
+  width: calc(100% / 3);
+  padding: $indent_small;
+  height: 90px;
+
+  .productsCard {
+    @include flexible_row(space-between, center);
+    padding-right: $indent_small;
+    background-color: $commonColor_primary;
+    border-radius: 5px;
+    height: 100%;
+
+    span {
+      margin-left: $indent_small;
+      font-weight: bold;
+      color: white;
+    }
+
+    .imgWrapper {
+      position: relative;
+      width: 43px;
+      height: 100%;
+
+      img {
+        border-radius: 5px;
+      }
+    }
+
+    button {
+      width: 20px;
+      height: 20px;
+      background-color: $commonColor_secondary;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.modalActions {
+  @include flexible_row(center, center);
+  bottom: 0;
+  position: sticky;
+  background-color: $commonColor_panel;
+  width: 103%;
+  padding: $indent_small;
+  border-radius: 0 0 5px 5px;
+
+  button {
+    min-width: 80px;
+    height: 40px;
+    margin: 0 $indent_small;
+    border-radius: 5px;
+    background-color: $color_background;
+    font-size: $fontSize_medium;
+    padding: $indent_small;
+    transition: 0.2s;
+    color: $commonColor_primary;
+
+    &:hover {
+      background-color: $color_buttonGreen;
+      color: white;
+    }
+  }
+}
+
+@media(max-width: 576px) {
+  .bucketModalContent {
+    padding: 30px 10px 0 10px;
+
+    .productsCardWrapper {
+      width: calc(100% / 2);
+      padding: 6px;
+      height: 60px;
+
+      .productsCard {
+        span {
+          font-size: $fontSize_extraSmall;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+
+  .modalActions {
+    button {
+      font-size: $fontSize_small;
+    }
+  }
+}

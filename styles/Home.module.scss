@@ -1,0 +1,69 @@
+@import "mixins&variables.scss";
+
+.home {
+  width: 100%;
+  @include flexible_column();
+  justify-content: center;
+  height: 100vh;
+
+  span {
+    margin-top: $indent_small;
+    font-size: $fontSize_medium;
+  }
+}
+
+.homeContent {
+  @include flexible_row(center, flex-start);
+  margin-bottom: 200px;
+
+  .homeCard {
+    @include flexible_column();
+    background-color: $commonColor_primary;
+    margin: 30px 20px 0;
+    min-width: 250px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      fill: white;
+    }
+
+    h4 {
+      font-size: $fontSize_large;
+      margin: 10px 0;
+      color: white;
+    }
+  }
+}
+
+@media(max-width: 768px) {
+  .home {
+    h2 {
+      font-size: $fontSize_medium;
+    }
+
+    span {
+      font-size: $fontSize_small;
+    }
+  }
+
+  .homeContent {
+    .homeCard {
+      min-width: 150px;
+      padding: $indent_large;
+
+      h4 {
+        font-size: $fontSize_medium;
+        margin-top: 0;
+      }
+
+      .icon {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+$indent_large: 16px;
+$indent_small: 8px;
+$indent_extraLarge: 24px;
+
+$borderRadius_small: 5px;
+$borderRadius_medium: 8px;
+$borderRadius_circle: 50%;
+
+$commonColor_primary: #403969;
+$commonColor_secondary: #F7347A;
+$commonColor_panel: #DC9EDE;
+$color_button: #C7D0D3;
+$color_buttonGreen: #29C58D;
+$color_background: #F0EFF7;
+
+$fontSize_large: 24px;
+$fontSize_medium: 18px;
+$fontSize_small: 14px;
+$fontSize_extraSmall: 12px;
+
+@mixin flexible_column() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin flexible_row($justify, $align) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin title {
+  font-size: $fontSize_large;
+  font-weight: bold;
+}
+
+@mixin category {
+  cursor: pointer;
+  background-color: $color_button;
+  margin: 0 $indent_small $indent_small;
+  @include flexible_row(center, center);
+  border-radius: $borderRadius_small;
+  color: white;
+  transition: 0.2s background-color;
+  padding: $indent_small;
+  min-width: 50px;
+}
+
+@mixin dropdown {
+  @include flexible_column();
+  width: 40%;
+  align-items: flex-start;
+  position: absolute;
+  border-radius: $borderRadius_small;
+  cursor: pointer;
+  min-height: 40px;
+  background-color: $color_background;
+  color: $commonColor_primary;
+  font-weight: bold;
+  z-index: 10;
+  text-transform: capitalize;
+}
+
+@mixin selectedItem {
+  @include flexible_row(flex-start, center);
+  height: 35px;
+  position: relative;
+  width: 100%;
+  padding: 0 $indent_small;
+}

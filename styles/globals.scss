@@ -1,0 +1,48 @@
+html,
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+a:focus,
+:active {
+  outline: none;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+  z-index: 10;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+button {
+  cursor: pointer;
+  border: none
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 2rem;
+  overflow: hidden;
+
+}
+
+@media(max-width: 576px) {
+  .container {
+    padding: 0 1rem;
+  }
+}

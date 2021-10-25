@@ -1,0 +1,80 @@
+@import "styles/mixins&variables";
+
+.shoppingList {
+  @include flexible_column();
+  padding: $indent_large;
+  width: 100%;
+
+  .header {
+    position: relative;
+    width: 100%;
+    @include flexible_row(center, center);
+
+    h2 {
+      position: absolute;
+      left: 0;
+      top: 0;
+      @include title();
+      color: $commonColor_primary;
+    }
+
+    .actions {
+      @include flexible_column();
+    }
+  }
+
+  .cards {
+    @include flexible_row(flex-start, center);
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .iconWrapper {
+    top: 0;
+    right: 0;
+    position: absolute;
+
+    .productsCounter {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      @include flexible_column();
+      justify-content: center;
+      border-radius: 50%;
+      font-size: $fontSize_extraSmall;
+      font-weight: bold;
+      color: white;
+      width: 20px;
+      height: 20px;
+      background-color: $commonColor_secondary;
+    }
+  }
+}
+
+.icon {
+  position: relative;
+  fill: $commonColor_primary;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media(max-width: 576px) {
+  .shoppingList {
+    padding: $indent_small 0;
+
+    .iconWrapper {
+      right: 50%;
+      top: -0px;
+      transform: translate(50%);
+    }
+  }
+  .cards {
+    padding-top: 60px;
+  }
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+}

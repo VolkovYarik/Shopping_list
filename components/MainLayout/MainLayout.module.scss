@@ -1,0 +1,54 @@
+@import "styles/mixins&variables";
+
+.header {
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $commonColor_panel;
+  @include flexible_row(center, center);
+  z-index: 999;
+  box-shadow: 0 12px 13px -2px rgba(34, 60, 80, 0.2);
+
+  nav {
+    display: flex;
+    align-items: center;
+
+    a {
+      color: #fff;
+      margin: 0 10px;
+      @include title();
+      transition: 0.2s color;
+
+      &:hover {
+        color: #667965;
+      }
+
+      &.selected {
+        color: #40583F;
+      }
+    }
+  }
+}
+
+.main {
+  position: relative;
+  background-color: $color_background;
+  margin-top: 60px;
+  min-height: 100vh;
+}
+
+.selected {
+  color: red
+}
+
+@media(max-width: 576px) {
+  .header {
+    nav {
+      a {
+        font-size: $fontSize_medium;
+      }
+    }
+  }
+}

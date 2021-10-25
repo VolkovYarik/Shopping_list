@@ -1,0 +1,129 @@
+@import '/styles/mixins&variables';
+
+.editDataBase {
+  @include flexible_column();
+}
+
+.header {
+  margin: $indent_large 0;
+  position: relative;
+  width: 100%;
+  @include flexible_row(center, center);
+}
+
+.content {
+  width: 100%;
+  max-width: 900px;
+  @include flexible_column();
+
+  .card {
+    width: 100%;
+    @include flexible_row(space-between, center);
+    background-color: #fff;
+    margin-bottom: $indent_large;
+    padding-right: $indent_small;
+    border-radius: $borderRadius_small;
+
+    .imgWrapper {
+      height: 80px;
+      width: 80px;
+      position: relative;
+
+      img {
+        border-radius: $borderRadius_small 0 0 $borderRadius_small;
+      }
+    }
+
+    .cardInfo {
+      width: 20%;
+      font-weight: bold;
+      color: $commonColor_primary;
+      text-transform: capitalize;
+    }
+
+    .cardActions {
+      button {
+        width: 100px;
+        height: 30px;
+        background-color: $commonColor_secondary;
+        color: white;
+        border-radius: 5px;
+        font-size: $fontSize_small;
+      }
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  left: 0;
+  fill: $commonColor_primary;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media(max-width: 1200px) {
+  .content {
+    padding-top: 40px;
+
+    .card {
+      .imgWrapper {
+        width: 50px;
+        height: 50px;
+      }
+
+      .cardInfo {
+        font-size: $fontSize_small;
+      }
+    }
+  }
+}
+
+@media(max-width: 768px) {
+  .header {
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+
+    h2 {
+      text-align: right;
+      font-size: $fontSize_medium;
+    }
+  }
+  .content {
+    padding-top: 0;
+  }
+  .icon {
+    position: static;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media(max-width: 576px) {
+  .header {
+    h2 {
+      padding-left: $indent_small;
+      font-size: $fontSize_small;
+    }
+  }
+
+  .content {
+    .card {
+      .cardInfo {
+        font-size: $fontSize_extraSmall;
+        margin: 0 5px;
+      }
+
+      .cardActions {
+        button {
+          font-size: $fontSize_extraSmall;
+          width: 70px;
+        }
+      }
+    }
+  }
+}
