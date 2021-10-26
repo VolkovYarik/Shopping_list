@@ -23,12 +23,6 @@
     }
   }
 
-  .cards {
-    @include flexible_row(flex-start, center);
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
   .iconWrapper {
     top: 0;
     right: 0;
@@ -64,15 +58,17 @@
   .shoppingList {
     padding: $indent_small 0;
 
+    .header {
+      padding-top: 20px;
+    }
+
     .iconWrapper {
       right: 50%;
-      top: -0px;
+      top: 20px;
       transform: translate(50%);
     }
   }
-  .cards {
-    padding-top: 60px;
-  }
+
   .icon {
     width: 40px;
     height: 40px;

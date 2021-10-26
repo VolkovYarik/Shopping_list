@@ -15,18 +15,20 @@
   }
 
   &.selected {
-    background-color: $color_buttonGreen;
+    background-color: $commonColor_green;
 
     &:hover {
-      background-color: $color_buttonGreen;
+      background-color: $commonColor_green;
     }
   }
 }
 
 .subCategoriesDropdown {
-  @include dropdown();
+  @include dropdown(40%, 40px);
+  z-index: 10;
+  position: absolute;
   right: 0;
-  border: 2px solid $color_buttonGreen;
+  border: 2px solid $commonColor_green;
   display: none;
 
   .selectedItem {
@@ -46,7 +48,7 @@
       @include flexible_row(flex-start, center);
 
       &:hover {
-        background-color: $color_buttonGreen;
+        background-color: $commonColor_green;
       }
     }
 
@@ -62,7 +64,7 @@
   height: 20px;
   position: absolute;
   right: 8px;
-  fill: $color_buttonGreen;
+  fill: $commonColor_green;
   transition: transform 0.2s;
 
   &.active {

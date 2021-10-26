@@ -1,4 +1,4 @@
-import styles from './ProductsSubCategory.module.scss';
+import styles from './Subcategories.module.scss';
 import { ProductsSubCategory } from "./ProductsSubCategory";
 import ArrowDown from "../Specs/arrowDown";
 import cn from "classnames";

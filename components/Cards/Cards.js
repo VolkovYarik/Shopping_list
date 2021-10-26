@@ -1,4 +1,4 @@
-import styles from "../../styles/ShoppingList.module.scss";
+import styles from './Cards.module.scss';
 import { ProductsCard } from "./ProductsCard";
 import { useContext } from "react";
 import { Context } from "../Context";

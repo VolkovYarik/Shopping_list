@@ -8,7 +8,7 @@ import { BucketModal } from "components/BucketModal/BucketModal";
 import Portal from "components/Portal";
 import { Categories } from "/components/Categories/Categories";
 import { SubCategories } from '/components/SubCategories/SubCategories';
-import { Cards } from "../../components/ProductsCard/Cards";
+import { Cards } from "../../components/Cards/Cards";
 
 const ShoppingList = ({ productsData, categoriesData }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');

@@ -1,4 +1,5 @@
-import styles from './ProductsSubCategory.module.scss';
+import styles from './Subcategories.module.scss';
+
 import cn from 'classnames';
 
 export const ProductsSubCategory = ({ subCategory, selectedSubCategory, setSelectedSubcategory }) => {

@@ -1,4 +1,4 @@
-import styles from './ProductsCard.module.scss';
+import styles from './Cards.module.scss';
 import { useEffect, useState } from "react";
 import cn from 'classnames';
 import { useBucket } from "/components/Hooks/useBucket";
@@ -41,7 +41,7 @@ export const ProductsCard = ({ item, selectedCategory, state, selectedSubCategor
             <div className={styles.imgWrapper}>
                <Image src={item.imgUrl} layout={'fill'} />
             </div>
-            <div className={styles.productsName}>{item.name}</div>
+            <div className={cn(styles.productsName, { [styles.selected]: isSelected })}>{item.name}</div>
          </div>
       </li>
    );

@@ -24,7 +24,10 @@
 }
 
 .categoriesDropdown {
-  @include dropdown();
+  @include dropdown(40%, 40px);
+  background-color: $color_background;
+  position: absolute;
+  z-index: 10;
   border: 2px solid $commonColor_secondary;
   display: none;
   left: 0;

@@ -50,7 +50,6 @@
 .productsCardWrapper {
   width: calc(100% / 3);
   padding: $indent_small;
-  height: 90px;
 
   .productsCard {
     @include flexible_row(space-between, center);
@@ -67,11 +66,12 @@
 
     .imgWrapper {
       position: relative;
-      width: 43px;
-      height: 100%;
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
 
       img {
-        border-radius: 5px;
+        border-radius: $borderRadius_small 0 0 $borderRadius_small;
       }
     }
 
@@ -106,7 +106,7 @@
     color: $commonColor_primary;
 
     &:hover {
-      background-color: $color_buttonGreen;
+      background-color: $commonColor_green;
       color: white;
     }
   }
@@ -119,9 +119,13 @@
     .productsCardWrapper {
       width: calc(100% / 2);
       padding: 6px;
-      height: 60px;
 
       .productsCard {
+        .imgWrapper {
+          width: 50px;
+          height: 50px;
+        }
+
         span {
           font-size: $fontSize_extraSmall;
           margin: 0 10px;
