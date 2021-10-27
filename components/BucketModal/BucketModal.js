@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useOnClickOutside } from "/components/Hooks/useOnClickOutside";
 import { useBucket } from "../Hooks/useBucket";
 import Image from "next/image";
+import noImage from 'assets/noImage.jpg';
 
 export const BucketModal = () => {
    const { state, dispatch } = useContext(Context);
@@ -26,7 +27,7 @@ export const BucketModal = () => {
                   <li key={elem.id} className={styles.productsCardWrapper}>
                      <div className={styles.productsCard}>
                         <div className={styles.imgWrapper}>
-                           <Image src={elem.imgUrl} layout={'fill'} />
+                           <Image src={noImage} layout={'fill'} />
                         </div>
                         <span>{elem.name}</span>
                         <button onClick={() => removeFromBucket(elem)} />

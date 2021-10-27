@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Icon } from "components/Icon/Icon";
 import { Context } from "components/Context";
 import { useBucket } from "components/Hooks/useBucket";
+import noImage from 'assets/noImage.jpg';
 
 const EditDataBase = ({ productsData }) => {
    const [products, setProducts] = useState(productsData);
@@ -40,7 +41,7 @@ const EditDataBase = ({ productsData }) => {
                      products.map((item) => {
                         return (<div className={styles.card} key={item.id}>
                            <div className={styles.imgWrapper}>
-                              <Image src={item.imgUrl} layout={'fill'} />
+                              <Image src={noImage} layout={'fill'} />
                            </div>
                            <div className={styles.cardInfo}>{item.name}</div>
                            <div className={styles.cardInfo}>{item.category}</div>

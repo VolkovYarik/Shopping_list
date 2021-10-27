@@ -13,7 +13,7 @@ export const getAllCategories = () => {
 };
 
 export const createNewProduct = (body) => {
-   return instance.post('/products', body).then(res => res.data).catch((e) => console.log(e));
+   return instance.post('/products', body).then(res => res.data);
 };
 
 export const deleteProductByID = (id) => {

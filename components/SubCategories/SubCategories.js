@@ -36,7 +36,7 @@ export const SubCategories = ({
                      <li
                         onClick={() => setSelectedSubCategory(item)}
                         className={styles.dropdownSubCategory}
-                        key={item.category}>
+                        key={item}>
                         {item}
                      </li>
                   ))}

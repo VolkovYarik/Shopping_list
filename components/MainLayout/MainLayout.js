@@ -8,6 +8,7 @@ import { Context } from "../Context";
 export const MainLayout = ({ children, title }) => {
    const { pathname } = useRouter();
    const { state } = useContext(Context);
+
    useEffect(() => {
       if (state.isModalOpen) {
          document.body.style.overflow = 'hidden';
@@ -22,7 +23,7 @@ export const MainLayout = ({ children, title }) => {
          <Head>
             <title>Shopping list {title}</title>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'true'} />
             <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
          </Head>
          <header className={styles.header}>

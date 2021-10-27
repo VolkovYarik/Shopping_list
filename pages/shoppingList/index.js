@@ -10,6 +10,15 @@ import { Categories } from "/components/Categories/Categories";
 import { SubCategories } from '/components/SubCategories/SubCategories';
 import { Cards } from "../../components/Cards/Cards";
 
+const findByIDs = (objArr, idsArr) => {
+   const set = objArr.reduce((acc, item) => {
+      acc[item.id] = item;
+      return acc;
+   });
+
+   return idsArr.map((item) => set[item]);
+};
+
 const ShoppingList = ({ productsData, categoriesData }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
@@ -20,16 +29,8 @@ const ShoppingList = ({ productsData, categoriesData }) => {
       const productsIDs = JSON.parse(localStorage.getItem('products'));
       dispatch(storageInit(productsIDs));
 
-      const productsSet = productsData.reduce((acc, item) => {
-         acc[item.id] = item;
-         return acc;
-      }, {});
-
-      const matches = productsIDs.map((el) => {
-         return productsSet[el];
-      });
-
-      dispatch(bucketInit(matches));
+      const selectedProducts = findByIDs(productsData, productsIDs);
+      dispatch(bucketInit(selectedProducts));
    }, [productsData]);
 
    useEffect(() => {

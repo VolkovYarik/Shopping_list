@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import cn from 'classnames';
 import { useBucket } from "/components/Hooks/useBucket";
 import Image from "next/image";
+import noImage from 'assets/noImage.jpg';
 
 export const ProductsCard = ({ item, selectedCategory, state, selectedSubCategory }) => {
    const [isSelected, setSelected] = useState(false);
@@ -39,7 +40,7 @@ export const ProductsCard = ({ item, selectedCategory, state, selectedSubCategor
          <div onClick={changeBucket}
               className={cn(styles.productsCard, { [styles.selected]: isSelected })}>
             <div className={styles.imgWrapper}>
-               <Image src={item.imgUrl} layout={'fill'} />
+               <Image src={noImage} layout={'fill'} />
             </div>
             <div className={cn(styles.productsName, { [styles.selected]: isSelected })}>{item.name}</div>
          </div>
