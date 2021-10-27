@@ -10,10 +10,10 @@ export const ProductsCard = ({ item, selectedCategory, state, selectedSubCategor
    const { addToBucket, removeFromBucket } = useBucket();
 
    useEffect(() => {
-      if (state.storage.find((el) => el === item.id)) {
+      if (state.storage.find((el) => el === item._id)) {
          setSelected(true);
       }
-      if (!state.bucket.find((el) => el?.id === item.id)) {
+      if (!state.bucket.find((el) => el?._id === item._id)) {
          setSelected(false);
       }
 
@@ -42,7 +42,7 @@ export const ProductsCard = ({ item, selectedCategory, state, selectedSubCategor
             <div className={styles.imgWrapper}>
                <Image src={noImage} layout={'fill'} />
             </div>
-            <div className={cn(styles.productsName, { [styles.selected]: isSelected })}>{item.name}</div>
+            <div className={cn(styles.productsName, { [styles.selected]: isSelected })}><span>{item.name}</span></div>
          </div>
       </li>
    );

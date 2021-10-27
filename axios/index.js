@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const instance = axios.create({
-   baseURL: "http://localhost:3000/api",
-});
+let DEV_URL = process.env.DEV_URL || "http://localhost:3000";
 
-export const getAllProducts = () => {
-   return instance.get('/products').then(res => res.data);
-};
+const instance = axios.create({
+   baseURL: `${DEV_URL}/api`,
+});
 
 export const getAllCategories = () => {
    return instance.get('/categories').then(res => res.data);
@@ -18,4 +16,10 @@ export const createNewProduct = (body) => {
 
 export const deleteProductByID = (id) => {
    return instance.delete(`/products/${id}`);
+};
+
+//requests to database
+
+export const getAllProducts = () => {
+   return instance.get('/products').then(res => res.data.data);
 };

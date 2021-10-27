@@ -12,7 +12,7 @@ export const Cards = ({ productsData, selectedCategory, selectedSubCategory }) =
             <ProductsCard
                state={state}
                item={item}
-               key={item.id}
+               key={item._id}
                selectedCategory={selectedCategory}
                selectedSubCategory={selectedSubCategory} />
          ))}

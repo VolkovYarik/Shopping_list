@@ -9,14 +9,15 @@ import cn from 'classnames';
 import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
 
 const AddProduct = ({ categoriesData }) => {
-   const [subCategoriesData, setSubCategoriesData] = useState([]);
+   const [currentCategory, setCurrentCategory] = useState(categoriesData[0]);
+   const [subCategoriesData, setSubCategoriesData] = useState(currentCategory.subCategories);
 
    const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
    const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
 
-   const [selectedCategory, setSelectedCategory] = useState(categoriesData[0].category);
+   const [selectedCategory, setSelectedCategory] = useState(currentCategory.category);
 
-   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategoriesData[0]);
+   const [selectedSubCategory, setSelectedSubCategory] = useState(currentCategory.subCategories[0]);
 
    const router = useRouter();
    const categoryRef = useRef();
@@ -29,24 +30,27 @@ const AddProduct = ({ categoriesData }) => {
       name: '',
       category: selectedCategory,
       class: selectedSubCategory,
-      imgUrl: '',
    });
 
+
    useEffect(() => {
-      const currentCategory = categoriesData.find(el => el.category === selectedCategory);
-      setSubCategoriesData(currentCategory.subCategories);
+      setCurrentCategory(categoriesData.find(el => el.category === selectedCategory));
    }, [selectedCategory]);
 
    useEffect(() => {
-      setSelectedSubCategory(subCategoriesData[0]);
+      setSubCategoriesData(currentCategory.subCategories);
+      setSelectedSubCategory(currentCategory.subCategories[0]);
+   }, [currentCategory]);
 
-   }, [subCategoriesData]);
+   useEffect(() => {
+      setProduct((prev) => ({ ...prev, category: selectedCategory, class: selectedSubCategory }));
+   }, [selectedCategory, selectedSubCategory]);
+
 
    const submitProduct = async (e) => {
       e.preventDefault();
-      const body = { product };
-      const data = await createNewProduct(body);
-      console.log(data);
+      const body = product;
+      await createNewProduct(body);
       await router.push('/shoppingList');
    };
 
@@ -64,11 +68,6 @@ const AddProduct = ({ categoriesData }) => {
                         <span className={styles.inputLabel}>Name</span>
                         <input className={styles.inputText} type="text" value={product.name}
                                onChange={e => setProduct({ ...product, name: e.target.value })} />
-                     </div>
-                     <div className={styles.inputWrapper}>
-                        <span className={styles.inputLabel}>URL image</span>
-                        <input className={styles.inputText} type="text" value={product.imgUrl}
-                               onChange={e => setProduct({ ...product, imgUrl: e.target.value })} />
                      </div>
                      <div className={styles.inputWrapper}>
                         <span className={styles.inputLabel}>Category</span>

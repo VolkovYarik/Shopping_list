@@ -18,18 +18,20 @@ export const BucketModal = () => {
       return null;
    }
 
+
+
    return (
       <div className={cn(styles.bucketModal, { [styles.active]: state.isModalOpen })}>
          <div ref={ref} className={styles.bucketModalContent}>
             <h4 className={styles.title}>Your bucket:</h4>
             <ul>{state.bucket.map((elem) => {
                return (
-                  <li key={elem.id} className={styles.productsCardWrapper}>
+                  <li key={elem?._id} className={styles.productsCardWrapper}>
                      <div className={styles.productsCard}>
                         <div className={styles.imgWrapper}>
                            <Image src={noImage} layout={'fill'} />
                         </div>
-                        <span>{elem.name}</span>
+                        <span>{elem?.name}</span>
                         <button onClick={() => removeFromBucket(elem)} />
                      </div>
                   </li>);

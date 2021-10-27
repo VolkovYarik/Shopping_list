@@ -15,12 +15,12 @@ export const useBucket = () => {
 
    const addToBucket = (product) => {
       dispatch(addProduct(product));
-      dispatch(addToStorage(product.id));
+      dispatch(addToStorage(product._id));
    };
 
    const removeFromBucket = (product) => {
       dispatch(removeProduct(product));
-      dispatch(removeFromStorage(product));
+      dispatch(removeFromStorage(product._id));
    };
 
    const clearBucketAndStorage = () => {

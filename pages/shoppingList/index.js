@@ -12,9 +12,9 @@ import { Cards } from "../../components/Cards/Cards";
 
 const findByIDs = (objArr, idsArr) => {
    const set = objArr.reduce((acc, item) => {
-      acc[item.id] = item;
+      acc[item._id] = item;
       return acc;
-   });
+   }, {});
 
    return idsArr.map((item) => set[item]);
 };
@@ -24,6 +24,8 @@ const ShoppingList = ({ productsData, categoriesData }) => {
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
    const [filteredSubCategories, setFilteredSubCategories] = useState([]);
    const { state, dispatch } = useContext(Context);
+   
+   //удаление с корзины в editdatabase
 
    useEffect(() => {
       const productsIDs = JSON.parse(localStorage.getItem('products'));
@@ -45,7 +47,7 @@ const ShoppingList = ({ productsData, categoriesData }) => {
       setFilteredSubCategories(filteredCategories?.subCategories || []);
    }, [selectedCategory]);
 
-
+   console.log(state.bucket);
    return (
       <MainLayout>
          <div className="container">

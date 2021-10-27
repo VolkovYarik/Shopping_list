@@ -34,7 +34,7 @@ const bucketReducer = (state, action) => {
       case ADD_PRODUCT:
          return { ...state, bucket: [...state.bucket, action.payload] };
       case REMOVE_PRODUCT:
-         return { ...state, bucket: state.bucket.filter((item) => item.id !== action.payload.id) };
+         return { ...state, bucket: state.bucket.filter((item) => item._id !== action.payload._id) };
       case CLEAR_BUCKET:
          return { ...state, bucket: [] };
       default:
@@ -49,7 +49,7 @@ const storageReducer = (state, action) => {
       case ADD_TO_STORAGE:
          return { ...state, storage: [...state.storage, action.payload] };
       case REMOVE_FROM_STORAGE:
-         return { ...state, storage: state.storage.filter((item) => item !== action.payload.id) };
+         return { ...state, storage: state.storage.filter((item) => item !== action.payload) };
       case CLEAR_STORAGE:
          return { ...state, storage: [] };
       default:
