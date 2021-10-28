@@ -3,12 +3,12 @@ import styles from 'styles/ShoppingList.module.scss';
 import { useContext, useEffect, useState } from "react";
 import { Icon } from "/components/Icon/Icon";
 import { getAllCategories, getAllProducts } from "/axios";
-import { bucketInit, Context, setModal, storageInit } from "/components/Context";
+import { bucketInit, Context, setModal } from "/components/Context";
 import { BucketModal } from "components/BucketModal/BucketModal";
 import Portal from "components/Portal";
-import { Categories } from "/components/Categories/Categories";
-import { SubCategories } from '/components/SubCategories/SubCategories';
-import { Cards } from "../../components/Cards/Cards";
+import { Cards } from "components/Cards/Cards";
+import { Categories } from "components/Categories/Categories";
+import { SubCategories } from "components/SubCategories/SubCategories";
 
 const findByIDs = (objArr, idsArr) => {
    const set = objArr.reduce((acc, item) => {
@@ -19,25 +19,12 @@ const findByIDs = (objArr, idsArr) => {
    return idsArr.map((item) => set[item]);
 };
 
+
 const ShoppingList = ({ productsData, categoriesData }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
    const [filteredSubCategories, setFilteredSubCategories] = useState([]);
    const { state, dispatch } = useContext(Context);
-   
-   //удаление с корзины в editdatabase
-
-   useEffect(() => {
-      const productsIDs = JSON.parse(localStorage.getItem('products'));
-      dispatch(storageInit(productsIDs));
-
-      const selectedProducts = findByIDs(productsData, productsIDs);
-      dispatch(bucketInit(selectedProducts));
-   }, [productsData]);
-
-   useEffect(() => {
-      localStorage.setItem('products', JSON.stringify(state.storage));
-   }, [state.storage]);
 
    useEffect(() => {
       setSelectedSubCategory('all');
@@ -47,7 +34,15 @@ const ShoppingList = ({ productsData, categoriesData }) => {
       setFilteredSubCategories(filteredCategories?.subCategories || []);
    }, [selectedCategory]);
 
-   console.log(state.bucket);
+   useEffect(() => {
+      const selectedProducts = findByIDs(productsData, state.storage);
+      dispatch(bucketInit(selectedProducts));
+   }, [state.storage]);
+
+   useEffect(() => {
+      localStorage.setItem('products', JSON.stringify(state.storage));
+   }, [state.bucket]);
+
    return (
       <MainLayout>
          <div className="container">

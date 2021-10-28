@@ -1,0 +1,63 @@
+@import "styles/mixins&variables";
+
+.inputResult {
+  width: 100%;
+  height: 200px;
+  border: 2px solid $commonColor_primary;
+  margin-top: $indent_extraLarge;
+  overflow-y: auto;
+
+  ul {
+    @include flexible_row(flex-start, flex-start);
+    padding: $indent_small;
+    flex-wrap: wrap;
+
+    li {
+      position: relative;
+      @include flexible_row(center, center);
+      min-width: 30px;
+      height: 30px;
+      border-radius: $borderRadius_small;
+      padding: 0 $indent_small;
+      color: white;
+      background-color: $commonColor_green;
+      margin-right: $indent_small;
+      margin-bottom: $indent_small;
+
+      .deleteBtn {
+        position: absolute;
+        border-radius: $borderRadius_circle;
+        width: 10px;
+        height: 10px;
+        background-color: $commonColor_secondary;
+        right: -3px;
+        top: -3px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.addSubCategoryActions {
+  align-self: center;
+  margin-top: $indent_large;
+
+  button {
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+    border-radius: $borderRadius_small;
+    margin: 0 $indent_small;
+  }
+
+  .addSubCategoryBtn {
+    background-color: $commonColor_primary;
+    color: white;
+  }
+
+  .deleteSubCategoryBtn {
+    border: 1px solid $commonColor_secondary;
+    color: $commonColor_secondary;
+  }
+}
+

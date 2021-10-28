@@ -1,40 +1,29 @@
 import { MainLayout } from "components/MainLayout/MainLayout";
 import styles from '/styles/EditDataBase.module.scss';
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Icon } from "components/Icon/Icon";
-import { Context } from "components/Context";
-import { useBucket } from "components/Hooks/useBucket";
 import noImage from 'assets/noImage.jpg';
 import { deleteProductByID, getAllProducts } from "../../axios";
 
 const EditDataBase = ({ productsData }) => {
    const [products, setProducts] = useState(productsData);
-   const { state } = useContext(Context);
-   const { removeFromBucket } = useBucket();
 
-   console.log(state.bucket);
 
    const deleteProduct = async (product) => {
-
       await deleteProductByID(product._id);
       const updatedProductsList = await getAllProducts();
       setProducts(updatedProductsList);
-      if (state.bucket.find((el) => el._id === product._id)) {
-         removeFromBucket(product);
-      }
+
+      const currentLocalStorage = JSON.parse(localStorage.getItem('products'));
+      const updatedLocalStorage = currentLocalStorage.filter((el) => el !== product._id);
+      localStorage.setItem('products', JSON.stringify(updatedLocalStorage));
    };
+
    return (
-      <MainLayout>
+      <MainLayout withSidebar={true}>
          <div className="container">
             <section className={styles.editDataBase}>
                <div className={styles.header}>
-                  <Link href="/editDataBase/addProduct">
-                     <a>
-                        <Icon name="Plus" className={styles.icon} />
-                     </a>
-                  </Link>
                   <h2>
                      Here you can edit database of products
                   </h2>

@@ -32,7 +32,6 @@ const AddProduct = ({ categoriesData }) => {
       class: selectedSubCategory,
    });
 
-
    useEffect(() => {
       setCurrentCategory(categoriesData.find(el => el.category === selectedCategory));
    }, [selectedCategory]);
@@ -49,28 +48,27 @@ const AddProduct = ({ categoriesData }) => {
 
    const submitProduct = async (e) => {
       e.preventDefault();
-      const body = product;
-      await createNewProduct(body);
-      await router.push('/shoppingList');
+      await createNewProduct(product);
+      await router.push('/editDataBase');
    };
 
    return (
       <MainLayout>
          <div className="container">
-            <section className={styles.addProduct}>
-               <div className={styles.addProductContent}>
-                  <div className={styles.header}>
+            <section className={'addProduct'}>
+               <div className={'formWrapper'}>
+                  <div className={'formHeader'}>
                      <h3>You can add a product to the database</h3>
                      <p>Please, input name, category and subcategory of product</p>
                   </div>
-                  <form className={styles.form} onSubmit={submitProduct}>
-                     <div className={styles.inputWrapper}>
-                        <span className={styles.inputLabel}>Name</span>
-                        <input className={styles.inputText} type="text" value={product.name}
+                  <form className={'form'} onSubmit={submitProduct}>
+                     <div className={'inputWrapper'}>
+                        <span className={'inputLabel'}>Name</span>
+                        <input className={'inputText'} type="text" value={product.name}
                                onChange={e => setProduct({ ...product, name: e.target.value })} />
                      </div>
-                     <div className={styles.inputWrapper}>
-                        <span className={styles.inputLabel}>Category</span>
+                     <div className={'inputWrapper'}>
+                        <span className={'inputLabel'}>Category</span>
                         <div ref={categoryRef} className={styles.inputDropdown}
                              onClick={() => setCategoriesDropdownActive(!isCategoriesDropdownActive)}>
                            <ArrowDown className={cn(styles.icon, { [styles.active]: isCategoriesDropdownActive })} />
@@ -87,8 +85,8 @@ const AddProduct = ({ categoriesData }) => {
                            </ul>
                         </div>
                      </div>
-                     <div className={styles.inputWrapper}>
-                        <span className={styles.inputLabel}>Subcategory</span>
+                     <div className={'inputWrapper'}>
+                        <span className={'inputLabel'}>Subcategory</span>
                         <div ref={subCategoryRef} className={styles.inputDropdown}
                              onClick={() => setSubCategoriesDropdownActive(!isSubCategoriesDropdownActive)}>
                            <ArrowDown className={cn(styles.icon, { [styles.active]: isSubCategoriesDropdownActive })} />
@@ -105,7 +103,7 @@ const AddProduct = ({ categoriesData }) => {
                            </ul>
                         </div>
                      </div>
-                     <div className={styles.formActions}>
+                     <div className={'formActions'}>
                         <button type="submit">Submit</button>
                         <Link href={'/editDataBase'}>
                            <a>

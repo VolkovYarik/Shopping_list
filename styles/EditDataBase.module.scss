@@ -54,16 +54,6 @@
   }
 }
 
-.icon {
-  position: absolute;
-  left: 0;
-  fill: $commonColor_primary;
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
 @media(max-width: 1200px) {
   .content {
     padding-top: 40px;
@@ -95,11 +85,6 @@
   }
   .content {
     padding-top: 0;
-  }
-  .icon {
-    position: static;
-    height: 40px;
-    width: 40px;
   }
 }
 

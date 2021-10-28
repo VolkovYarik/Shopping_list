@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       case 'POST': {
          return addProduct(req, res);
       }
-
    }
 }
 

@@ -7,18 +7,20 @@ const instance = axios.create({
 });
 
 export const getAllCategories = () => {
-   return instance.get('/categories').then(res => res.data);
+   return instance.get('/categories').then(res => res.data.data);
+};
+
+export const addNewCategory = (body) => {
+   return instance.post('/categories', body).then(res => res).catch(err => console.log(err));
 };
 
 export const createNewProduct = (body) => {
-   return instance.post('/products', body).then(res => res.data);
+   return instance.post('/products', body).then(res => res);
 };
 
 export const deleteProductByID = (id) => {
    return instance.delete(`/products/${id}`);
 };
-
-//requests to database
 
 export const getAllProducts = () => {
    return instance.get('/products').then(res => res.data.data);

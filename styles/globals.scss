@@ -1,3 +1,5 @@
+@import "./mixins&variables";
+
 html,
 body {
   font-family: "Roboto", sans-serif;
@@ -36,11 +38,116 @@ button {
 
 .container {
   margin: 0 auto;
+  flex-grow: 1;
   padding: 0 2rem;
+}
+
+.addProduct, .addCategory {
+  @include flexible_column();
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 700px;
+
+  .formHeader {
+    @include flexible_column();
+    margin: $indent_large 0 $indent_large;
+    position: relative;
+
+    h3, p {
+      text-align: center;
+    }
+
+    h3 {
+      @include title();
+    }
+
+    p {
+      font-size: $fontSize_medium;
+      margin-top: $indent_small;
+    }
+  }
+
+  .form {
+    @include flexible_column();
+    width: 100%;
+
+    .inputWrapper {
+      @include flexible_column();
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: $indent_large;
+
+
+      input, div {
+        border-radius: $borderRadius_small;
+      }
+
+      .inputLabel {
+        margin-bottom: $indent_small;
+        font-size: $fontSize_medium;
+      }
+
+      .inputText {
+        width: 100%;
+        border: none;
+        min-height: 40px;
+        outline: none;
+        font-size: $fontSize_medium;
+        padding: $indent_small;
+      }
+    }
+  }
+
+  .formActions {
+    @include flexible_row(center, center);
+    margin-top: $indent_large;
+
+    button {
+      min-width: 150px;
+      height: 60px;
+      border: 1px solid $commonColor_secondary;
+      color: $commonColor_secondary;
+      font-size: $fontSize_medium;
+      font-weight: 600;
+      margin: 0 $indent_small;
+      border-radius: 5px;
+      background-color: inherit;
+      transition: 0.2s background-color;
+
+      &:hover {
+        background-color: $commonColor_secondary;
+        color: white;
+      }
+    }
+  }
 }
 
 @media(max-width: 576px) {
   .container {
     padding: 0 1rem;
+  }
+  .formWrapper {
+    .form {
+      .formActions {
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+          margin: 0;
+          min-width: 120px;
+          height: 40px;
+        }
+      }
+
+      .inputDropdown {
+        ul {
+          &.dropdownActive {
+            overflow-y: auto;
+          }
+        }
+      }
+    }
   }
 }

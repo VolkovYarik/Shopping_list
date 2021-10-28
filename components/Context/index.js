@@ -65,6 +65,7 @@ const combineReducers = (...reducers) => (state, action) => {
 const Provider = ({ children }) => {
    const [state, dispatch] = useReducer(combineReducers(modalReducer, bucketReducer, storageReducer), initialState);
    const value = { state, dispatch };
+
    return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 

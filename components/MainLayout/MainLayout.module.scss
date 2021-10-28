@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   background-color: $commonColor_panel;
-  @include flexible_row(center, center);
+  @include flexible_row(flex-start, center);
   z-index: 999;
   box-shadow: 0 12px 13px -2px rgba(34, 60, 80, 0.2);
 
@@ -20,6 +20,11 @@
       margin: 0 10px;
       @include title();
       transition: 0.2s color;
+
+      &:first-child {
+        @include flexible_row(center, center);
+        width: 210px;
+      }
 
       &:hover {
         color: #667965;
@@ -37,11 +42,38 @@
   background-color: $color_background;
   margin-top: 60px;
   min-height: 100vh;
+  display: flex;
 }
 
-.selected {
-  color: red
+.sidebar {
+  position: relative;
+  padding: $indent_large $indent_small;
+  @include flexible_row(center, flex-start);
+  width: 230px;
+  background-color: #F0D7F1;
+  flex-shrink: 0;
+
+  .sidebarLinks {
+    @include flexible_column();
+
+    a {
+      margin-bottom: $indent_large;
+      @include flexible_row(center, center);
+      min-width: 150px;
+      height: 35px;
+      color: $commonColor_primary;
+      border: 1px solid $commonColor_primary;
+      border-radius: $borderRadius_small;
+      font-size: $fontSize_small;
+      font-weight: bold;
+
+      &:hover {
+        background-color: #C3BBEE;
+      }
+    }
+  }
 }
+
 
 @media(max-width: 576px) {
   .header {

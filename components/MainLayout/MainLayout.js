@@ -3,11 +3,12 @@ import Head from "next/head";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { Context } from "../Context";
+import { Context, storageInit } from "../Context";
 
-export const MainLayout = ({ children, title }) => {
+
+export const MainLayout = ({ children, title, withSidebar }) => {
    const { pathname } = useRouter();
-   const { state } = useContext(Context);
+   const { state, dispatch } = useContext(Context);
 
    useEffect(() => {
       if (state.isModalOpen) {
@@ -17,6 +18,11 @@ export const MainLayout = ({ children, title }) => {
          document.body.style.overflow = 'unset';
       };
    }, [state.isModalOpen]);
+
+   useEffect(() => {
+      const productsIDs = JSON.parse(localStorage.getItem('products'));
+      dispatch(storageInit(productsIDs));
+   }, []);
 
    return (
       <>
@@ -37,6 +43,20 @@ export const MainLayout = ({ children, title }) => {
             </nav>
          </header>
          <main className={styles.main}>
+            {withSidebar && <div className={styles.sidebar}>
+               <div className={styles.sidebarLinks}>
+                  <Link href="/editDataBase/addProduct">
+                     <a>
+                        Add new product
+                     </a>
+                  </Link>
+                  <Link href="/editDataBase/addCategory">
+                     <a>
+                        Add new category
+                     </a>
+                  </Link>
+               </div>
+            </div>}
             {children}
          </main>
       </>
