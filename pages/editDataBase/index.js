@@ -1,22 +1,23 @@
 import { MainLayout } from "components/MainLayout/MainLayout";
 import styles from '/styles/EditDataBase.module.scss';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
 import { deleteProductByID, getAllProducts } from "../../axios";
+import { Context, removeFromStorage } from "../../components/Context";
 
 const EditDataBase = ({ productsData }) => {
    const [products, setProducts] = useState(productsData);
-
+   const { dispatch, state } = useContext(Context);
 
    const deleteProduct = async (product) => {
       await deleteProductByID(product._id);
       const updatedProductsList = await getAllProducts();
       setProducts(updatedProductsList);
 
-      const currentLocalStorage = JSON.parse(localStorage.getItem('products'));
-      const updatedLocalStorage = currentLocalStorage.filter((el) => el !== product._id);
-      localStorage.setItem('products', JSON.stringify(updatedLocalStorage));
+      if (state.storage.find((el) => el === product._id)) {
+         dispatch(removeFromStorage(product._id));
+      }
    };
 
    return (

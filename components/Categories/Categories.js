@@ -21,7 +21,7 @@ export const Categories = ({ categoriesData, setSelectedCategory, selectedCatego
                <li className={styles.dropdownCategory} key={'all'} onClick={() => setSelectedCategory('all')}>all</li>
                {categoriesData.map((item) => (
                   <li onClick={() => setSelectedCategory(item.category)}
-                      className={styles.dropdownCategory} key={item.category}>{item.category}</li>
+                      className={styles.dropdownCategory} key={item._id}>{item.category}</li>
                ))}
             </ul>
          </div>
@@ -33,7 +33,7 @@ export const Categories = ({ categoriesData, setSelectedCategory, selectedCatego
                selectedCategory={selectedCategory} />
             {categoriesData.map((item) => (
                <ProductsCategory
-                  key={item.category}
+                  key={item._id}
                   category={item.category}
                   setSelectedCategory={setSelectedCategory}
                   selectedCategory={selectedCategory} />

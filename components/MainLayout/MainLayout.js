@@ -3,12 +3,12 @@ import Head from "next/head";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { Context, storageInit } from "../Context";
+import { Context } from "../Context";
 
 
 export const MainLayout = ({ children, title, withSidebar }) => {
    const { pathname } = useRouter();
-   const { state, dispatch } = useContext(Context);
+   const { state } = useContext(Context);
 
    useEffect(() => {
       if (state.isModalOpen) {
@@ -18,11 +18,6 @@ export const MainLayout = ({ children, title, withSidebar }) => {
          document.body.style.overflow = 'unset';
       };
    }, [state.isModalOpen]);
-
-   useEffect(() => {
-      const productsIDs = JSON.parse(localStorage.getItem('products'));
-      dispatch(storageInit(productsIDs));
-   }, []);
 
    return (
       <>

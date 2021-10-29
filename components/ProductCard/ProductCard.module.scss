@@ -5,12 +5,6 @@
   width: calc(100% / 7);
 }
 
-.cards {
-  @include flexible_row(flex-start, center);
-  width: 100%;
-  flex-wrap: wrap;
-}
-
 .productsCard {
   overflow: hidden;
   position: relative;
@@ -95,10 +89,6 @@
 @media(max-width: 576px) {
   .productsCardWrapper {
     width: calc(100% / 3);
-  }
-
-  .cards {
-    padding-top: 60px;
   }
 
   .productsCard {

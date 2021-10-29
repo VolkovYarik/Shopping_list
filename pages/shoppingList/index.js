@@ -3,12 +3,12 @@ import styles from 'styles/ShoppingList.module.scss';
 import { useContext, useEffect, useState } from "react";
 import { Icon } from "/components/Icon/Icon";
 import { getAllCategories, getAllProducts } from "/axios";
-import { bucketInit, Context, setModal } from "/components/Context";
+import { addToStorage, clearStorage, Context, removeFromStorage, setModal } from "/components/Context";
 import { BucketModal } from "components/BucketModal/BucketModal";
 import Portal from "components/Portal";
-import { Cards } from "components/Cards/Cards";
 import { Categories } from "components/Categories/Categories";
 import { SubCategories } from "components/SubCategories/SubCategories";
+import { ProductsCard } from "components/ProductCard/ProductsCard";
 
 const findByIDs = (objArr, idsArr) => {
    const set = objArr.reduce((acc, item) => {
@@ -19,29 +19,40 @@ const findByIDs = (objArr, idsArr) => {
    return idsArr.map((item) => set[item]);
 };
 
+//refactoting: categories, subCategories
 
 const ShoppingList = ({ productsData, categoriesData }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
    const [filteredSubCategories, setFilteredSubCategories] = useState([]);
    const { state, dispatch } = useContext(Context);
+   const [basket, setBasket] = useState([]);
+
+   const addToBasket = (product) => {
+      dispatch(addToStorage(product._id));
+      setBasket((prev) => [...prev, product]);
+   };
+
+   const removeFromBasket = (product) => {
+      dispatch(removeFromStorage(product._id));
+      setBasket((prev) => prev.filter((item) => item._id !== product._id));
+   };
+
+   const cleanupBasket = () => {
+      dispatch(clearStorage());
+      setBasket([]);
+   };
 
    useEffect(() => {
       setSelectedSubCategory('all');
-
       const filteredCategories = categoriesData.find(item => item.category === selectedCategory);
-
       setFilteredSubCategories(filteredCategories?.subCategories || []);
    }, [selectedCategory]);
 
    useEffect(() => {
       const selectedProducts = findByIDs(productsData, state.storage);
-      dispatch(bucketInit(selectedProducts));
-   }, [state.storage]);
-
-   useEffect(() => {
-      localStorage.setItem('products', JSON.stringify(state.storage));
-   }, [state.bucket]);
+      setBasket(selectedProducts);
+   }, []);
 
    return (
       <MainLayout>
@@ -63,18 +74,27 @@ const ShoppingList = ({ productsData, categoriesData }) => {
                   </div>
                   <div onClick={() => dispatch(setModal(true))} className={styles.iconWrapper}>
                      <Icon name="Bucket" className={styles.icon} />
-                     <div className={styles.productsCounter}>{state.bucket.length}</div>
+                     <div className={styles.productsCounter}>{basket.length}</div>
                   </div>
                </div>
-               <Cards
-                  selectedSubCategory={selectedSubCategory}
-                  selectedCategory={selectedCategory}
-                  productsData={productsData}
-               />
+               <ul className={styles.cards}>
+                  {productsData.map((item) => (
+                     <ProductsCard
+                        state={state}
+                        item={item}
+                        key={item._id}
+                        selectedCategory={selectedCategory}
+                        selectedSubCategory={selectedSubCategory}
+                        basket={basket}
+                        addToBasket={addToBasket}
+                        removeFromBasket={removeFromBasket}
+                     />
+                  ))}
+               </ul>
             </section>
          </div>
          <Portal>
-            <BucketModal />
+            <BucketModal basket={basket} removeFromBasket={removeFromBasket} cleanupBasket={cleanupBasket} />
          </Portal>
       </MainLayout>
    );

@@ -45,6 +45,12 @@
   }
 }
 
+.cards {
+  @include flexible_row(flex-start, center);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
 .icon {
   position: relative;
   fill: $commonColor_primary;
@@ -67,6 +73,10 @@
       top: 20px;
       transform: translate(50%);
     }
+  }
+
+  .cards {
+    padding-top: 60px;
   }
 
   .icon {

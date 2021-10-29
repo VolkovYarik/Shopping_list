@@ -15,19 +15,25 @@ const AddCategory = () => {
    const [newSubCategory, setNewSubCategory] = useState('');
 
    const addSubCategory = (e) => {
-      e.preventDefault();
       if (newSubCategory.length === 0) {
          return;
       }
-      setNewCategory({
-         ...newCategory,
-         subCategories: [...newCategory.subCategories, newSubCategory]
+      setNewCategory((prev) => {
+         return { ...prev, subCategories: [...newCategory.subCategories, newSubCategory] };
       });
       setNewSubCategory('');
    };
 
    const deleteSubCategory = (index) => {
-      setNewCategory({ ...newCategory, subCategories: newCategory.subCategories.filter((el, ind) => ind !== index) });
+      setNewCategory((prev) => {
+         return { ...prev, subCategories: prev.subCategories.filter((el, ind) => ind !== index) };
+      });
+   };
+
+   const cleanupSubCategories = () => {
+      setNewCategory((prev) => {
+         return { ...prev, subCategories: [] };
+      });
    };
 
    const submit = async (e) => {
@@ -62,10 +68,8 @@ const AddCategory = () => {
                            <button className={styles.addSubCategoryBtn} onClick={addSubCategory}>Add
                            </button>
                            <button className={styles.deleteSubCategoryBtn}
-                                   onClick={(e) => {
-                                      e.preventDefault();
-                                      setNewCategory({ ...newCategory, subCategories: [] });
-                                   }}>Clear
+                                   onClick={cleanupSubCategories}>
+                              Clear
                            </button>
                         </div>
                         <div className={styles.inputResult}>
@@ -90,7 +94,8 @@ const AddCategory = () => {
             </section>
          </div>
       </MainLayout>
-   );
+   )
+      ;
 };
 
 export default AddCategory;
