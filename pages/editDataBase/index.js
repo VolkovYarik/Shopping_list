@@ -4,7 +4,8 @@ import { useContext, useState } from "react";
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
 import { deleteProductByID, getAllProducts } from "../../axios";
-import { Context, removeFromStorage } from "../../components/Context";
+import { Context } from "../../components/Context";
+import { removeFromStorage } from "components/Context/storageReducer";
 
 const EditDataBase = ({ productsData }) => {
    const [products, setProducts] = useState(productsData);
@@ -21,7 +22,7 @@ const EditDataBase = ({ productsData }) => {
    };
 
    return (
-      <MainLayout withSidebar={true}>
+      <MainLayout withSidebar={true} title="Edit database">
          <div className="container">
             <section className={styles.editDataBase}>
                <div className={styles.header}>

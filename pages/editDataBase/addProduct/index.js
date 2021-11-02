@@ -53,7 +53,7 @@ const AddProduct = ({ categoriesData }) => {
    };
 
    return (
-      <MainLayout>
+      <MainLayout title="Add product">
          <div className="container">
             <section className={'addProduct'}>
                <div className={'formWrapper'}>

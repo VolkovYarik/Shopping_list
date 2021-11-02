@@ -46,7 +46,7 @@ const AddCategory = () => {
    };
 
    return (
-      <MainLayout>
+      <MainLayout title="Add category">
          <div className={'container'}>
             <section className={'addCategory'}>
                <div className={'formWrapper'}>

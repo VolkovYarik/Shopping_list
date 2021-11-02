@@ -14,7 +14,8 @@ export const Categories = ({ categoriesData, setSelectedCategory, selectedCatego
    return (
       <>
          <div className={styles.categoriesDropdown} onClick={() => setDropdownActive(!isDropdownActive)} ref={ref}>
-            <div className={styles.selectedItem}>{selectedCategory}
+            <div className={styles.selectedItem}>
+               {selectedCategory}
                <ArrowDown className={cn(styles.icon, { [styles.active]: isDropdownActive })} />
             </div>
             <ul className={cn({ [styles.dropdownActive]: isDropdownActive })}>
