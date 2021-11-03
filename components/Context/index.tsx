@@ -1,5 +1,5 @@
 import { createContext, FC, useReducer } from "react";
-import { Action, IContext, IState, reducerArray } from 'types/context'
+import { Action, IContext, IState, reducerArray } from 'types/contextTypes'
 import { storageReducer } from "./storageReducer";
 
 const initialState: IState = {

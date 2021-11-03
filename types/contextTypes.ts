@@ -1,4 +1,4 @@
-import { StorageAction } from "./storage";
+import { StorageAction } from "./storageTypes";
 import { Dispatch } from "react";
 
 interface IState {

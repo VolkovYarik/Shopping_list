@@ -1,5 +1,5 @@
-import { StorageAction, StorageActionTypes } from "types/storage";
-import { IState } from "types/context";
+import { StorageAction, StorageActionTypes } from "types/storageTypes";
+import { IState } from "types/contextTypes";
 import { initialState } from './index'
 
 const storageReducer = (state = initialState, action: StorageAction): IState => {

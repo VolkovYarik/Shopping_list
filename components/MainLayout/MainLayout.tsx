@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import React, { FC, useContext, useEffect } from "react";
 import { Context } from "../Context";
-import { IContext } from "../../types/context";
+import { IContext } from "../../types/contextTypes";
 
 interface MainLayoutProps {
     title: string;

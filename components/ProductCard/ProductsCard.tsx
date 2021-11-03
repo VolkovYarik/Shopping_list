@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
 import { IProduct } from "../../types/dataTypes";
-import { IContext } from "../../types/context";
+import { IContext } from "../../types/contextTypes";
 import { Context } from "../Context";
 import { BasketFunctionType } from "../../pages/shoppingList";
 

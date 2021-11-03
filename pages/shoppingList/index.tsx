@@ -9,18 +9,16 @@ import { Categories } from "components/Categories/Categories";
 import { SubCategories } from "components/SubCategories/SubCategories";
 import { ProductsCard } from "components/ProductCard/ProductsCard";
 import { addToStorage, clearStorage, removeFromStorage } from "components/Context/storageReducer";
-import { IContext } from "../../types/context";
+import { IContext } from "../../types/contextTypes";
 import { ICategory, IProduct } from 'types/dataTypes'
 import Basket from "components/Specs/Basket";
-
-// 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
 
 interface ShoppingListProps {
    productsData: IProduct[];
    categoriesData: ICategory[];
 }
 
-interface Dictionary<T> {
+interface Dictionary<T extends object> {
    [key: string]: T;
 }
 
@@ -44,7 +42,6 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
    const [basket, setBasket] = useState<IProduct[] | []>([]);
 
    const { state, dispatch } = useContext<IContext>(Context);
-
 
    const addToBasket: UpdateBasketFunction = (product) => {
       dispatch(addToStorage(product._id));
@@ -71,15 +68,6 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
       const selectedProducts = findByIDs(productsData, state.storage);
       setBasket(selectedProducts);
    }, []);
-
-   useEffect(() => {
-      if (isModalActive) {
-         document.body.style.overflow = 'hidden';
-      }
-      return () => {
-         document.body.style.overflow = 'unset';
-      };
-   }, [isModalActive]);
 
    return (
       <MainLayout title="Shopping list">

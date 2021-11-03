@@ -6,7 +6,7 @@ import noImage from 'assets/noImage.jpg';
 import { deleteProductByID, getAllProducts } from "../../axiosApi";
 import { Context } from "components/Context";
 import { removeFromStorage } from "components/Context/storageReducer";
-import { IContext } from "types/context";
+import { IContext } from "types/contextTypes";
 import { IProduct } from "types/dataTypes";
 
 interface EditDataBaseProps {
