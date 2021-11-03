@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import React, { FC, useContext, useEffect } from "react";
 import { Context } from "../Context";
+import { IContext } from "../../types/context";
 
 interface MainLayoutProps {
     title: string;
@@ -17,16 +18,7 @@ export const MainLayout: FC<MainLayoutProps> =
          children
      }) => {
         const { pathname } = useRouter();
-        const { state } = useContext(Context);
-
-        useEffect(() => {
-            if (state.isModalOpen) {
-                document.body.style.overflow = 'hidden';
-            }
-            return () => {
-                document.body.style.overflow = 'unset';
-            };
-        }, [state.isModalOpen]);
+        const { state } = useContext<IContext>(Context);
 
         return (
             <>

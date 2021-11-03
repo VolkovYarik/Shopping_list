@@ -1,16 +1,27 @@
 import styles from './addProduct.module.scss';
-import { MainLayout } from "/components/MainLayout/MainLayout";
+import { MainLayout } from "components/MainLayout/MainLayout";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { createNewProduct, getAllCategories } from "../../../axios";
+import React, { FC, FormEvent, useEffect, useRef, useState } from "react";
+import { createNewProduct, getAllCategories } from "../../../axiosApi";
 import { useRouter } from "next/router";
 import ArrowDown from "components/Specs/arrowDown";
 import cn from 'classnames';
 import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
+import { ICategory, IProduct } from "../../../types/dataTypes";
 
-const AddProduct = ({ categoriesData }) => {
-   const [currentCategory, setCurrentCategory] = useState(categoriesData[0]);
-   const [subCategoriesData, setSubCategoriesData] = useState(currentCategory.subCategories);
+interface AddProductProps {
+   categoriesData: ICategory[] | []
+}
+
+const emptyCurrentCategory: ICategory = {
+   category: "No categories",
+   subCategories: ["No subcategoties"],
+   _id: null
+}
+
+const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
+   const [currentCategory, setCurrentCategory] = useState<ICategory>(categoriesData[0] || emptyCurrentCategory);
+   const [subCategoriesData, setSubCategoriesData] = useState<string[]>(currentCategory.subCategories);
 
    const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
    const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
@@ -19,21 +30,21 @@ const AddProduct = ({ categoriesData }) => {
 
    const [selectedSubCategory, setSelectedSubCategory] = useState(currentCategory.subCategories[0]);
 
-   const router = useRouter();
-   const categoryRef = useRef();
-   const subCategoryRef = useRef();
-
-   useOnClickOutside(categoryRef, () => setCategoriesDropdownActive(false));
-   useOnClickOutside(subCategoryRef, () => setSubCategoriesDropdownActive(false));
-
-   const [product, setProduct] = useState({
+   const [product, setProduct] = useState<IProduct>({
       name: '',
       category: selectedCategory,
       class: selectedSubCategory,
    });
 
+   const router = useRouter();
+   const categoryRef = useRef(null);
+   const subCategoryRef = useRef(null);
+
+   useOnClickOutside(categoryRef, () => setCategoriesDropdownActive(false));
+   useOnClickOutside(subCategoryRef, () => setSubCategoriesDropdownActive(false));
+
    useEffect(() => {
-      setCurrentCategory(categoriesData.find(el => el.category === selectedCategory));
+      setCurrentCategory(categoriesData.find((el) => el.category === selectedCategory) || emptyCurrentCategory);
    }, [selectedCategory]);
 
    useEffect(() => {
@@ -46,8 +57,8 @@ const AddProduct = ({ categoriesData }) => {
    }, [selectedCategory, selectedSubCategory]);
 
 
-   const submitProduct = async (e) => {
-      e.preventDefault();
+   const submitProduct = async (event: FormEvent) => {
+      event.preventDefault();
       await createNewProduct(product);
       await router.push('/editDataBase');
    };

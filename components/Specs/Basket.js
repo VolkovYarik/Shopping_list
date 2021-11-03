@@ -1,4 +1,4 @@
-const Bucket = ({ className }) => {
+const Basket = ({ className }) => {
 
    return (
       <svg className={className}
@@ -22,4 +22,4 @@ const Bucket = ({ className }) => {
       </svg>);
 };
 
-export default Bucket;
+export default Basket;

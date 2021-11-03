@@ -10,16 +10,15 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    //    "isolatedModules": true,
     "noEmit": true,
     "module": "commonjs",
     "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
     "jsx": "preserve",
-    "isolatedModules": false
+    "skipLibCheck": true,
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",

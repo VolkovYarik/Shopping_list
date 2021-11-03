@@ -1,13 +1,19 @@
 import styles from "./Categories.module.scss";
-import { ProductsCategory } from "./ProductsCategory";
-import { useRef, useState } from "react";
+import { FC, useRef, useState, Dispatch, SetStateAction } from "react";
 import cn from "classnames";
 import ArrowDown from "../Specs/arrowDown";
 import { useOnClickOutside } from "../Hooks/useOnClickOutside";
+import { ICategory } from "../../types/dataTypes";
 
-export const Categories = ({ categoriesData, setSelectedCategory, selectedCategory }) => {
+interface CategoriesProps {
+   categoriesData: ICategory[] | [];
+   selectedCategory: string;
+   setSelectedCategory: Dispatch<SetStateAction<string>>
+}
+
+export const Categories: FC<CategoriesProps> = ({ categoriesData, setSelectedCategory, selectedCategory }) => {
    const [isDropdownActive, setDropdownActive] = useState(false);
-   const ref = useRef();
+   const ref = useRef(null);
 
    useOnClickOutside(ref, () => setDropdownActive(false));
 
@@ -27,17 +33,20 @@ export const Categories = ({ categoriesData, setSelectedCategory, selectedCatego
             </ul>
          </div>
          <ul className={styles.categories}>
-            <ProductsCategory
-               key={'all'}
-               category={'all'}
-               setSelectedCategory={setSelectedCategory}
-               selectedCategory={selectedCategory} />
+            <li
+               onClick={() => setSelectedCategory('all')}
+               className={cn(styles.category, { [styles.selected]: selectedCategory === 'all' })}
+            >
+               All
+            </li>
             {categoriesData.map((item) => (
-               <ProductsCategory
+               <li
                   key={item._id}
-                  category={item.category}
-                  setSelectedCategory={setSelectedCategory}
-                  selectedCategory={selectedCategory} />
+                  onClick={() => setSelectedCategory(item.category)}
+                  className={cn(styles.category, { [styles.selected]: selectedCategory === item.category })}
+               >
+                  {item.category}
+               </li>
             ))}
          </ul>
       </>

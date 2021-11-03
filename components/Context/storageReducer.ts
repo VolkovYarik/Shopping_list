@@ -1,5 +1,5 @@
 import { StorageAction, StorageActionTypes } from "types/storage";
-import { Action, IState } from "types/context";
+import { IState } from "types/context";
 import { initialState } from './index'
 
 const storageReducer = (state = initialState, action: StorageAction): IState => {
@@ -15,9 +15,9 @@ const storageReducer = (state = initialState, action: StorageAction): IState => 
     }
 };
 
-const addToStorage = (payload: string): Action => ({ type: StorageActionTypes.ADD_TO_STORAGE, payload });
-const removeFromStorage = (payload: string): Action => ({ type: StorageActionTypes.REMOVE_FROM_STORAGE, payload });
-const clearStorage = (): Action => ({ type: StorageActionTypes.CLEAR_STORAGE });
+const addToStorage = (payload: string):StorageAction => ({ type: StorageActionTypes.ADD_TO_STORAGE, payload });
+const removeFromStorage = (payload: string):StorageAction => ({ type: StorageActionTypes.REMOVE_FROM_STORAGE, payload });
+const clearStorage = ():StorageAction => ({ type: StorageActionTypes.CLEAR_STORAGE });
 
 export {
     storageReducer,

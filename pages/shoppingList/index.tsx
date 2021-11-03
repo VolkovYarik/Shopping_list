@@ -1,139 +1,143 @@
 import { MainLayout } from "components/MainLayout/MainLayout";
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useContext, useEffect, useState } from "react";
-import { Icon } from "components/Icon/Icon";
-import { getAllCategories, getAllProducts } from "../../axios/";
+import { getAllCategories, getAllProducts } from "../../axiosApi/";
 import { Context } from "components/Context";
-import { BucketModal } from "components/BucketModal/BucketModal";
+import { BasketModal } from "components/BasketModal/BasketModal";
 import Portal from "components/Portal";
 import { Categories } from "components/Categories/Categories";
 import { SubCategories } from "components/SubCategories/SubCategories";
 import { ProductsCard } from "components/ProductCard/ProductsCard";
 import { addToStorage, clearStorage, removeFromStorage } from "components/Context/storageReducer";
+import { IContext } from "../../types/context";
+import { ICategory, IProduct } from 'types/dataTypes'
+import Basket from "components/Specs/Basket";
 
-interface IProduct {
-    _id: any;
-    name: string;
-    category: string;
-    class: string;
-}
-
-interface ICategory {
-    _id: any;
-    category: string;
-    subCategories: string[]
-}
+// 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
 
 interface ShoppingListProps {
-    productsData: IProduct[];
-    categoriesData: ICategory[];
+   productsData: IProduct[];
+   categoriesData: ICategory[];
 }
 
 interface Dictionary<T> {
-    [key: string]: T;
+   [key: string]: T;
 }
 
-const findByIDs = (objArr: IProduct[], idsArr: string[]): IProduct[] => {
-    const set = objArr.reduce((acc: Dictionary<IProduct>, item) => {
-        acc[item._id] = item;
-        return acc;
-    }, {});
+export type UpdateBasketFunction = (product: IProduct) => void
+export type ClearBasketFunction = () => void
 
-    return idsArr.map((item) => set[item]);
+const findByIDs = (objArr: IProduct[], idsArr: string[]): IProduct[] => {
+   const set = objArr.reduce((acc: Dictionary<IProduct>, item) => {
+      acc[item._id] = item;
+      return acc;
+   }, {});
+
+   return idsArr.map((item) => set[item]);
 };
 
 const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) => {
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const [selectedSubCategory, setSelectedSubCategory] = useState<string>('');
-    const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
-    const [isModalActive, setModalActive] = useState<boolean>(false);
-    const { state, dispatch } = useContext(Context);
-    const [basket, setBasket] = useState<IProduct[] | []>([]);
-    // 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
-    const addToBasket = (product: IProduct): void => {
-        dispatch(addToStorage(product._id));
-        setBasket((prev) => [...prev, product]);
-    };
+   const [selectedCategory, setSelectedCategory] = useState('all');
+   const [selectedSubCategory, setSelectedSubCategory] = useState('');
+   const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
+   const [isModalActive, setModalActive] = useState(false);
+   const [basket, setBasket] = useState<IProduct[] | []>([]);
 
-    const removeFromBasket = (product: IProduct): void => {
-        dispatch(removeFromStorage(product._id));
-        setBasket((prev) => prev.filter((item) => item._id !== product._id));
-    };
+   const { state, dispatch } = useContext<IContext>(Context);
 
-    const cleanupBasket = (): void => {
-        dispatch(clearStorage());
-        setBasket([]);
-    };
 
-    useEffect(() => {
-        setSelectedSubCategory('all');
-        const filteredCategories = categoriesData.find(item => item.category === selectedCategory);
-        setFilteredSubCategories(filteredCategories?.subCategories || []);
-    }, [selectedCategory]);
+   const addToBasket: UpdateBasketFunction = (product) => {
+      dispatch(addToStorage(product._id));
+      setBasket((prev) => [...prev, product]);
+   };
 
-    useEffect(() => {
-        const selectedProducts = findByIDs(productsData, state.storage);
-        setBasket(selectedProducts);
-    }, []);
+   const removeFromBasket: UpdateBasketFunction = (product) => {
+      dispatch(removeFromStorage(product._id));
+      setBasket((prev) => prev.filter((item) => item._id !== product._id));
+   };
 
-    return (
-        <MainLayout title="Shopping list">
-            <div className="container">
-                <section className={styles.shoppingList}>
-                    <div className={styles.header}>
-                        <div className={styles.actions}>
-                            <Categories
-                                setSelectedCategory={setSelectedCategory}
-                                selectedCategory={selectedCategory}
-                                categoriesData={categoriesData}
-                            />
-                            <SubCategories
-                                selectedCategory={selectedCategory}
-                                selectedSubCategory={selectedSubCategory}
-                                filteredSubCategories={filteredSubCategories}
-                                setSelectedSubCategory={setSelectedSubCategory}
-                            />
-                        </div>
-                        <div onClick={() => setModalActive(true)} className={styles.iconWrapper}>
-                            <Icon name="Bucket" className={styles.icon} />
-                            <div className={styles.productsCounter}>{basket.length}</div>
-                        </div>
-                    </div>
-                    <ul className={styles.cards}>
-                        {productsData.map((item) => (
-                            <ProductsCard
-                                state={state}
-                                item={item}
-                                key={item._id}
-                                selectedCategory={selectedCategory}
-                                selectedSubCategory={selectedSubCategory}
-                                basket={basket}
-                                addToBasket={addToBasket}
-                                removeFromBasket={removeFromBasket}
-                            />
-                        ))}
-                    </ul>
-                </section>
-            </div>
-            <Portal>
-                <BucketModal
-                    basket={basket}
-                    isModalActive={isModalActive}
-                    setModalActive={setModalActive}
-                    removeFromBasket={removeFromBasket}
-                    cleanupBasket={cleanupBasket}
-                />
-            </Portal>
-        </MainLayout>
-    );
+   const cleanupBasket: ClearBasketFunction = () => {
+      dispatch(clearStorage());
+      setBasket([]);
+   };
+
+   useEffect(() => {
+      setSelectedSubCategory('all');
+      const filteredCategories = categoriesData.find((item) => item.category === selectedCategory);
+      setFilteredSubCategories(filteredCategories?.subCategories || []);
+   }, [selectedCategory]);
+
+   useEffect(() => {
+      const selectedProducts = findByIDs(productsData, state.storage);
+      setBasket(selectedProducts);
+   }, []);
+
+   useEffect(() => {
+      if (isModalActive) {
+         document.body.style.overflow = 'hidden';
+      }
+      return () => {
+         document.body.style.overflow = 'unset';
+      };
+   }, [isModalActive]);
+
+   return (
+      <MainLayout title="Shopping list">
+         <div className="container">
+            <section className={styles.shoppingList}>
+               <div className={styles.header}>
+                  <div className={styles.actions}>
+                     <Categories
+                        setSelectedCategory={setSelectedCategory}
+                        selectedCategory={selectedCategory}
+                        categoriesData={categoriesData}
+                     />
+                     <SubCategories
+                        selectedCategory={selectedCategory}
+                        selectedSubCategory={selectedSubCategory}
+                        filteredSubCategories={filteredSubCategories}
+                        setSelectedSubCategory={setSelectedSubCategory}
+                     />
+                  </div>
+                  <div onClick={() => setModalActive(true)} className={styles.iconWrapper}>
+                     <Basket className={styles.icon} />
+                     <div className={styles.productsCounter}>{basket.length}</div>
+                  </div>
+               </div>
+               <ul className={styles.cards}>
+                  {productsData.map((item) => (
+                     <ProductsCard
+                        item={item}
+                        key={item._id}
+                        selectedCategory={selectedCategory}
+                        selectedSubCategory={selectedSubCategory}
+                        basket={basket}
+                        addToBasket={addToBasket}
+                        removeFromBasket={removeFromBasket}
+                     />
+                  ))}
+               </ul>
+            </section>
+         </div>
+         <Portal>
+            <BasketModal
+               basket={basket}
+               isModalActive={isModalActive}
+               setModalActive={setModalActive}
+               removeFromBasket={removeFromBasket}
+               cleanupBasket={cleanupBasket}
+            />
+         </Portal>
+      </MainLayout>
+   );
 };
 
 export const getServerSideProps = async () => {
-    const productsData = await getAllProducts();
-    const categoriesData = await getAllCategories();
-    return {
-        props: { categoriesData, productsData },
-    };
+   const productsData = await getAllProducts();
+   const categoriesData = await getAllCategories();
+   return {
+      props: { categoriesData, productsData },
+   };
 };
 
 export default ShoppingList;

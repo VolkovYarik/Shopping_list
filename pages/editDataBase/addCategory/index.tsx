@@ -1,20 +1,21 @@
 import { MainLayout } from "components/MainLayout/MainLayout";
 import styles from './addCategory.module.scss';
 import Link from 'next/link';
-import { useState } from "react";
-import { addNewCategory } from "../../../axios";
+import { FC, FormEvent, useState } from "react";
+import { addNewCategory } from "axiosApi";
 import { useRouter } from "next/router";
+import { ICategory } from "types/dataTypes";
 
-const AddCategory = () => {
+const AddCategory: FC = () => {
    const router = useRouter();
-   const [newCategory, setNewCategory] = useState({
+   const [newCategory, setNewCategory] = useState<ICategory>({
       category: "",
       subCategories: []
    });
 
    const [newSubCategory, setNewSubCategory] = useState('');
 
-   const addSubCategory = (e) => {
+   const addSubCategory = (): void => {
       if (newSubCategory.length === 0) {
          return;
       }
@@ -24,20 +25,20 @@ const AddCategory = () => {
       setNewSubCategory('');
    };
 
-   const deleteSubCategory = (index) => {
+   const deleteSubCategory = (index: number | string): void => {
       setNewCategory((prev) => {
          return { ...prev, subCategories: prev.subCategories.filter((el, ind) => ind !== index) };
       });
    };
 
-   const cleanupSubCategories = () => {
+   const cleanupSubCategories = (): void => {
       setNewCategory((prev) => {
          return { ...prev, subCategories: [] };
       });
    };
 
-   const submit = async (e) => {
-      e.preventDefault();
+   const submit = async (event: FormEvent) => {
+      event.preventDefault();
       if (newCategory.category.length === 0) {
          return;
       }
