@@ -3,6 +3,7 @@
 html,
 body {
   font-family: "Roboto", sans-serif;
+  overflow: hidden;
 }
 
 a:focus,
@@ -40,6 +41,10 @@ button {
   margin: 0 auto;
   flex-grow: 1;
   padding: 0 2rem;
+
+  &.scrollable {
+    overflow-y: auto;
+  }
 }
 
 .addProduct, .addCategory {
@@ -107,8 +112,8 @@ button {
     button {
       min-width: 150px;
       height: 60px;
-      border: 1px solid $commonColor_secondary;
-      color: $commonColor_secondary;
+      border: 1px solid $commonColor_primary;
+      color: $commonColor_primary;
       font-size: $fontSize_medium;
       font-weight: 600;
       margin: 0 $indent_small;
@@ -117,7 +122,7 @@ button {
       transition: 0.2s background-color;
 
       &:hover {
-        background-color: $commonColor_secondary;
+        background-color: $commonColor_primary;
         color: white;
       }
     }

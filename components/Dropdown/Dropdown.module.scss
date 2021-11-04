@@ -1,50 +1,50 @@
-@import '/styles/mixins&variables';
+@import "styles/mixins&variables";
 
-.inputDropdown {
-  @include dropdown(40px);
-  cursor: pointer;
+.dropdown {
+  @include dropdown(35px);
+  background-color: $color_background;
+  border: 2px solid $commonColor_secondary;
+  left: 0;
   position: relative;
-  width: 100%;
-  border: 1px solid $commonColor_primary;
-  outline: none;
-  font-size: $fontSize_medium;
+
+  &.active {
+    border-radius: $borderRadius_small $borderRadius_small 0 0;
+    z-index: 11;
+  }
 
   .selectedItem {
-    color: $commonColor_primary;
-    background-color: white;
     @include selectedItem();
-    height: 38px;
     transition: background-color 0.3s;
 
     &.active {
-      background-color: $commonColor_secondary;
+      &.active {
+        background-color: $commonColor_secondary;
+      }
     }
   }
 
   ul {
-    z-index: 11;
-    background-color: white;
-    border: 1px solid $commonColor_primary;
-    border-radius: 0 0 $borderRadius_small $borderRadius_small;
+    background-color: $color_background;
+    border: 2px solid $commonColor_secondary;
     border-top: none;
-    position: absolute;
-    margin: 0 -1px;
-    left: 0;
-    right: 0;
-    top: 35px;
+    border-radius: 0 0 $borderRadius_small $borderRadius_small;
+    width: 102%;
     visibility: hidden;
     overflow-y: hidden;
     opacity: 0;
     max-height: 0;
     transition: max-height 0.3s, opacity 0.1s, visibility 0s 0.3s;
+    top: 35px;
+    left: -2px;
+    position: absolute;
 
     .dropdownCategory {
-      padding: 0 $indent_small;
+      padding: $indent_small;
       height: 35px;
       @include flexible_row(flex-start, center);
 
       &:hover {
-        background-color: $color_button;
+        background-color: $commonColor_secondary;
       }
     }
 
@@ -71,13 +71,11 @@
   }
 
   .icon {
-    position: absolute;
-    z-index: 10;
-    top: 25%;
-    right: 10px;
     width: 20px;
     height: 20px;
-    fill: $commonColor_primary;
+    position: absolute;
+    right: 8px;
+    fill: $commonColor_secondary;
     transition: transform 0.2s;
 
     &.active {
@@ -87,11 +85,18 @@
   }
 }
 
+
 @keyframes bounceAndRotate {
   0% {
     transform: rotateX(0deg);
   }
   100% {
     transform: rotateX(180deg);
+  }
+}
+
+@media(max-width: 576px) {
+  .categoriesDropdown {
+    @include flexible_row(center, center)
   }
 }

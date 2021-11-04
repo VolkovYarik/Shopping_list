@@ -6,12 +6,12 @@ $borderRadius_small: 5px;
 $borderRadius_medium: 8px;
 $borderRadius_circle: 50%;
 
-$commonColor_primary: #403969;
-$commonColor_secondary: #F7347A;
-$commonColor_green: #29C58D;
-$commonColor_panel: #DC9EDE;
+$commonColor_primary: #354b8f;
+$commonColor_secondary: #4B8F35;
+$commonColor_darkRed: #8f354b;
+$commonColor_green: #5fb443;
 $color_button: #C7D0D3;
-$color_background: #F0EFF7;
+$color_background: #e7eaf0;
 
 $fontSize_large: 24px;
 $fontSize_medium: 18px;
@@ -47,9 +47,9 @@ $fontSize_extraSmall: 12px;
   min-width: 50px;
 }
 
-@mixin dropdown($width, $min-height) {
+@mixin dropdown($min-height) {
   @include flexible_column();
-  width: $width;
+  width: 100%;
   align-items: flex-start;
   border-radius: $borderRadius_small;
   cursor: pointer;
@@ -64,4 +64,6 @@ $fontSize_extraSmall: 12px;
   position: relative;
   width: 100%;
   padding: 0 $indent_small;
+  height: 35px;
+  flex-shrink: 0;
 }

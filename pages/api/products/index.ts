@@ -1,8 +1,10 @@
+import { ApiQuery } from "types/NextApiTypes";
+
 const { connectToDatabase } = require('../../../lib/mongodb');
 
 const ObjectId = require('mongodb').ObjectId;
 
-export default async function handler(req, res) {
+const handler: ApiQuery = async (req, res) => {
    switch (req.method) {
 
       case 'GET': {
@@ -15,7 +17,7 @@ export default async function handler(req, res) {
    }
 }
 
-async function addProduct(req, res) {
+const addProduct: ApiQuery = async (req, res) => {
    try {
       let { db } = await connectToDatabase();
       await db.collection('products').insertOne(req.body);
@@ -24,7 +26,7 @@ async function addProduct(req, res) {
          message: "Product added successfully",
          success: true
       });
-   } catch (error) {
+   } catch (error: any) {
       return res.json({
          message: new Error(error).message,
          success: false
@@ -32,7 +34,7 @@ async function addProduct(req, res) {
    }
 }
 
-async function getProducts(req, res) {
+const getProducts: ApiQuery = async (req, res) => {
    try {
       let { db } = await connectToDatabase();
       let products = await db
@@ -40,15 +42,17 @@ async function getProducts(req, res) {
          .find({})
          .sort({ published: -1 })
          .toArray();
-
       return res.json({
          data: JSON.parse(JSON.stringify(products)),
          success: true,
       });
-   } catch (error) {
+
+   } catch (error: any) {
       return res.json({
          message: new Error(error).message,
          success: false,
       });
    }
 }
+
+export default handler

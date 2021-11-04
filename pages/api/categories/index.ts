@@ -1,8 +1,10 @@
+import { ApiQuery } from "types/NextApiTypes";
+
 const { connectToDatabase } = require('../../../lib/mongodb');
 
 const ObjectId = require('mongodb').ObjectId;
 
-export default async function handler(req, res) {
+const handler: ApiQuery = async (req, res) => {
    switch (req.method) {
       case "GET": {
          return getCategories(req, res);
@@ -13,7 +15,7 @@ export default async function handler(req, res) {
    }
 }
 
-async function addCategory(req, res) {
+const addCategory: ApiQuery = async (req, res) => {
    try {
       let { db } = await connectToDatabase();
       await db.collection('categories').insertOne(req.body);
@@ -22,7 +24,7 @@ async function addCategory(req, res) {
          message: "Category added successfully",
          success: true,
       });
-   } catch (error) {
+   } catch (error: any) {
       return res.json({
          message: new Error(error).message,
          success: false,
@@ -30,7 +32,7 @@ async function addCategory(req, res) {
    }
 }
 
-async function getCategories(req, res) {
+const getCategories: ApiQuery = async (req, res) => {
    try {
       let { db } = await connectToDatabase();
       let categories = await db
@@ -42,10 +44,12 @@ async function getCategories(req, res) {
          data: JSON.parse(JSON.stringify(categories)),
          success: true,
       });
-   } catch (error) {
+   } catch (error: any) {
       return res.json({
          message: new Error(error).message,
          success: false,
       });
    }
 }
+
+export default handler

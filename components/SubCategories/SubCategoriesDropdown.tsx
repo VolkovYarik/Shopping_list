@@ -1,17 +1,17 @@
-import styles from './Subcategories.module.scss';
-import ArrowDown from "../Specs/arrowDown";
+import styles from './SubcategoriesDropdown.module.scss';
+import ArrowDown from "../Specs/ArrowDown";
 import cn from "classnames";
 import { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
 
-interface SubCategoriesProps {
+interface SubCategoriesDropdownProps {
    selectedCategory: string
    setSelectedSubCategory: Dispatch<SetStateAction<string>>
    selectedSubCategory: string
    filteredSubCategories: string[]
 }
 
-export const SubCategories: FC<SubCategoriesProps> =
+export const SubCategoriesDropdown: FC<SubCategoriesDropdownProps> =
    ({
        selectedCategory,
        setSelectedSubCategory,
@@ -27,9 +27,10 @@ export const SubCategories: FC<SubCategoriesProps> =
          <>
             {
                selectedCategory !== 'all' &&
-               <div className={styles.subCategoriesDropdown} onClick={() => setDropdownActive(!isDropdownActive)}
+               <div className={cn(styles.subCategoriesDropdown, { [styles.active]: isDropdownActive })}
+                    onClick={() => setDropdownActive(!isDropdownActive)}
                     ref={ref}>
-                  <div className={styles.selectedItem}>
+                  <div className={cn(styles.selectedItem, { [styles.active]: isDropdownActive })}>
                      {selectedSubCategory}
                      <ArrowDown className={cn(styles.icon, { [styles.active]: isDropdownActive })} />
                   </div>
@@ -51,27 +52,6 @@ export const SubCategories: FC<SubCategoriesProps> =
                   </ul>
                </div>
             }
-
-            <ul className={styles.subCategories}>
-               {
-                  selectedCategory !== 'all' &&
-                  <>
-                     <li
-                        onClick={() => setSelectedSubCategory('all')}
-                        className={cn(styles.subCategory, { [styles.selected]: selectedSubCategory === "all" })}>
-                        All
-                     </li>
-                     {filteredSubCategories.map((item, index) =>
-                        <li
-                           key={index}
-                           onClick={() => setSelectedSubCategory(item)}
-                           className={cn(styles.subCategory, { [styles.selected]: selectedSubCategory === item })}>
-                           {item}
-                        </li>
-                     )}
-                  </>
-               }
-            </ul>
          </>
       );
    };

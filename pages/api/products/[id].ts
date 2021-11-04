@@ -1,8 +1,10 @@
+import { ApiQuery } from "types/NextApiTypes";
+
 const { connectToDatabase } = require('../../../lib/mongodb');
 
 const ObjectId = require('mongodb').ObjectId;
 
-export default async function handler(req, res) {
+const handler: ApiQuery = async (req, res) => {
    switch (req.method) {
       case 'DELETE': {
          return deleteProduct(req, res);
@@ -10,7 +12,7 @@ export default async function handler(req, res) {
    }
 }
 
-async function deleteProduct(req, res) {
+const deleteProduct: ApiQuery = async (req, res) => {
    try {
       let { db } = await connectToDatabase();
       await db.collection('products').deleteOne({
@@ -21,7 +23,7 @@ async function deleteProduct(req, res) {
          message: 'Product deleted successfully',
          success: true,
       });
-   } catch (error) {
+   } catch (error: any) {
 
       return res.json({
          message: new Error(error).message,
@@ -29,3 +31,5 @@ async function deleteProduct(req, res) {
       });
    }
 }
+
+export default handler

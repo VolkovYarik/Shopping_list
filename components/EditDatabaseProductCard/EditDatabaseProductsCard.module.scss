@@ -1,0 +1,38 @@
+@import "../../styles/mixins&variables";
+
+.editDatabaseProductsCard {
+  width: 100%;
+  @include flexible_row(space-between, center);
+  background-color: #fff;
+  margin-bottom: $indent_large;
+  padding-right: $indent_small;
+  border-radius: $borderRadius_small;
+
+  .imgWrapper {
+    height: 60px;
+    width: 60px;
+    position: relative;
+
+    img {
+      border-radius: $borderRadius_small 0 0 $borderRadius_small;
+    }
+  }
+
+  .editDatabaseProductsCardInfo {
+    width: 20%;
+    font-weight: bold;
+    color: $commonColor_primary;
+    text-transform: capitalize;
+  }
+
+  .editDatabaseProductsCardActions {
+    button {
+      width: 100px;
+      height: 30px;
+      background-color: $commonColor_darkRed;
+      color: white;
+      border-radius: 5px;
+      font-size: $fontSize_small;
+    }
+  }
+}

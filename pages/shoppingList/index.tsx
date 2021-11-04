@@ -1,21 +1,22 @@
 import { MainLayout } from "components/MainLayout/MainLayout";
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useContext, useEffect, useState } from "react";
-import { getAllCategories, getAllProducts } from "../../axiosApi/";
+import { getAllCategories, getAllProducts } from "axiosApi/";
 import { Context } from "components/Context";
 import { BasketModal } from "components/BasketModal/BasketModal";
 import Portal from "components/Portal";
-import { Categories } from "components/Categories/Categories";
-import { SubCategories } from "components/SubCategories/SubCategories";
+import { SubCategoriesDropdown } from "components/SubCategories/SubCategoriesDropdown";
 import { ProductsCard } from "components/ProductCard/ProductsCard";
 import { addToStorage, clearStorage, removeFromStorage } from "components/Context/storageReducer";
 import { ContextType } from "../../types/contextTypes";
 import { Category, Product } from 'types/dataTypes'
 import Basket from "components/Specs/Basket";
+import { GetServerSideProps } from "next";
+import { CategoriesDropdown } from "../../components/CategoriesDropdown/CategoriesDropdown";
 
 interface ShoppingListProps {
-   productsData: Product[];
-   categoriesData: Category[];
+   productsData: Product[] | [];
+   categoriesData: Category[] | [];
 }
 
 interface Dictionary<T extends object> {
@@ -39,6 +40,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
    const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
    const [isModalActive, setModalActive] = useState(false);
    const [basket, setBasket] = useState<Product[] | []>([]);
+   const [isDropdownActive, setDropdownActive] = useState(false);
 
    const { state, dispatch } = useContext<ContextType>(Context);
 
@@ -74,17 +76,22 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
             <section className={styles.shoppingList}>
                <div className={styles.header}>
                   <div className={styles.actions}>
-                     <Categories
-                        setSelectedCategory={setSelectedCategory}
-                        selectedCategory={selectedCategory}
-                        categoriesData={categoriesData}
-                     />
-                     <SubCategories
-                        selectedCategory={selectedCategory}
-                        selectedSubCategory={selectedSubCategory}
-                        filteredSubCategories={filteredSubCategories}
-                        setSelectedSubCategory={setSelectedSubCategory}
-                     />
+                     <div className={styles.col}>
+                        <CategoriesDropdown
+                           setSelectedCategory={setSelectedCategory}
+                           selectedCategory={selectedCategory}
+                           categoriesData={categoriesData}
+                           isDropdownActive={isDropdownActive}
+                           setDropdownActive={setDropdownActive} />
+                     </div>
+                     <div className={styles.col}>
+                        <SubCategoriesDropdown
+                           selectedCategory={selectedCategory}
+                           selectedSubCategory={selectedSubCategory}
+                           filteredSubCategories={filteredSubCategories}
+                           setSelectedSubCategory={setSelectedSubCategory}
+                        />
+                     </div>
                   </div>
                   <div onClick={() => setModalActive(true)} className={styles.iconWrapper}>
                      <Basket className={styles.icon} />
@@ -119,7 +126,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
    );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
    const productsData = await getAllProducts();
    const categoriesData = await getAllCategories();
    return {

@@ -1,47 +1,42 @@
 @import "styles/mixins&variables";
 
-.categories {
-  @include flexible_row(center, center);
-  margin-bottom: 30px;
-  position: relative;
-}
-
-.category {
-  @include category();
-  text-transform: uppercase;
-
-  &:hover {
-    background-color: #9FA6A8;
-  }
-
-  &.selected {
-    background-color: $commonColor_secondary;
-
-    &:hover {
-      background-color: $commonColor_secondary;
-    }
-  }
-}
-
 .categoriesDropdown {
-  @include dropdown(40%, 40px);
+  @include dropdown(35px);
   background-color: $color_background;
-  position: absolute;
-  z-index: 10;
+  z-index: 11;
   border: 2px solid $commonColor_secondary;
-  display: none;
   left: 0;
+  position: relative;
+
+  &.active {
+    border-radius: $borderRadius_small $borderRadius_small 0 0;
+  }
 
   .selectedItem {
     @include selectedItem();
+    transition: background-color 0.3s;
+
+    &.active {
+      &.active {
+        background-color: $commonColor_secondary;
+      }
+    }
   }
 
   ul {
+    background-color: $color_background;
+    border: 2px solid $commonColor_secondary;
+    border-top: none;
+    border-radius: 0 0 $borderRadius_small $borderRadius_small;
+    width: 102%;
+    visibility: hidden;
+    overflow-y: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: max-height 0.3s, opacity 0.1s, visibility 0s 0.3s;
+    top: 35px;
+    left: -2px;
     position: absolute;
-    left: 0;
-    top: 0;
-    display: none;
-    width: 100%;
 
     .dropdownCategory {
       padding: $indent_small;
@@ -54,8 +49,10 @@
     }
 
     &.dropdownActive {
-      position: relative;
-      display: block;
+      transition: max-height 0.3s, opacity 0.1s, visibility 0s, color 0.3s;
+      visibility: visible;
+      opacity: 1;
+      max-height: 300px;
     }
   }
 
@@ -85,10 +82,7 @@
 }
 
 @media(max-width: 576px) {
-  .categories {
-    display: none;
-  }
   .categoriesDropdown {
-    display: flex;
+    @include flexible_row(center, center)
   }
 }

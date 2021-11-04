@@ -4,10 +4,11 @@ import Link from "next/link";
 import React, { FC, FormEvent, useEffect, useRef, useState } from "react";
 import { createNewProduct, getAllCategories } from "axiosApi";
 import { useRouter } from "next/router";
-import ArrowDown from "components/Specs/arrowDown";
+import ArrowDown from "components/Specs/ArrowDown";
 import cn from 'classnames';
 import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
 import { Category, Product } from "types/dataTypes";
+import { GetStaticProps } from "next";
 
 interface AddProductProps {
    categoriesData: Category[] | []
@@ -127,7 +128,7 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
 
 export default AddProduct;
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
    const categoriesData = await getAllCategories();
 
    return {
