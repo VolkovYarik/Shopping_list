@@ -1,17 +1,17 @@
-import { ICategory, IProduct } from "./dataTypes";
+import { Category, Product } from "./dataTypes";
 
-type CategoriesResponseType = {
-   data: ICategory[] | []
+type CategoriesResponse = {
+   data: Category[] | []
    success: string
 }
 
 
-type ProductsResponseType = {
-   data: IProduct[] | []
+type ProductsResponse = {
+   data: Product[] | []
    success: string
 }
 
 export {
-   CategoriesResponseType,
-   ProductsResponseType
+   CategoriesResponse,
+   ProductsResponse
 }

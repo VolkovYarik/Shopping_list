@@ -2,9 +2,9 @@ import styles from './MainLayout.module.scss';
 import Head from "next/head";
 import Link from 'next/link';
 import { useRouter } from "next/router";
-import React, { FC, useContext, useEffect } from "react";
-import { Context } from "../Context";
-import { IContext } from "../../types/contextTypes";
+import React, { FC, useContext } from "react";
+import { Context } from "components/Context";
+import { ContextType } from "types/contextTypes";
 
 interface MainLayoutProps {
     title: string;
@@ -18,7 +18,7 @@ export const MainLayout: FC<MainLayoutProps> =
          children
      }) => {
         const { pathname } = useRouter();
-        const { state } = useContext<IContext>(Context);
+        const { state } = useContext<ContextType>(Context);
 
         return (
             <>

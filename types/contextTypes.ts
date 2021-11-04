@@ -1,24 +1,24 @@
 import { StorageAction } from "./storageTypes";
 import { Dispatch } from "react";
 
-interface IState {
+type State = {
     storage: string[] | [];
 }
 
 type Action = StorageAction
 
 type reducerArray = {
-    (state: IState, action: Action): IState
+    (state: State, action: Action): State
 }[];
 
-interface IContext {
-    state: IState;
+type ContextType = {
+    state: State;
     dispatch: Dispatch<Action>
 }
 
 export {
     reducerArray,
     Action,
-    IState,
-    IContext
+    State,
+    ContextType
 }

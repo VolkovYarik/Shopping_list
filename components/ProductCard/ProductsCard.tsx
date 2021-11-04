@@ -3,18 +3,18 @@ import { FC, useContext, useEffect, useState } from "react";
 import cn from 'classnames';
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
-import { IProduct } from "../../types/dataTypes";
-import { IContext } from "../../types/contextTypes";
+import { Product } from "types/dataTypes";
+import { ContextType } from "types/contextTypes";
 import { Context } from "../Context";
-import { BasketFunctionType } from "../../pages/shoppingList";
+import { UpdateBasket } from "pages/shoppingList";
 
 interface ProductsCardProps {
-   item: IProduct
+   item: Product
    selectedCategory: string
    selectedSubCategory: string
-   basket: IProduct[] | []
-   removeFromBasket: BasketFunctionType
-   addToBasket: BasketFunctionType
+   basket: Product[] | []
+   removeFromBasket: UpdateBasket
+   addToBasket: UpdateBasket
 }
 
 export const ProductsCard: FC<ProductsCardProps> =
@@ -27,7 +27,7 @@ export const ProductsCard: FC<ProductsCardProps> =
        addToBasket
     }) => {
       const [isSelected, setSelected] = useState(false);
-      const { state } = useContext<IContext>(Context);
+      const { state } = useContext<ContextType>(Context);
 
       useEffect(() => {
          if (state.storage.find((el) => el === item._id)) {

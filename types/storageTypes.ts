@@ -4,21 +4,21 @@ enum StorageActionTypes {
     CLEAR_STORAGE = 'CLEAR_STORAGE',
 }
 
-interface IAddToStorageAction {
+type AddToStorageAction = {
     type: StorageActionTypes.ADD_TO_STORAGE;
     payload: string
 }
 
-interface IRemoveFromStorageAction {
+type RemoveFromStorageAction = {
     type: StorageActionTypes.REMOVE_FROM_STORAGE;
     payload: string;
 }
 
-interface IClearFromStorageAction {
+type ClearFromStorageAction = {
     type: StorageActionTypes.CLEAR_STORAGE;
 }
 
-type StorageAction = IAddToStorageAction | IRemoveFromStorageAction | IClearFromStorageAction
+type StorageAction = AddToStorageAction | RemoveFromStorageAction | ClearFromStorageAction
 export {
     StorageAction,
     StorageActionTypes,

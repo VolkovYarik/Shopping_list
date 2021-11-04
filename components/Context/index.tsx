@@ -1,17 +1,17 @@
 import { createContext, FC, useReducer } from "react";
-import { Action, IContext, IState, reducerArray } from 'types/contextTypes'
+import { Action, ContextType, State, reducerArray } from 'types/contextTypes'
 import { storageReducer } from "./storageReducer";
 
-const initialState: IState = {
+const initialState: State = {
     storage: typeof localStorage !== 'undefined' ? JSON.parse(localStorage.getItem('products') || '[]') : [],
 };
 
-const Context = createContext<IContext>({
+const Context = createContext<ContextType>({
     state: { storage: [] }, dispatch: () => {
     }
 });
 
-const combineReducers = (...reducers: reducerArray) => (state: IState, action: Action) => {
+const combineReducers = (...reducers: reducerArray) => (state: State, action: Action) => {
     for (let i = 0; i < reducers.length; i++) {
         state = reducers[i](state, action)
     }

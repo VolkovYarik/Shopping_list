@@ -4,13 +4,13 @@ import cn from 'classnames';
 import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
-import { IProduct } from "../../types/dataTypes";
-import { ClearBasketFunction, UpdateBasketFunction } from "../../pages/shoppingList";
+import { Product } from "types/dataTypes";
+import { UpdateBasket } from "pages/shoppingList";
 
 interface BasketModalProps {
-   basket: IProduct[];
-   removeFromBasket: UpdateBasketFunction;
-   cleanupBasket: ClearBasketFunction;
+   basket: Product[];
+   removeFromBasket: UpdateBasket;
+   cleanupBasket: () => void;
    isModalActive: boolean,
    setModalActive: Dispatch<SetStateAction<boolean>>
 }

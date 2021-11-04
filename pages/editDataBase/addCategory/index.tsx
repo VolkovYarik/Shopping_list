@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { FC, FormEvent, useState } from "react";
 import { addNewCategory } from "axiosApi";
 import { useRouter } from "next/router";
-import { ICategory } from "types/dataTypes";
+import { Category } from "types/dataTypes";
 
 const AddCategory: FC = () => {
    const router = useRouter();
-   const [newCategory, setNewCategory] = useState<ICategory>({
+   const [newCategory, setNewCategory] = useState<Category>({
       category: "",
       subCategories: []
    });

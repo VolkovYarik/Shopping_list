@@ -1,12 +1,12 @@
 import styles from "./Categories.module.scss";
 import { FC, useRef, useState, Dispatch, SetStateAction } from "react";
 import cn from "classnames";
-import ArrowDown from "../Specs/arrowDown";
-import { useOnClickOutside } from "../Hooks/useOnClickOutside";
-import { ICategory } from "../../types/dataTypes";
+import ArrowDown from "components/Specs/arrowDown";
+import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
+import { Category } from "types/dataTypes";
 
 interface CategoriesProps {
-   categoriesData: ICategory[] | [];
+   categoriesData: Category[] | [];
    selectedCategory: string;
    setSelectedCategory: Dispatch<SetStateAction<string>>
 }

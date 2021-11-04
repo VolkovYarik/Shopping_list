@@ -6,18 +6,18 @@ import noImage from 'assets/noImage.jpg';
 import { deleteProductByID, getAllProducts } from "../../axiosApi";
 import { Context } from "components/Context";
 import { removeFromStorage } from "components/Context/storageReducer";
-import { IContext } from "types/contextTypes";
-import { IProduct } from "types/dataTypes";
+import { ContextType } from "types/contextTypes";
+import { Product } from "types/dataTypes";
 
 interface EditDataBaseProps {
-   productsData: IProduct[]
+   productsData: Product[]
 }
 
 const EditDataBase: FC<EditDataBaseProps> = ({ productsData }) => {
-   const [products, setProducts] = useState<IProduct[] | []>(productsData);
-   const { dispatch, state } = useContext<IContext>(Context);
+   const [products, setProducts] = useState<Product[] | []>(productsData);
+   const { dispatch, state } = useContext<ContextType>(Context);
 
-   const deleteProduct = async (product: IProduct) => {
+   const deleteProduct = async (product: Product) => {
       await deleteProductByID(product._id);
       const updatedProductsList = await getAllProducts();
       setProducts(updatedProductsList);
@@ -38,7 +38,7 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData }) => {
                </div>
                <div className={styles.content}>
                   {
-                     products.map((item: IProduct): ReactElement => {
+                     products.map((item: Product): ReactElement => {
                         return (<div className={styles.card} key={item._id}>
                            <div className={styles.imgWrapper}>
                               <Image src={noImage} layout={'fill'} />

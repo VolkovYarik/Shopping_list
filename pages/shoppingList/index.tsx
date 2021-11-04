@@ -9,24 +9,23 @@ import { Categories } from "components/Categories/Categories";
 import { SubCategories } from "components/SubCategories/SubCategories";
 import { ProductsCard } from "components/ProductCard/ProductsCard";
 import { addToStorage, clearStorage, removeFromStorage } from "components/Context/storageReducer";
-import { IContext } from "../../types/contextTypes";
-import { ICategory, IProduct } from 'types/dataTypes'
+import { ContextType } from "../../types/contextTypes";
+import { Category, Product } from 'types/dataTypes'
 import Basket from "components/Specs/Basket";
 
 interface ShoppingListProps {
-   productsData: IProduct[];
-   categoriesData: ICategory[];
+   productsData: Product[];
+   categoriesData: Category[];
 }
 
 interface Dictionary<T extends object> {
    [key: string]: T;
 }
 
-export type UpdateBasketFunction = (product: IProduct) => void
-export type ClearBasketFunction = () => void
+export type UpdateBasket = (product: Product) => void
 
-const findByIDs = (objArr: IProduct[], idsArr: string[]): IProduct[] => {
-   const set = objArr.reduce((acc: Dictionary<IProduct>, item) => {
+const findByIDs = (objArr: Product[], idsArr: string[]): Product[] => {
+   const set = objArr.reduce((acc: Dictionary<Product>, item) => {
       acc[item._id] = item;
       return acc;
    }, {});
@@ -39,21 +38,21 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
    const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
    const [isModalActive, setModalActive] = useState(false);
-   const [basket, setBasket] = useState<IProduct[] | []>([]);
+   const [basket, setBasket] = useState<Product[] | []>([]);
 
-   const { state, dispatch } = useContext<IContext>(Context);
+   const { state, dispatch } = useContext<ContextType>(Context);
 
-   const addToBasket: UpdateBasketFunction = (product) => {
+   const addToBasket: UpdateBasket = (product) => {
       dispatch(addToStorage(product._id));
       setBasket((prev) => [...prev, product]);
    };
 
-   const removeFromBasket: UpdateBasketFunction = (product) => {
+   const removeFromBasket: UpdateBasket = (product) => {
       dispatch(removeFromStorage(product._id));
       setBasket((prev) => prev.filter((item) => item._id !== product._id));
    };
 
-   const cleanupBasket: ClearBasketFunction = () => {
+   const cleanupBasket = (): void => {
       dispatch(clearStorage());
       setBasket([]);
    };
