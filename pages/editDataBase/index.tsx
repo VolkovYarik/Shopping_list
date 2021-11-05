@@ -1,5 +1,13 @@
-import { Context, Dropdown, EditDatabaseProductsCard, MainLayout, removeFromStorage } from "components";
-import styles from '/styles/EditDataBase.module.scss';
+import {
+   Context,
+   Dictionary,
+   dictionary,
+   Dropdown,
+   EditDatabaseProductsCard,
+   MainLayout,
+   removeFromStorage
+} from "components";
+import styles from 'styles/EditDataBase.module.scss';
 import React, { FC, ReactElement, useContext, useEffect, useState } from "react";
 import { deleteProductByID, getAllCategories, getAllProducts } from "axiosApi";
 import { ContextType } from "types/contextTypes";
@@ -7,25 +15,26 @@ import { Category, Product } from "types/dataTypes";
 import Link from "next/link";
 import cn from "classnames";
 import { GetServerSideProps } from "next";
+import { Keys } from "../../types/serverSideTypes";
 
 interface EditDataBaseProps {
-   productsData: Product[] | [];
-   categoriesData: Category[] | []
+   productsData: Product[];
+   categoriesData: Dictionary<Category>;
+   categories: string[];
 }
 
-const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) => {
+const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData, categories }) => {
    const [products, setProducts] = useState<Product[] | []>(productsData);
    const { dispatch, state } = useContext<ContextType>(Context);
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [isDropdownCategoriesActive, setDropdownCategoriesActive] = useState(false)
    const [isDropdownSubCategoriesActive, setDropdownSubCategoriesActive] = useState(false)
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
-   const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
-   const categories = categoriesData.map((elem) => elem.category)
+   const [subCategories, setSubCategories] = useState<string[]>([]);
 
    const deleteProduct = async (product: Product) => {
       await deleteProductByID(product._id);
-      const updatedProductsList = await getAllProducts();
+      const updatedProductsList: Product[] = await getAllProducts()
       setProducts(updatedProductsList);
 
       if (state.storage.find((el) => el === product._id)) {
@@ -35,8 +44,7 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) =
 
    useEffect(() => {
       setSelectedSubCategory('all');
-      const filteredCategories = categoriesData.find((item) => item.category === selectedCategory);
-      setFilteredSubCategories(filteredCategories?.subCategories || []);
+      setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
    }, [selectedCategory]);
 
    return (
@@ -62,6 +70,7 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) =
                   data={categories}
                   setValue={setSelectedCategory}
                   isDropdownActive={isDropdownCategoriesActive}
+                  withInitialValue={true}
                />
                {selectedCategory !== 'all' &&
                <>
@@ -71,9 +80,10 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) =
                   <Dropdown
                      selectedValue={selectedSubCategory}
                      setDropdownActive={setDropdownSubCategoriesActive}
-                     data={filteredSubCategories}
+                     data={subCategories}
                      setValue={setSelectedSubCategory}
                      isDropdownActive={isDropdownSubCategoriesActive}
+                     withInitialValue={true}
                   />
                </>
                }
@@ -107,9 +117,13 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) =
 
 export const getServerSideProps: GetServerSideProps = async () => {
    const productsData = await getAllProducts();
-   const categoriesData = await getAllCategories();
+   const allCategoriesData = await getAllCategories();
+
+   const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
+   const categories = allCategoriesData.map((element) => element.category)
+
    return {
-      props: { productsData, categoriesData }
+      props: { productsData, categoriesData, categories }
    };
 };
 

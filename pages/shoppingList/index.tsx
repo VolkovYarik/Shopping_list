@@ -4,6 +4,8 @@ import {
    BasketModal,
    clearStorage,
    Context,
+   Dictionary,
+   dictionary,
    Dropdown,
    MainLayout,
    Portal,
@@ -16,6 +18,7 @@ import { getAllCategories, getAllProducts } from "axiosApi/";
 import { ContextType } from "../../types/contextTypes";
 import { Category, Product } from 'types/dataTypes'
 import { GetServerSideProps } from "next";
+import { Keys } from "types/serverSideTypes";
 
 interface ShoppingListProps {
    productsData: Dictionary<Product>;
@@ -23,9 +26,6 @@ interface ShoppingListProps {
    categories: string[];
 }
 
-interface Dictionary<T extends object> {
-   [key: string]: T;
-}
 
 export type UpdateBasket = (product: Product) => void
 
@@ -79,6 +79,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
                            data={categories}
                            setValue={setSelectedCategory}
                            isDropdownActive={isCategoriesDropdownActive}
+                           withInitialValue={true}
                         />
                      </div>
                      <div className={styles.col}>
@@ -89,6 +90,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
                            data={subCategories}
                            setValue={setSelectedSubCategory}
                            isDropdownActive={isSubCategoriesDropdownActive}
+                           withInitialValue={true}
                         />}
 
                      </div>
@@ -129,27 +131,6 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
 export const getServerSideProps: GetServerSideProps = async () => {
    const allProductsData = await getAllProducts();
    const allCategoriesData = await getAllCategories();
-
-   enum Keys {
-      ID = "_id",
-      CATEGORY = "category"
-   }
-
-   type Key = Keys.ID | Keys.CATEGORY
-
-   type Data = Product | Category
-
-   const dictionary = (data: Data[], key: Key) => {
-      return data.reduce((acc: Dictionary<Data>, item): Dictionary<Data> => {
-         if (key === Keys.ID) {
-            acc[item._id] = item
-            return acc
-         } else {
-            acc[item.category] = item
-            return acc
-         }
-      }, {});
-   }
 
    const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
    const productsData = dictionary(allProductsData, Keys.ID)

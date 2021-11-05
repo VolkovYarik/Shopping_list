@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useRef } from "react";
 import styles from './Dropdown.module.scss'
 import cn from 'classnames'
-import { useOnClickOutside, ArrowDown } from "components";
+import { ArrowDown, useOnClickOutside } from "components";
 
 interface DropdownProps {
    selectedValue: string;
@@ -9,9 +9,8 @@ interface DropdownProps {
    data: string[];
    setValue: Dispatch<SetStateAction<string>>
    isDropdownActive: boolean;
+   withInitialValue: boolean;
 }
-
-// to refactor dropdowns
 
 export const Dropdown: FC<DropdownProps> =
    ({
@@ -20,6 +19,7 @@ export const Dropdown: FC<DropdownProps> =
        selectedValue,
        data,
        setValue,
+       withInitialValue,
     }) => {
 
       const ref = useRef(null);
@@ -32,12 +32,10 @@ export const Dropdown: FC<DropdownProps> =
             onClick={() => setDropdownActive(!isDropdownActive)}
             ref={ref}
          >
-            <div className={styles.selectedItem}>
-               {selectedValue}
-               <ArrowDown className={styles.icon} />
-            </div>
+            {selectedValue}
+            <ArrowDown className={styles.icon} />
             <ul>
-               <li className={styles.dropdownCategory} onClick={() => setValue("all")}>All</li>
+               {withInitialValue && <li className={styles.dropdownCategory} onClick={() => setValue("all")}>All</li>}
                {data.map((item, index) => (
                   <li key={index} onClick={() => setValue(item)} className={styles.dropdownCategory}>{item}</li>
                ))}

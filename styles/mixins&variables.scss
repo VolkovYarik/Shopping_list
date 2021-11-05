@@ -34,15 +34,3 @@ $fontSize_extraSmall: 12px;
   font-size: $fontSize_large;
   font-weight: bold;
 }
-
-@mixin category {
-  cursor: pointer;
-  background-color: $color_button;
-  margin: 0 $indent_small $indent_small;
-  @include flexible_row(center, center);
-  border-radius: $borderRadius_small;
-  color: white;
-  transition: 0.2s background-color;
-  padding: $indent_small;
-  min-width: 50px;
-}

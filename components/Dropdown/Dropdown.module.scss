@@ -1,10 +1,9 @@
 @import "styles/mixins&variables";
 
 .dropdown {
-  @include flexible_column();
-  width: 100%;
-  align-items: flex-start;
+  @include flexible_row(flex-start, center);
   border-radius: $borderRadius_small;
+  width: 100%;
   cursor: pointer;
   min-height: 35px;
   color: $commonColor_primary;
@@ -12,16 +11,15 @@
   text-transform: capitalize;
   background-color: $color_background;
   border: 2px solid $commonColor_secondary;
-  left: 0;
   position: relative;
+  transition: background-color 0.3s;
+  padding: 0 $indent_small;
 
   &.active {
     border-radius: $borderRadius_small $borderRadius_small 0 0;
     z-index: 11;
-
-    .selectedItem {
-      background-color: $commonColor_secondary;
-    }
+    background-color: $commonColor_secondary;
+    color: white;
 
     ul {
       transition: max-height 0.3s, opacity 0.1s, visibility 0s, color 0.3s;
@@ -41,30 +39,22 @@
     }
   }
 
-  .selectedItem {
-    @include flexible_row(flex-start, center);
-    position: relative;
-    width: 100%;
-    padding: 0 $indent_small;
-    height: 35px;
-    flex-shrink: 0;
-    transition: background-color 0.3s;
-  }
-
   ul {
     background-color: $color_background;
-    border: 2px solid $commonColor_secondary;
-    border-top: none;
-    border-radius: 0 0 $borderRadius_small $borderRadius_small;
-    width: 102%;
+    width: 100%;
     visibility: hidden;
     overflow-y: hidden;
     opacity: 0;
     max-height: 0;
     transition: max-height 0.3s, opacity 0.1s, visibility 0s 0.3s;
-    top: 35px;
-    left: -2px;
+    top: 30px;
     position: absolute;
+    border: 2px solid $commonColor_secondary;
+    border-top: none;
+    border-radius: 0 0 $borderRadius_small $borderRadius_small;
+    box-sizing: content-box;
+    left: -2px;
+    color: $commonColor_primary;
 
     .dropdownCategory {
       padding: $indent_small;
@@ -73,6 +63,7 @@
 
       &:hover {
         background-color: $commonColor_secondary;
+        color: white;
       }
     }
 

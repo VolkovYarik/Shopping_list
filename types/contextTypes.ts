@@ -7,7 +7,7 @@ type State = {
 
 type Action = StorageAction
 
-type reducerArray = {
+type ReducersArray = {
     (state: State, action: Action): State
 }[];
 
@@ -17,7 +17,7 @@ type ContextType = {
 }
 
 export {
-    reducerArray,
+    ReducersArray,
     Action,
     State,
     ContextType

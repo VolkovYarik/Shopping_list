@@ -9,6 +9,7 @@ import { ProductsCard } from './ProductCard/ProductsCard'
 import { ArrowDown, Basket, Home, Plus, Todo } from './Specs'
 import { StorageObserver } from './StorageObserver'
 import { addToStorage, clearStorage, removeFromStorage } from "./Context/storageReducer";
+import {Dictionary, dictionary} from "./Utils";
 
 export {
    Basket,
@@ -28,5 +29,7 @@ export {
    addToStorage,
    clearStorage,
    removeFromStorage,
-   Provider
+   Provider,
+   Dictionary,
+   dictionary
 }
