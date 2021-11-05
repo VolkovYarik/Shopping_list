@@ -1,14 +1,13 @@
 import styles from './addProduct.module.scss';
-import { MainLayout } from "components/MainLayout/MainLayout";
+import { ArrowDown, MainLayout, useOnClickOutside } from "components";
 import Link from "next/link";
 import React, { FC, FormEvent, useEffect, useRef, useState } from "react";
 import { createNewProduct, getAllCategories } from "axiosApi";
 import { useRouter } from "next/router";
-import ArrowDown from "components/Specs/ArrowDown";
 import cn from 'classnames';
-import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
-import { Category, Product } from "types/dataTypes";
+import { Category } from "types/dataTypes";
 import { GetStaticProps } from "next";
+import { ProductForm } from "types/axiosApiTypes";
 
 interface AddProductProps {
    categoriesData: Category[] | []
@@ -25,7 +24,7 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
 
    const [selectedSubCategory, setSelectedSubCategory] = useState(currentCategory.subCategories[0]);
 
-   const [product, setProduct] = useState<Product>({
+   const [product, setProduct] = useState<ProductForm>({
       name: '',
       category: selectedCategory,
       class: selectedSubCategory,

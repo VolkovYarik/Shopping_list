@@ -1,14 +1,14 @@
-import { MainLayout } from "components/MainLayout/MainLayout";
+import { MainLayout } from "components";
 import styles from './addCategory.module.scss';
 import Link from 'next/link';
 import { FC, FormEvent, useState } from "react";
 import { addNewCategory } from "axiosApi";
 import { useRouter } from "next/router";
-import { Category } from "types/dataTypes";
+import { CategoryForm } from "types/axiosApiTypes";
 
 const AddCategory: FC = () => {
    const router = useRouter();
-   const [newCategory, setNewCategory] = useState<Category>({
+   const [newCategory, setNewCategory] = useState<CategoryForm>({
       category: "",
       subCategories: []
    });

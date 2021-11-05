@@ -46,24 +46,3 @@ $fontSize_extraSmall: 12px;
   padding: $indent_small;
   min-width: 50px;
 }
-
-@mixin dropdown($min-height) {
-  @include flexible_column();
-  width: 100%;
-  align-items: flex-start;
-  border-radius: $borderRadius_small;
-  cursor: pointer;
-  min-height: $min-height;
-  color: $commonColor_primary;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-@mixin selectedItem {
-  @include flexible_row(flex-start, center);
-  position: relative;
-  width: 100%;
-  padding: 0 $indent_small;
-  height: 35px;
-  flex-shrink: 0;
-}

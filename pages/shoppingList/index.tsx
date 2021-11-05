@@ -1,22 +1,26 @@
-import { MainLayout } from "components/MainLayout/MainLayout";
+import {
+   addToStorage,
+   Basket,
+   BasketModal,
+   clearStorage,
+   Context,
+   Dropdown,
+   MainLayout,
+   Portal,
+   ProductsCard,
+   removeFromStorage
+} from 'components'
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useContext, useEffect, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi/";
-import { Context } from "components/Context";
-import { BasketModal } from "components/BasketModal/BasketModal";
-import Portal from "components/Portal";
-import { SubCategoriesDropdown } from "components/SubCategories/SubCategoriesDropdown";
-import { ProductsCard } from "components/ProductCard/ProductsCard";
-import { addToStorage, clearStorage, removeFromStorage } from "components/Context/storageReducer";
 import { ContextType } from "../../types/contextTypes";
 import { Category, Product } from 'types/dataTypes'
-import Basket from "components/Specs/Basket";
 import { GetServerSideProps } from "next";
-import { CategoriesDropdown } from "../../components/CategoriesDropdown/CategoriesDropdown";
 
 interface ShoppingListProps {
-   productsData: Product[] | [];
-   categoriesData: Category[] | [];
+   productsData: Dictionary<Product>;
+   categoriesData: Dictionary<Category>;
+   categories: string[];
 }
 
 interface Dictionary<T extends object> {
@@ -25,23 +29,17 @@ interface Dictionary<T extends object> {
 
 export type UpdateBasket = (product: Product) => void
 
-const findByIDs = (objArr: Product[], idsArr: string[]): Product[] => {
-   const set = objArr.reduce((acc: Dictionary<Product>, item) => {
-      acc[item._id] = item;
-      return acc;
-   }, {});
-
-   return idsArr.map((item) => set[item]);
-};
-
-const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) => {
+const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, categories }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
-   const [filteredSubCategories, setFilteredSubCategories] = useState<string[]>([]);
+
+   const [subCategories, setSubCategories] = useState<string[]>([]);
+
    const [isModalActive, setModalActive] = useState(false);
    const [basket, setBasket] = useState<Product[] | []>([]);
-   const [isDropdownActive, setDropdownActive] = useState(false);
 
+   const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
+   const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
    const { state, dispatch } = useContext<ContextType>(Context);
 
    const addToBasket: UpdateBasket = (product) => {
@@ -61,13 +59,11 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
 
    useEffect(() => {
       setSelectedSubCategory('all');
-      const filteredCategories = categoriesData.find((item) => item.category === selectedCategory);
-      setFilteredSubCategories(filteredCategories?.subCategories || []);
+      setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
    }, [selectedCategory]);
 
    useEffect(() => {
-      const selectedProducts = findByIDs(productsData, state.storage);
-      setBasket(selectedProducts);
+      setBasket(state.storage.map((element) => productsData[element]));
    }, []);
 
    return (
@@ -77,20 +73,24 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                <div className={styles.header}>
                   <div className={styles.actions}>
                      <div className={styles.col}>
-                        <CategoriesDropdown
-                           setSelectedCategory={setSelectedCategory}
-                           selectedCategory={selectedCategory}
-                           categoriesData={categoriesData}
-                           isDropdownActive={isDropdownActive}
-                           setDropdownActive={setDropdownActive} />
+                        <Dropdown
+                           selectedValue={selectedCategory}
+                           setDropdownActive={setCategoriesDropdownActive}
+                           data={categories}
+                           setValue={setSelectedCategory}
+                           isDropdownActive={isCategoriesDropdownActive}
+                        />
                      </div>
                      <div className={styles.col}>
-                        <SubCategoriesDropdown
-                           selectedCategory={selectedCategory}
-                           selectedSubCategory={selectedSubCategory}
-                           filteredSubCategories={filteredSubCategories}
-                           setSelectedSubCategory={setSelectedSubCategory}
-                        />
+                        {selectedCategory !== "all" &&
+                        <Dropdown
+                           selectedValue={selectedSubCategory}
+                           setDropdownActive={setSubCategoriesDropdownActive}
+                           data={subCategories}
+                           setValue={setSelectedSubCategory}
+                           isDropdownActive={isSubCategoriesDropdownActive}
+                        />}
+
                      </div>
                   </div>
                   <div onClick={() => setModalActive(true)} className={styles.iconWrapper}>
@@ -99,7 +99,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                   </div>
                </div>
                <ul className={styles.cards}>
-                  {productsData.map((item) => (
+                  {Object.values<Product>(productsData).map((item) => (
                      <ProductsCard
                         item={item}
                         key={item._id}
@@ -127,10 +127,36 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-   const productsData = await getAllProducts();
-   const categoriesData = await getAllCategories();
+   const allProductsData = await getAllProducts();
+   const allCategoriesData = await getAllCategories();
+
+   enum Keys {
+      ID = "_id",
+      CATEGORY = "category"
+   }
+
+   type Key = Keys.ID | Keys.CATEGORY
+
+   type Data = Product | Category
+
+   const dictionary = (data: Data[], key: Key) => {
+      return data.reduce((acc: Dictionary<Data>, item): Dictionary<Data> => {
+         if (key === Keys.ID) {
+            acc[item._id] = item
+            return acc
+         } else {
+            acc[item.category] = item
+            return acc
+         }
+      }, {});
+   }
+
+   const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
+   const productsData = dictionary(allProductsData, Keys.ID)
+   const categories = allCategoriesData.map((element) => element.category)
+
    return {
-      props: { categoriesData, productsData },
+      props: { productsData, categoriesData, categories },
    };
 };
 

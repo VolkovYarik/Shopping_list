@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { Category, Product } from "../types/dataTypes";
-import { CategoriesResponse, ProductsResponse } from "types/axiosApiTypes";
+import { CategoriesResponse, CategoryForm, ProductForm, ProductsResponse } from "types/axiosApiTypes";
 
 const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
 
@@ -12,11 +12,11 @@ export const getAllCategories = (): Promise<Category[]> => {
    return instance.get<CategoriesResponse>('/categories').then((res) => res.data.data);
 };
 
-export const addNewCategory = (body: Category): Promise<any> => {
+export const addNewCategory = (body: CategoryForm): Promise<any> => {
    return instance.post('/categories', body)
 };
 
-export const createNewProduct = (body: Product): Promise<any> => {
+export const createNewProduct = (body: ProductForm): Promise<any> => {
    return instance.post('/products', body)
 };
 

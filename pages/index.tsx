@@ -1,7 +1,6 @@
 import styles from '../styles/Home.module.scss';
-import { MainLayout } from "components/MainLayout/MainLayout";
+import { Basket, MainLayout } from "components";
 import Link from 'next/link';
-import Basket from 'components/Specs/Basket'
 import { FC } from "react";
 
 

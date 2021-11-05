@@ -11,7 +11,20 @@ type ProductsResponse = {
    success: string
 }
 
+type ProductForm = {
+   name: string;
+   category: string;
+   class: string
+}
+
+type CategoryForm = {
+   category: string;
+   subCategories: string[];
+}
+
 export {
    CategoriesResponse,
-   ProductsResponse
+   ProductsResponse,
+   ProductForm,
+   CategoryForm
 }

@@ -1,7 +1,7 @@
 import styles from './BasketModal.module.scss';
 import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
 import cn from 'classnames';
-import { useOnClickOutside } from "components/Hooks/useOnClickOutside";
+import { useOnClickOutside } from "components";
 import Image from "next/image";
 import noImage from 'assets/noImage.jpg';
 import { Product } from "types/dataTypes";

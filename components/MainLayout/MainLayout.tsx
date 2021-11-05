@@ -3,9 +3,8 @@ import Head from "next/head";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import React, { FC, useContext } from "react";
-import { Context } from "components/Context";
+import { Context, Home } from "components";
 import { ContextType } from "types/contextTypes";
-import Home from "components/Specs/Home"
 import cn from 'classnames'
 
 interface MainLayoutProps {

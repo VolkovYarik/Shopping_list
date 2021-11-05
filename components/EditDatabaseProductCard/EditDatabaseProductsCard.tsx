@@ -1,8 +1,8 @@
 import Image from "next/image";
-import noImage from "../../assets/noImage.jpg";
+import noImage from "assets/noImage.jpg";
 import React, { FC } from "react";
-import { Product } from "../../types/dataTypes";
-import styles from 'components/EditDatabaseProductCard/EditDatabaseProductsCard.module.scss'
+import { Product } from "types/dataTypes";
+import styles from './EditDatabaseProductsCard.module.scss'
 
 interface EditDatabaseProductCardProps {
    item: Product;

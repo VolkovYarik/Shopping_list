@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Context } from "../Context";
+import { Context } from "components";
 import { ContextType } from "types/contextTypes";
 
 export const StorageObserver = () => {

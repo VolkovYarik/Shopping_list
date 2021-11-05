@@ -1,12 +1,12 @@
 type Product = {
-   _id?: any;
+   _id: any;
    name: string;
    category: string;
    class: string;
 }
 
 type Category = {
-   _id?: any;
+   _id: any;
    category: string;
    subCategories: string[]
 }

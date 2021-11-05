@@ -78,8 +78,8 @@
     button {
       width: 20px;
       height: 20px;
-      background-color: $commonColor_secondary;
-      border-radius: 50%;
+      background-color: $commonColor_darkRed;
+      border-radius: $borderRadius_circle;
       flex-shrink: 0;
     }
   }

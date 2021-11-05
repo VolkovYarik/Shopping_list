@@ -1,7 +1,15 @@
 @import "styles/mixins&variables";
 
 .dropdown {
-  @include dropdown(35px);
+  @include flexible_column();
+  width: 100%;
+  align-items: flex-start;
+  border-radius: $borderRadius_small;
+  cursor: pointer;
+  min-height: 35px;
+  color: $commonColor_primary;
+  font-weight: bold;
+  text-transform: capitalize;
   background-color: $color_background;
   border: 2px solid $commonColor_secondary;
   left: 0;
@@ -10,17 +18,37 @@
   &.active {
     border-radius: $borderRadius_small $borderRadius_small 0 0;
     z-index: 11;
+
+    .selectedItem {
+      background-color: $commonColor_secondary;
+    }
+
+    ul {
+      transition: max-height 0.3s, opacity 0.1s, visibility 0s, color 0.3s;
+      visibility: visible;
+      opacity: 1;
+      max-height: 300px;
+
+      &:hover {
+        overflow-y: auto;
+      }
+    }
+
+    .icon {
+      animation: bounceAndRotate 0.2s;
+      transform: rotateX(180deg);
+      fill: white;
+    }
   }
 
   .selectedItem {
-    @include selectedItem();
+    @include flexible_row(flex-start, center);
+    position: relative;
+    width: 100%;
+    padding: 0 $indent_small;
+    height: 35px;
+    flex-shrink: 0;
     transition: background-color 0.3s;
-
-    &.active {
-      &.active {
-        background-color: $commonColor_secondary;
-      }
-    }
   }
 
   ul {
@@ -48,17 +76,6 @@
       }
     }
 
-    &.dropdownActive {
-      transition: max-height 0.3s, opacity 0.1s, visibility 0s, color 0.3s;
-      visibility: visible;
-      opacity: 1;
-      max-height: 300px;
-
-      &:hover {
-        overflow-y: auto;
-      }
-    }
-
     &::-webkit-scrollbar {
       width: 7px;
       background-color: transparent;
@@ -77,11 +94,6 @@
     right: 8px;
     fill: $commonColor_secondary;
     transition: transform 0.2s;
-
-    &.active {
-      animation: bounceAndRotate 0.2s;
-      transform: rotateX(180deg);
-    }
   }
 }
 

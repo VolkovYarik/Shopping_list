@@ -1,15 +1,11 @@
-import { MainLayout } from "components/MainLayout/MainLayout";
+import { Context, Dropdown, EditDatabaseProductsCard, MainLayout, removeFromStorage } from "components";
 import styles from '/styles/EditDataBase.module.scss';
 import React, { FC, ReactElement, useContext, useEffect, useState } from "react";
-import { deleteProductByID, getAllCategories, getAllProducts } from "../../axiosApi";
-import { Context } from "components/Context";
-import { removeFromStorage } from "components/Context/storageReducer";
+import { deleteProductByID, getAllCategories, getAllProducts } from "axiosApi";
 import { ContextType } from "types/contextTypes";
 import { Category, Product } from "types/dataTypes";
 import Link from "next/link";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
 import cn from "classnames";
-import { EditDatabaseProductsCard } from "../../components/EditDatabaseProductCard/EditDatabaseProductsCard";
 import { GetServerSideProps } from "next";
 
 interface EditDataBaseProps {
@@ -60,20 +56,25 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData }) =
             </div>
             <div className={styles.sidebarFilters}>
                <span>Select category</span>
-               <Dropdown selectedCategory={selectedCategory} setDropdownActive={setDropdownCategoriesActive}
-                         data={categories}
-                         setValue={setSelectedCategory} isDropdownActive={isDropdownCategoriesActive} />
+               <Dropdown
+                  selectedValue={selectedCategory}
+                  setDropdownActive={setDropdownCategoriesActive}
+                  data={categories}
+                  setValue={setSelectedCategory}
+                  isDropdownActive={isDropdownCategoriesActive}
+               />
                {selectedCategory !== 'all' &&
                <>
                   <span>
                         Select subcategory
                   </span>
                   <Dropdown
-                     selectedCategory={selectedSubCategory}
+                     selectedValue={selectedSubCategory}
                      setDropdownActive={setDropdownSubCategoriesActive}
                      data={filteredSubCategories}
                      setValue={setSelectedSubCategory}
-                     isDropdownActive={isDropdownSubCategoriesActive} />
+                     isDropdownActive={isDropdownSubCategoriesActive}
+                  />
                </>
                }
 

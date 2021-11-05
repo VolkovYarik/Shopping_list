@@ -1,11 +1,10 @@
 import { Dispatch, FC, SetStateAction, useRef } from "react";
 import styles from './Dropdown.module.scss'
 import cn from 'classnames'
-import { useOnClickOutside } from "../Hooks/useOnClickOutside";
-import ArrowDown from "../Specs/ArrowDown";
+import { useOnClickOutside, ArrowDown } from "components";
 
 interface DropdownProps {
-   selectedCategory: string;
+   selectedValue: string;
    setDropdownActive: Dispatch<SetStateAction<boolean>>;
    data: string[];
    setValue: Dispatch<SetStateAction<string>>
@@ -18,7 +17,7 @@ export const Dropdown: FC<DropdownProps> =
    ({
        setDropdownActive,
        isDropdownActive,
-       selectedCategory,
+       selectedValue,
        data,
        setValue,
     }) => {
@@ -33,11 +32,11 @@ export const Dropdown: FC<DropdownProps> =
             onClick={() => setDropdownActive(!isDropdownActive)}
             ref={ref}
          >
-            <div className={cn(styles.selectedItem, { [styles.active]: isDropdownActive })}>
-               {selectedCategory}
-               <ArrowDown className={cn(styles.icon, { [styles.active]: isDropdownActive })} />
+            <div className={styles.selectedItem}>
+               {selectedValue}
+               <ArrowDown className={styles.icon} />
             </div>
-            <ul className={cn({ [styles.dropdownActive]: isDropdownActive })}>
+            <ul>
                <li className={styles.dropdownCategory} onClick={() => setValue("all")}>All</li>
                {data.map((item, index) => (
                   <li key={index} onClick={() => setValue(item)} className={styles.dropdownCategory}>{item}</li>
