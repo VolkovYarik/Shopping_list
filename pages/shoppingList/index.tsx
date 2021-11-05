@@ -32,12 +32,9 @@ export type UpdateBasket = (product: Product) => void
 const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, categories }) => {
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
-
    const [subCategories, setSubCategories] = useState<string[]>([]);
-
    const [isModalActive, setModalActive] = useState(false);
    const [basket, setBasket] = useState<Product[] | []>([]);
-
    const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
    const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
    const { state, dispatch } = useContext<ContextType>(Context);

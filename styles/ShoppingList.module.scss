@@ -22,7 +22,6 @@
       @include flexible_row(space-between, center);
       position: relative;
       width: 440px;
-      height: 90px;
       padding-left: 6px;
       margin-bottom: 30px;
 
@@ -70,27 +69,51 @@
   flex-shrink: 0;
 }
 
-@media(max-width: 576px) {
+@media(max-width: 600px) {
   .shoppingList {
     padding: $indent_small 0;
 
     .header {
-      padding-top: 20px;
+      padding-top: 5px;
+      justify-content: space-between;
+
+      .actions {
+        width: 100%;
+        align-items: flex-start;
+      }
     }
 
     .iconWrapper {
       right: 50%;
-      top: 20px;
+      top: 0px;
       transform: translate(50%);
     }
-  }
-
-  .cards {
-    padding-top: 60px;
   }
 
   .icon {
     width: 40px;
     height: 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  .shoppingList {
+    .header {
+      .actions {
+        flex-direction: column;
+        height: 80px;
+      }
+    }
+
+    .iconWrapper {
+      top: 10px;
+      right: 0;
+      transform: translate(0);
+    }
+  }
+
+  .icon {
+    width: 70px;
+    height: 70px;
   }
 }

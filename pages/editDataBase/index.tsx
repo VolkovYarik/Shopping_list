@@ -15,16 +15,16 @@ import { Category, Product } from "types/dataTypes";
 import Link from "next/link";
 import cn from "classnames";
 import { GetServerSideProps } from "next";
-import { Keys } from "../../types/serverSideTypes";
+import { Keys } from "types/serverSideTypes";
 
 interface EditDataBaseProps {
-   productsData: Product[];
+   allProductsData: Product[];
    categoriesData: Dictionary<Category>;
    categories: string[];
 }
 
-const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData, categories }) => {
-   const [products, setProducts] = useState<Product[] | []>(productsData);
+const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, categories }) => {
+   const [products, setProducts] = useState<Product[] | []>(allProductsData);
    const { dispatch, state } = useContext<ContextType>(Context);
    const [selectedCategory, setSelectedCategory] = useState('all');
    const [isDropdownCategoriesActive, setDropdownCategoriesActive] = useState(false)
@@ -91,7 +91,7 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData, cat
             </div>
          </aside>
          <div className={cn("container", "scrollable")}>
-            <section className={styles.editDataBase}>
+            <div className={styles.editDataBaseContent}>
                <div className={styles.header}>
                   <h2>
                      Here you can edit database of products
@@ -109,21 +109,21 @@ const EditDataBase: FC<EditDataBaseProps> = ({ productsData, categoriesData, cat
                      ))
                   }
                </div>
-            </section>
+            </div>
          </div>
       </MainLayout>
    );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-   const productsData = await getAllProducts();
+   const allProductsData = await getAllProducts();
    const allCategoriesData = await getAllCategories();
 
    const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
    const categories = allCategoriesData.map((element) => element.category)
 
    return {
-      props: { productsData, categoriesData, categories }
+      props: { allProductsData, categoriesData, categories }
    };
 };
 
