@@ -66,7 +66,10 @@ const AddCategory: FC = () => {
                         <input className={'inputText'} type={'text'}
                                onChange={e => setNewSubCategory(e.target.value)} value={newSubCategory} />
                         <div className={styles.addSubCategoryActions}>
-                           <button className={styles.addSubCategoryBtn} onClick={addSubCategory}>Add
+                           <button className={styles.addSubCategoryBtn} onClick={(e) => {
+                              e.preventDefault()
+                              addSubCategory()
+                           }}>Add
                            </button>
                            <button className={styles.deleteSubCategoryBtn}
                                    onClick={cleanupSubCategories}>

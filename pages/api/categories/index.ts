@@ -12,6 +12,9 @@ const handler: ApiQuery = async (req, res) => {
       case "POST": {
          return addCategory(req, res);
       }
+      default: {
+         res.status(405).end(`Method ${req.method} is not allowed`)
+      }
    }
 }
 

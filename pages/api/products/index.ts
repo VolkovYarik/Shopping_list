@@ -14,6 +14,9 @@ const handler: ApiQuery = async (req, res) => {
       case 'POST': {
          return addProduct(req, res);
       }
+      default: {
+         res.status(405).end(`Method ${req.method} is not allowed`)
+      }
    }
 }
 

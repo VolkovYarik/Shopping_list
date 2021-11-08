@@ -24,6 +24,10 @@ export const deleteProductByID = (id: string | number): Promise<any> => {
    return instance.delete(`/products/${id}`);
 };
 
+export const editProductByID = (id: string | number, body: ProductForm): Promise<any> => {
+   return instance.patch(`/products/${id}`, body);
+}
+
 export const getAllProducts = (): Promise<Product[]> => {
    return instance.get<ProductsResponse>('/products').then(res => res.data.data);
 };

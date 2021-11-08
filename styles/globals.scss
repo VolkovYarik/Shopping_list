@@ -7,7 +7,7 @@ body {
 }
 
 a:focus,
-:active {
+:active, input:active, :focus {
   outline: none;
 }
 
@@ -83,7 +83,6 @@ button {
       align-items: flex-start;
       width: 100%;
       margin-bottom: $indent_large;
-
 
       input {
         border-radius: $borderRadius_small;

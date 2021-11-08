@@ -7,7 +7,7 @@ interface DropdownProps {
    selectedValue: string;
    setDropdownActive: Dispatch<SetStateAction<boolean>>;
    data: string[];
-   setValue: Dispatch<SetStateAction<string>>
+   setValue: Dispatch<SetStateAction<string>> | { (value: string): void }
    isDropdownActive: boolean;
    withInitialValue: boolean;
 }

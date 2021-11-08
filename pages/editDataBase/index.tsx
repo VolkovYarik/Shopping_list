@@ -1,18 +1,8 @@
-import {
-   Context,
-   Dictionary,
-   dictionary,
-   Dropdown,
-   EditDatabaseProductsCard,
-   MainLayout,
-   removeFromStorage
-} from "components";
+import { Dictionary, dictionary, EditableProductsCard, MainLayout, Sidebar } from "components";
 import styles from 'styles/EditDataBase.module.scss';
-import React, { FC, ReactElement, useContext, useEffect, useState } from "react";
-import { deleteProductByID, getAllCategories, getAllProducts } from "axiosApi";
-import { ContextType } from "types/contextTypes";
+import React, { FC, ReactElement, useState } from "react";
+import { getAllCategories, getAllProducts } from "axiosApi";
 import { Category, Product } from "types/dataTypes";
-import Link from "next/link";
 import cn from "classnames";
 import { GetServerSideProps } from "next";
 import { Keys } from "types/serverSideTypes";
@@ -25,71 +15,24 @@ interface EditDataBaseProps {
 
 const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, categories }) => {
    const [products, setProducts] = useState<Product[] | []>(allProductsData);
-   const { dispatch, state } = useContext<ContextType>(Context);
    const [selectedCategory, setSelectedCategory] = useState('all');
-   const [isDropdownCategoriesActive, setDropdownCategoriesActive] = useState(false)
-   const [isDropdownSubCategoriesActive, setDropdownSubCategoriesActive] = useState(false)
    const [selectedSubCategory, setSelectedSubCategory] = useState('');
-   const [subCategories, setSubCategories] = useState<string[]>([]);
 
-   const deleteProduct = async (product: Product) => {
-      await deleteProductByID(product._id);
+   const updatingProductList = async (): Promise<void> => {
       const updatedProductsList: Product[] = await getAllProducts()
       setProducts(updatedProductsList);
-
-      if (state.storage.find((el) => el === product._id)) {
-         dispatch(removeFromStorage(product._id));
-      }
-   };
-
-   useEffect(() => {
-      setSelectedSubCategory('all');
-      setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
-   }, [selectedCategory]);
+   }
 
    return (
       <MainLayout title="Edit database">
-         <aside className={styles.sidebar}>
-            <div className={styles.sidebarLinks}>
-               <Link href="/editDataBase/addProduct">
-                  <a>
-                     Add new product
-                  </a>
-               </Link>
-               <Link href="/editDataBase/addCategory">
-                  <a>
-                     Add new category
-                  </a>
-               </Link>
-            </div>
-            <div className={styles.sidebarFilters}>
-               <span>Select category</span>
-               <Dropdown
-                  selectedValue={selectedCategory}
-                  setDropdownActive={setDropdownCategoriesActive}
-                  data={categories}
-                  setValue={setSelectedCategory}
-                  isDropdownActive={isDropdownCategoriesActive}
-                  withInitialValue={true}
-               />
-               {selectedCategory !== 'all' &&
-               <>
-                  <span>
-                        Select subcategory
-                  </span>
-                  <Dropdown
-                     selectedValue={selectedSubCategory}
-                     setDropdownActive={setDropdownSubCategoriesActive}
-                     data={subCategories}
-                     setValue={setSelectedSubCategory}
-                     isDropdownActive={isDropdownSubCategoriesActive}
-                     withInitialValue={true}
-                  />
-               </>
-               }
-
-            </div>
-         </aside>
+         <Sidebar
+            selectedCategory={selectedCategory}
+            categories={categories}
+            selectedSubCategory={selectedSubCategory}
+            setSelectedCategory={setSelectedCategory}
+            setSelectedSubCategory={setSelectedSubCategory}
+            categoriesData={categoriesData}
+         />
          <div className={cn("container", "scrollable")}>
             <div className={styles.editDataBaseContent}>
                <div className={styles.header}>
@@ -100,11 +43,15 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, 
                <div className={styles.content}>
                   {
                      products.map((item: Product): ReactElement => (
-                        <EditDatabaseProductsCard
-                           deleteProduct={deleteProduct}
-                           item={item} key={item._id}
+                        <EditableProductsCard
+                           setProducts={setProducts}
+                           item={item}
+                           key={item._id}
                            selectedCategory={selectedCategory}
                            selectedSubCategory={selectedSubCategory}
+                           categories={categories}
+                           categoriesData={categoriesData}
+                           updatingProductList={updatingProductList}
                         />
                      ))
                   }
@@ -112,7 +59,8 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, 
             </div>
          </div>
       </MainLayout>
-   );
+   )
+      ;
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {

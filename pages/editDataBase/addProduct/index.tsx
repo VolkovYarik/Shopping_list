@@ -36,7 +36,7 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData, categories }) => {
       setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
       setSelectedSubCategory(categoriesData[selectedCategory]?.subCategories[0]);
    }, [selectedCategory]);
-   
+
    const submitProduct = async (event: FormEvent) => {
       event.preventDefault();
       await createNewProduct(product);
@@ -73,7 +73,8 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData, categories }) => {
                         <Dropdown
                            selectedValue={selectedSubCategory}
                            setDropdownActive={setSubCategoriesDropdownActive}
-                           data={subCategories} setValue={setSelectedSubCategory}
+                           data={subCategories}
+                           setValue={setSelectedSubCategory}
                            isDropdownActive={isSubCategoriesDropdownActive}
                            withInitialValue={false}
                         />
