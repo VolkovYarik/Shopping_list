@@ -18,7 +18,7 @@
     "strict": true,
     "jsx": "preserve",
     "skipLibCheck": true,
-    "isolatedModules": false
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",

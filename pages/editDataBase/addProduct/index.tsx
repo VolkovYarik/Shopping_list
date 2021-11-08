@@ -79,6 +79,7 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData, categories }) => {
                            withInitialValue={false}
                         />
                      </div>
+
                      <div className={'formActions'}>
                         <button type="submit">Submit</button>
                         <Link href={'/editDataBase'}>
