@@ -1,16 +1,10 @@
 import { Category, Product } from "./dataTypes";
 
-enum Keys {
+export enum Keys {
    ID = "_id",
    CATEGORY = "category"
 }
 
-type Key = Keys.ID | Keys.CATEGORY
+export type Key = Keys.ID | Keys.CATEGORY
 
-type Data = Product | Category
-
-export {
-   Key,
-   Data,
-   Keys
-}
+export type Data = Product | Category

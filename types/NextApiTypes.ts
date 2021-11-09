@@ -1,7 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
+export type File = {
+   fieldname: string,
+   originalname: string,
+   encoding: string,
+   mimetype: string,
+   destination: string,
+   filename: string,
+   path: string,
+   size: number
+}
 
-type ApiQuery = (req: NextApiRequest, res: NextApiResponse) => Promise<void>
-
-export {
-   ApiQuery
+export type UploadApiRequest = {
+   file: File;
 }

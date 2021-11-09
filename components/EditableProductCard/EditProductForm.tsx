@@ -36,7 +36,7 @@ export const EditProductForm: FC<EditProductFormProps> =
       const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
       const [subCategories, setSubCategories] = useState<string[] | []>([]);
 
-      const submitUpdatedProduct = async (event: FormEvent) => {
+      const submitUpdatedProduct = async (event: FormEvent<HTMLFormElement>) => {
          event.preventDefault();
          setLoading(true);
          await editProductByID(item._id, currentProductState)

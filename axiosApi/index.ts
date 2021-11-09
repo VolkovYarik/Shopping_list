@@ -31,3 +31,11 @@ export const editProductByID = (id: string | number, body: ProductForm): Promise
 export const getAllProducts = (): Promise<Product[]> => {
    return instance.get<ProductsResponse>('/products').then(res => res.data.data);
 };
+
+export const uploadProductImage = (file: FormData): Promise<any> => {
+   return instance.put('/upload', file, {
+      headers: {
+         'content-type': 'multipart/form-data',
+      }
+   })
+}

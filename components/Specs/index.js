@@ -9,6 +9,7 @@ export {
    Todo,
    Plus,
    ArrowDown,
-   Home
+   Home,
+
 };
 

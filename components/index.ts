@@ -6,7 +6,7 @@ import { useOnClickOutside } from './Hooks/useOnClickOutside'
 import { MainLayout } from './MainLayout/MainLayout'
 import Portal from './Portal';
 import { ProductsCard } from './ProductCard/ProductsCard'
-import { ArrowDown, Basket, Home, Plus, Todo } from './Specs'
+import { ArrowDown, Basket, Cancel, Done, Home, Plus, Todo } from './Specs'
 import { StorageObserver } from './StorageObserver'
 import { addToStorage, clearStorage, removeFromStorage } from "./Context/storageReducer";
 import { Dictionary, dictionary } from "./Utils";
@@ -19,6 +19,8 @@ export {
    ArrowDown,
    Plus,
    Todo,
+   Cancel,
+   Done,
    Context,
    Dropdown,
    BasketModal,

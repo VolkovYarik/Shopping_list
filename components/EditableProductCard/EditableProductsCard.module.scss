@@ -11,6 +11,50 @@
 .productsCardFront {
   transform: perspective(600px) rotateX(0deg);
 
+  .imgWrapper {
+    height: 100px;
+    width: 100px;
+    position: relative;
+
+    img {
+      border-radius: $borderRadius_small 0 0 $borderRadius_small;
+    }
+
+    form {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      label {
+        position: absolute;
+        right: 12px;
+        bottom: 8px;
+
+        .icon {
+          width: 20px;
+          height: 20px;
+          fill: $commonColor_green
+        }
+      }
+
+      input {
+        display: none;
+      }
+
+      .uploadActions {
+        width: 100%;
+        height: 100%;
+        @include flexible_row(space-between, flex-end);
+        background-color: transparent;
+        padding: 0 10px 8px;
+
+        button {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
   &.toggled {
     transform: perspective(600px) rotateX(-180deg);
   }
@@ -36,16 +80,6 @@
   backface-visibility: hidden;
   transition: transform .3s linear;
   position: absolute;
-
-  .imgWrapper {
-    height: 100px;
-    width: 100px;
-    position: relative;
-
-    img {
-      border-radius: $borderRadius_small 0 0 $borderRadius_small;
-    }
-  }
 
   .productsCardInfo {
     width: 20%;

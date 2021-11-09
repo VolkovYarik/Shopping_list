@@ -1,14 +1,16 @@
 import Image from "next/image";
 import noImage from "assets/noImage.jpg";
-import React, { Dispatch, FC, useContext, useState } from "react";
+import React, { Dispatch, FC, FormEvent, useContext, useState } from "react";
 import { Category, Product } from "types/dataTypes";
 import styles from './EditableProductsCard.module.scss'
 import cn from 'classnames'
-import { Context, Dictionary, Edit, removeFromStorage } from "../index";
+import { Context, Dictionary, Edit, Plus, removeFromStorage } from "../index";
 import { ProductForm } from "types/axiosApiTypes";
-import { deleteProductByID } from "axiosApi";
+import { deleteProductByID, uploadProductImage } from "axiosApi";
 import { ContextType } from "types/contextTypes";
 import { EditProductForm } from "./EditProductForm";
+import checkIcon from 'assets/check.png'
+import cancel from 'assets/cancel.png'
 
 interface EditDatabaseProductCardProps {
    item: Product;
@@ -38,6 +40,28 @@ export const EditableProductsCard: FC<EditDatabaseProductCardProps> =
          class: item.class
       })
 
+      const [file, setFile] = useState<string | Blob>('')
+
+      const fileHandler = (event: FormEvent<HTMLInputElement>) => {
+         event.preventDefault()
+         if (event.currentTarget.files !== null) {
+            setFile(event.currentTarget.files[0])
+         }
+      }
+
+      const clearUploading = (event: FormEvent) => {
+         event.preventDefault()
+         setFile('')
+      }
+
+      const uploadImage = async (event: FormEvent<HTMLFormElement>) => {
+         event.preventDefault()
+         const data: FormData = new FormData();
+         data.append('file', file!)
+
+         await uploadProductImage(data)
+      }
+
       const deleteProduct = async (product: Product) => {
          setLoading(true);
          await deleteProductByID(product._id)
@@ -62,7 +86,23 @@ export const EditableProductsCard: FC<EditDatabaseProductCardProps> =
             <div className={cn(styles.loader, { [styles.active]: isLoading })}>Deleting</div>
             <div className={cn(styles.productsCardFront, { [styles.toggled]: isToggled })} key={item._id}>
                <div className={styles.imgWrapper}>
-                  <Image src={noImage} layout={'fill'} />
+                  <Image src={file ? URL.createObjectURL(file) : noImage} layout={'fill'} />
+                  <form onSubmit={uploadImage}>
+                     {file
+                        ?
+                        <div className={styles.uploadActions}>
+                           <button type={'submit'}><Image src={checkIcon} width={20} height={20} /></button>
+                           <button onClick={clearUploading}><Image src={cancel} width={20} height={20} /></button>
+                        </div>
+                        :
+                        <>
+                           <input id={item._id} type='file' onChange={fileHandler} />
+                           <label htmlFor={item._id} className="custom-file-upload">
+                              <Plus className={styles.icon} />
+                           </label>
+                        </>
+                     }
+                  </form>
                </div>
                <div className={styles.productsCardInfo}>{item.name}</div>
                <div className={styles.productsCardInfo}>{item.category}</div>

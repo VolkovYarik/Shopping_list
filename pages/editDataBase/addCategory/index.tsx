@@ -37,7 +37,7 @@ const AddCategory: FC = () => {
       });
    };
 
-   const submit = async (event: FormEvent) => {
+   const submit = async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (newCategory.category.length === 0) {
          return;

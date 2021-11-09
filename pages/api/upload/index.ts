@@ -1,7 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { File, UploadApiRequest } from "types/NextApiTypes";
+import nextConnect from "next-connect";
 
+const multer = require('multer')
 const { connectToDatabase } = require('../../../lib/mongodb');
-const nextConnect = require('next-connect');
+
+const upload = multer({
+   storage: multer.diskStorage({
+      destination: './public/uploads',
+      filename: (req: NextApiRequest, file: File, cb: (error: Error | null, destination: string) => void) => cb(null, file.originalname),
+   }),
+});
 
 const handler = nextConnect({
    onError(error: any, req: NextApiRequest, res: NextApiResponse) {
@@ -11,30 +20,13 @@ const handler = nextConnect({
       res.status(405).json({ error: `Method '${req.method}' is not allowed` });
    },
 })
-   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-      try {
-         let { db } = await connectToDatabase();
-         let products = await db
-            .collection('products')
-            .find({})
-            .sort({ published: -1 })
-            .toArray();
-         return res.json({
-            data: JSON.parse(JSON.stringify(products)),
-            success: true,
-         });
 
-      } catch (error: any) {
-         return res.json({
-            message: new Error(error).message,
-            success: false,
-         });
-      }
-   })
-   .post(async (req: NextApiRequest, res: NextApiResponse) => {
+   .use(upload.single('file'))
+
+   .put(async (req: UploadApiRequest, res) => {
       try {
          let { db } = await connectToDatabase();
-         await db.collection('products').insertOne(req.body);
+         await db.collection('products').insertOne({ path: req.file.path });
 
          return res.json({
             message: "Product added successfully",
@@ -46,7 +38,11 @@ const handler = nextConnect({
             success: false
          });
       }
-   })
+   });
 
-
-export default handler
+export default handler;
+export const config = {
+   api: {
+      bodyParser: false,
+   },
+};
