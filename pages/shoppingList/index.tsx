@@ -2,9 +2,9 @@ import {
    addToStorage,
    Basket,
    BasketModal,
+   BasketProductCard,
    clearStorage,
    Context,
-   Dictionary,
    dictionary,
    Dropdown,
    MainLayout,
@@ -15,8 +15,8 @@ import {
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useContext, useEffect, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi/";
-import { ContextType } from "../../types/contextTypes";
-import { Category, Product } from 'types/dataTypes'
+import { ContextType } from "types/contextTypes";
+import { Category, Dictionary, Product } from 'types/dataTypes'
 import { GetServerSideProps } from "next";
 import { Keys } from "types/serverSideTypes";
 
@@ -25,7 +25,6 @@ interface ShoppingListProps {
    categoriesData: Dictionary<Category>;
    categories: string[];
 }
-
 
 export type UpdateBasket = (product: Product) => void
 
@@ -114,12 +113,17 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
          </div>
          <Portal>
             <BasketModal
-               basket={basket}
                isModalActive={isModalActive}
                setModalActive={setModalActive}
-               removeFromBasket={removeFromBasket}
                cleanupBasket={cleanupBasket}
-            />
+            >
+               {basket.map((item) =>
+                  <BasketProductCard
+                     removeFromBasket={removeFromBasket}
+                     item={item}
+                     key={item._id}
+                  />)}
+            </BasketModal>
          </Portal>
       </MainLayout>
    );

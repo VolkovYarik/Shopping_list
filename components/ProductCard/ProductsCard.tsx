@@ -17,6 +17,8 @@ interface ProductsCardProps {
    addToBasket: UpdateBasket
 }
 
+const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
+
 export const ProductsCard: FC<ProductsCardProps> =
    ({
        item,
@@ -28,6 +30,7 @@ export const ProductsCard: FC<ProductsCardProps> =
     }) => {
       const [isSelected, setSelected] = useState(false);
       const { state } = useContext<ContextType>(Context);
+      const productImage = item.image !== undefined ? DEV_URL + item.image : noImage;
 
       useEffect(() => {
          if (state.storage.find((el) => el === item._id)) {
@@ -60,7 +63,7 @@ export const ProductsCard: FC<ProductsCardProps> =
             <div onClick={changeBasket}
                  className={cn(styles.productsCard, { [styles.selected]: isSelected })}>
                <div className={styles.imgWrapper}>
-                  <Image src={noImage} layout={'fill'} />
+                  <Image src={item.image ? productImage : noImage} layout={'fill'} />
                </div>
                <div className={cn(styles.productsName, { [styles.selected]: isSelected })}><span>{item.name}</span>
                </div>

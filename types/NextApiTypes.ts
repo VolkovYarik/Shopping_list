@@ -1,3 +1,5 @@
+import { NextApiRequest } from "next";
+
 export type File = {
    fieldname: string,
    originalname: string,
@@ -9,6 +11,6 @@ export type File = {
    size: number
 }
 
-export type UploadApiRequest = {
+export interface UploadApiRequest extends NextApiRequest {
    file: File;
 }

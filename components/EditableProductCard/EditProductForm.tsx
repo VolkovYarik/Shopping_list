@@ -2,8 +2,8 @@ import styles from "./EditableProductsCard.module.scss";
 import React, { Dispatch, FC, FormEvent, SetStateAction, useEffect, useState } from "react";
 import { editProductByID } from "axiosApi";
 import { ProductForm } from "types/axiosApiTypes";
-import { Category, Product } from "types/dataTypes";
-import { Dictionary, Dropdown } from "../index";
+import { Category, Dictionary, Product } from "types/dataTypes";
+import { Dropdown } from "../index";
 
 interface EditProductFormProps {
    setToggled: Dispatch<SetStateAction<boolean>>;

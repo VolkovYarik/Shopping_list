@@ -1,8 +1,8 @@
-import { Dictionary, dictionary, EditableProductsCard, MainLayout, Sidebar } from "components";
+import { dictionary, EditableProductsCard, MainLayout, Sidebar } from "components";
 import styles from 'styles/EditDataBase.module.scss';
 import React, { FC, ReactElement, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi";
-import { Category, Product } from "types/dataTypes";
+import { Category, Dictionary, Product } from "types/dataTypes";
 import cn from "classnames";
 import { GetServerSideProps } from "next";
 import { Keys } from "types/serverSideTypes";
@@ -44,7 +44,6 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, 
                   {
                      products.map((item: Product): ReactElement => (
                         <EditableProductsCard
-                           setProducts={setProducts}
                            item={item}
                            key={item._id}
                            selectedCategory={selectedCategory}

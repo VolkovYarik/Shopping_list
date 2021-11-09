@@ -1,17 +1,17 @@
-type Product = {
+export type Product = {
    _id: any;
    name: string;
    category: string;
    class: string;
+   image?: string
 }
 
-type Category = {
+export interface Dictionary<T extends object> {
+   [key: string]: T;
+}
+
+export type Category = {
    _id: any;
    category: string;
    subCategories: string[]
-}
-
-export {
-   Product,
-   Category,
 }

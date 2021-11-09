@@ -2,8 +2,7 @@ import styles from "./Sidebar.module.scss";
 import Link from "next/link";
 import { Dropdown } from "../Dropdown/Dropdown";
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { Category } from "types/dataTypes";
-import { Dictionary } from "../Utils";
+import { Category, Dictionary } from "types/dataTypes";
 
 interface SidebarProps {
    selectedCategory: string;

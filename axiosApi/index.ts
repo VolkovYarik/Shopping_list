@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Category, Product } from "../types/dataTypes";
+import { Category, Product } from "types/dataTypes";
 import { CategoriesResponse, CategoryForm, ProductForm, ProductsResponse } from "types/axiosApiTypes";
 
 const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
@@ -32,8 +32,8 @@ export const getAllProducts = (): Promise<Product[]> => {
    return instance.get<ProductsResponse>('/products').then(res => res.data.data);
 };
 
-export const uploadProductImage = (file: FormData): Promise<any> => {
-   return instance.put('/upload', file, {
+export const uploadProductImage = (file: FormData, id: string | number): Promise<any> => {
+   return instance.put(`/upload/${id}`, file, {
       headers: {
          'content-type': 'multipart/form-data',
       }

@@ -4,11 +4,13 @@ import nextConnect from "next-connect";
 
 const multer = require('multer')
 const { connectToDatabase } = require('../../../lib/mongodb');
+const ObjectId = require('mongodb').ObjectId;
 
 const upload = multer({
    storage: multer.diskStorage({
       destination: './public/uploads',
-      filename: (req: NextApiRequest, file: File, cb: (error: Error | null, destination: string) => void) => cb(null, file.originalname),
+      filename: (req: NextApiRequest, file: File, cb: (error: Error | null, destination: string) => void) =>
+         cb(null, file.originalname.replace(/\s/g, '')),
    }),
 });
 
@@ -26,7 +28,13 @@ const handler = nextConnect({
    .put(async (req: UploadApiRequest, res) => {
       try {
          let { db } = await connectToDatabase();
-         await db.collection('products').insertOne({ path: req.file.path });
+         const filename = req.file.path.replace(/\s/g, '').replace('public', '')
+         await db.collection('products').updateOne(
+            {
+               _id: new ObjectId(req.query.id)
+            },
+            { $set: { image: filename } }
+         );
 
          return res.json({
             message: "Product added successfully",

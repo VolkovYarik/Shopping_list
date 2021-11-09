@@ -1,9 +1,9 @@
-import { Dictionary, dictionary, Dropdown, MainLayout } from "components";
+import { dictionary, Dropdown, MainLayout } from "components";
 import Link from "next/link";
 import React, { FC, FormEvent, useEffect, useState } from "react";
-import { createNewProduct, getAllCategories, uploadProductImage } from "axiosApi";
+import { createNewProduct, getAllCategories } from "axiosApi";
 import { useRouter } from "next/router";
-import { Category } from "types/dataTypes";
+import { Category, Dictionary } from "types/dataTypes";
 import { GetStaticProps } from "next";
 import { ProductForm } from "types/axiosApiTypes";
 import { Keys } from "types/serverSideTypes";

@@ -1,4 +1,5 @@
 import { BasketModal } from './BasketModal/BasketModal'
+import { BasketProductCard } from "./BasketModal/BasketProductCard";
 import { Context, Provider } from './Context'
 import { Dropdown } from './Dropdown/Dropdown'
 import { EditableProductsCard } from './EditableProductCard/EditableProductCard'
@@ -6,7 +7,7 @@ import { useOnClickOutside } from './Hooks/useOnClickOutside'
 import { MainLayout } from './MainLayout/MainLayout'
 import Portal from './Portal';
 import { ProductsCard } from './ProductCard/ProductsCard'
-import { ArrowDown, Basket, Cancel, Done, Home, Plus, Todo } from './Specs'
+import { ArrowDown, Basket, Home, Plus, Todo } from './Specs'
 import { StorageObserver } from './StorageObserver'
 import { addToStorage, clearStorage, removeFromStorage } from "./Context/storageReducer";
 import { Dictionary, dictionary } from "./Utils";
@@ -15,12 +16,11 @@ import { Edit } from "./Specs/Edit.js"
 
 export {
    Basket,
+   BasketProductCard,
    Home,
    ArrowDown,
    Plus,
    Todo,
-   Cancel,
-   Done,
    Context,
    Dropdown,
    BasketModal,

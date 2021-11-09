@@ -1,8 +1,6 @@
 import { Data, Key, Keys } from "types/serverSideTypes";
+import { Dictionary } from "types/dataTypes";
 
-interface Dictionary<T extends object> {
-   [key: string]: T;
-}
 
 const dictionary = (data: Data[], key: Key) => {
    return data.reduce((acc: Dictionary<Data>, item): Dictionary<Data> => {
@@ -18,5 +16,4 @@ const dictionary = (data: Data[], key: Key) => {
 
 export {
    dictionary,
-   Dictionary
 };
