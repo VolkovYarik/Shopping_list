@@ -5,11 +5,34 @@
   width: 100%;
   height: 100px;
   margin-bottom: 10px;
+}
 
+.flipperFrontSide, .flipperBackSide {
+  width: 100%;
+  transition: transform .3s linear;
+  position: absolute;
+  backface-visibility: hidden;
+  height: 100%;
+}
+
+.flipperFrontSide {
+  transform: perspective(600px) rotateX(0deg);
+
+  &.toggled {
+    transform: perspective(600px) rotateX(-180deg);
+  }
+}
+
+.flipperBackSide {
+  transform: perspective(600px) rotateX(180deg);
+
+  &.toggled {
+    transform: perspective(600px) rotateX(0deg);
+    z-index: 20;
+  }
 }
 
 .productsCardFront {
-  transform: perspective(600px) rotateX(0deg);
 
   .imgWrapper {
     height: 100px;
@@ -54,32 +77,16 @@
       }
     }
   }
-
-  &.toggled {
-    transform: perspective(600px) rotateX(-180deg);
-  }
 }
 
-.productsCardBack {
-  transform: perspective(600px) rotateX(180deg);
-
-  &.toggled {
-    transform: perspective(600px) rotateX(0deg);
-    z-index: 20;
-  }
-}
 
 .productsCardFront, .productsCardBack {
-  width: 100%;
-  height: 100%;
   @include flexible_row(space-between, center);
   background-color: #fff;
   margin-bottom: $indent_large;
   padding-right: $indent_small;
   border-radius: $borderRadius_small;
-  backface-visibility: hidden;
-  transition: transform .3s linear;
-  position: absolute;
+  height: 100%;
 
   .productsCardInfo {
     width: 20%;
@@ -111,7 +118,6 @@
 
 .productsCardBack {
   padding: $indent_small;
-  position: relative;
 }
 
 .loader {
