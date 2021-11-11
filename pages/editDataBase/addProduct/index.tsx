@@ -1,47 +1,37 @@
-import { dictionary, Dropdown, MainLayout } from "components";
+import { dictionary, Dropdown, MainLayout, useProductAttributes } from "components";
 import Link from "next/link";
-import React, { FC, FormEvent, useEffect, useState } from "react";
+import React, { FC, FormEvent, useState } from "react";
 import { createNewProduct, getAllCategories } from "axiosApi";
 import { useRouter } from "next/router";
 import { Category, Dictionary } from "types/dataTypes";
 import { GetStaticProps } from "next";
-import { ProductForm } from "types/axiosApiTypes";
 import { Keys } from "types/serverSideTypes";
 
 interface AddProductProps {
    categoriesData: Dictionary<Category>;
-   categories: string[];
 }
 
-const AddProduct: FC<AddProductProps> = ({ categoriesData, categories }) => {
-   const [subCategories, setSubCategories] = useState<string[] | []>([]);
+const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
    const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
    const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
-   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-   const [selectedSubCategory, setSelectedSubCategory] = useState(categoriesData[selectedCategory].subCategories[0]);
-
-   const [product, setProduct] = useState<ProductForm>({
-      name: '',
-      category: selectedCategory,
-      class: selectedSubCategory,
-   });
 
    const router = useRouter();
 
-   useEffect(() => {
-      setProduct((prev) => ({ ...prev, category: selectedCategory, class: selectedSubCategory }));
-   }, [selectedCategory, selectedSubCategory]);
-
-   useEffect(() => {
-      setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
-      setSelectedSubCategory(categoriesData[selectedCategory]?.subCategories[0]);
-   }, [selectedCategory]);
-
    const submitProduct = async (event: FormEvent) => {
       event.preventDefault();
-      await createNewProduct(product);
+      await createNewProduct(currentProductState);
       await router.push('/editDataBase');
    };
+
+   const {
+      currentProductState,
+      productNameHandler,
+      selectedSubCategory,
+      subCategories,
+      setSelectedSubCategory,
+      selectedCategory,
+      setSelectedCategory
+   } = useProductAttributes(categoriesData, true);
 
    return (
       <MainLayout title="Add product">
@@ -55,15 +45,16 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData, categories }) => {
                   <form className={'form'} onSubmit={submitProduct}>
                      <div className={'inputWrapper'}>
                         <span className={'inputLabel'}>Name</span>
-                        <input className={'inputText'} type="text" value={product.name}
-                               onChange={e => setProduct({ ...product, name: e.target.value })} />
+                        <input className={'inputText'} type="text" value={currentProductState.name}
+                               onChange={productNameHandler} />
                      </div>
                      <div className={'inputWrapper'}>
                         <span className={'inputLabel'}>Category</span>
                         <Dropdown
                            selectedValue={selectedCategory}
                            setDropdownActive={setCategoriesDropdownActive}
-                           data={categories} setValue={setSelectedCategory}
+                           data={Object.keys(categoriesData)}
+                           setValue={setSelectedCategory}
                            isDropdownActive={isCategoriesDropdownActive}
                            withInitialValue={false}
                         />
@@ -102,12 +93,10 @@ export default AddProduct;
 export const getStaticProps: GetStaticProps = async () => {
    const allCategoriesData = await getAllCategories();
 
-   const categories = allCategoriesData.map((element) => element.category)
    const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
 
    return {
       props: {
-         categories,
          categoriesData
       }
    };

@@ -10,9 +10,10 @@ import { ProductsCard } from './ProductCard/ProductsCard'
 import { ArrowDown, Basket, Home, Plus, Todo } from './Specs'
 import { StorageObserver } from './StorageObserver'
 import { addToStorage, clearStorage, removeFromStorage } from "./Context/storageReducer";
-import { Dictionary, dictionary } from "./Utils";
 import { Sidebar } from "./Sidebar/Sidebar";
-import { Edit } from "./Specs/Edit.js"
+import { Edit } from "./Specs/Edit.js";
+import { cleanupFileUploading, dictionary, fileHandler } from "./Utils";
+import {useProductAttributes} from './Hooks/useProductAttributes'
 
 export {
    Basket,
@@ -34,8 +35,10 @@ export {
    clearStorage,
    removeFromStorage,
    Provider,
-   Dictionary,
    dictionary,
+   fileHandler,
+   cleanupFileUploading,
    Sidebar,
-   Edit
+   Edit,
+   useProductAttributes
 }

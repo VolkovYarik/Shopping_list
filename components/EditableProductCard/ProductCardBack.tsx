@@ -1,49 +1,52 @@
-import React, { Dispatch, FC, FormEvent, MouseEventHandler, SetStateAction, useEffect, useState } from "react";
-import { ProductForm } from "types/axiosApiTypes";
+import React, { Dispatch, FC, FormEvent, MouseEventHandler, SetStateAction, useState } from "react";
 import { Category, Dictionary, Product } from "types/dataTypes";
 import cn from "classnames";
 import styles from "./EditableProductsCard.module.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
+import { editProductByID } from "axiosApi";
+import { useProductAttributes } from "components";
 
 interface ProductCardBackProps {
-   setCurrentProductState: Dispatch<SetStateAction<ProductForm>>
-   currentProductState: ProductForm;
    item: Product;
-   categories: string[];
    categoriesData: Dictionary<Category>
-   isLoading: boolean;
-   submitUpdatedProduct: { (event: FormEvent<HTMLFormElement>): Promise<void> }
-   toggleHandler: MouseEventHandler<HTMLButtonElement>
+   updatingProductList: { (): Promise<void> };
+   toggleHandler: MouseEventHandler<HTMLButtonElement>;
+   setToggled: Dispatch<SetStateAction<boolean>>;
 }
 
 export const ProductCardBack: FC<ProductCardBackProps> =
    ({
        toggleHandler,
-       currentProductState,
-       setCurrentProductState,
-       categories,
-       submitUpdatedProduct,
-       isLoading,
        item,
        categoriesData,
-
+       updatingProductList,
+       setToggled,
     }) => {
 
-      const [selectedCategory, setSelectedCategory] = useState<string>(item.category)
-      const [selectedSubCategory, setSelectedSubCategory] = useState<string>(item.class)
+      const [isLoading, setLoading] = useState(false);
       const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
       const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
-      const [subCategories, setSubCategories] = useState<string[] | []>([]);
 
+      const submitUpdatedProduct = async (event: FormEvent<HTMLFormElement>) => {
+         event.preventDefault();
+         setLoading(true);
+         await editProductByID(item._id, currentProductState)
+         await updatingProductList()
+            .finally(() => {
+               setLoading(false)
+            });
+         setToggled(false)
+      }
 
-      useEffect(() => {
-         setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
-         setSelectedSubCategory(categoriesData[selectedCategory]?.subCategories[0]);
-      }, [selectedCategory]);
-
-      useEffect(() => {
-         setCurrentProductState((prev) => ({ ...prev, category: selectedCategory, class: selectedSubCategory }));
-      }, [selectedCategory, selectedSubCategory]);
+      const {
+         currentProductState,
+         productNameHandler,
+         selectedSubCategory,
+         subCategories,
+         setSelectedSubCategory,
+         selectedCategory,
+         setSelectedCategory
+      } = useProductAttributes(categoriesData, true, item);
 
       return (
          <div className={styles.productsCardBack}>
@@ -53,7 +56,7 @@ export const ProductCardBack: FC<ProductCardBackProps> =
                   <span>Name</span>
                   <input
                      value={currentProductState.name}
-                     onChange={e => setCurrentProductState({ ...currentProductState, name: e.target.value })}
+                     onChange={productNameHandler}
                      type={"text"}
                      className={styles.input}
                   />
@@ -63,7 +66,7 @@ export const ProductCardBack: FC<ProductCardBackProps> =
                   <Dropdown
                      selectedValue={selectedCategory}
                      setDropdownActive={setCategoriesDropdownActive}
-                     data={categories}
+                     data={Object.keys(categoriesData)}
                      setValue={setSelectedCategory}
                      isDropdownActive={isCategoriesDropdownActive}
                      withInitialValue={false}

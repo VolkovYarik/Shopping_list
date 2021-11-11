@@ -10,7 +10,8 @@ import {
    MainLayout,
    Portal,
    ProductsCard,
-   removeFromStorage
+   removeFromStorage,
+   useProductAttributes
 } from 'components'
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useContext, useEffect, useState } from "react";
@@ -23,15 +24,11 @@ import { Keys } from "types/serverSideTypes";
 interface ShoppingListProps {
    productsData: Dictionary<Product>;
    categoriesData: Dictionary<Category>;
-   categories: string[];
 }
 
 export type UpdateBasket = (product: Product) => void
 
-const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, categories }) => {
-   const [selectedCategory, setSelectedCategory] = useState('all');
-   const [selectedSubCategory, setSelectedSubCategory] = useState('');
-   const [subCategories, setSubCategories] = useState<string[]>([]);
+const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) => {
    const [isModalActive, setModalActive] = useState(false);
    const [basket, setBasket] = useState<Product[] | []>([]);
    const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
@@ -53,10 +50,13 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
       setBasket([]);
    };
 
-   useEffect(() => {
-      setSelectedSubCategory('all');
-      setSubCategories(categoriesData[selectedCategory]?.subCategories || []);
-   }, [selectedCategory]);
+   const {
+      selectedCategory,
+      setSelectedCategory,
+      selectedSubCategory,
+      setSelectedSubCategory,
+      subCategories
+   } = useProductAttributes(categoriesData, false)
 
    useEffect(() => {
       setBasket(state.storage.map((element) => productsData[element]));
@@ -72,7 +72,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData, cat
                         <Dropdown
                            selectedValue={selectedCategory}
                            setDropdownActive={setCategoriesDropdownActive}
-                           data={categories}
+                           data={Object.keys(categoriesData)}
                            setValue={setSelectedCategory}
                            isDropdownActive={isCategoriesDropdownActive}
                            withInitialValue={true}
@@ -135,10 +135,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
    const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
    const productsData = dictionary(allProductsData, Keys.ID)
-   const categories = allCategoriesData.map((element) => element.category)
 
    return {
-      props: { productsData, categoriesData, categories },
+      props: { productsData, categoriesData },
    };
 };
 
