@@ -6,15 +6,14 @@ import noImage from 'assets/noImage.jpg';
 import { Product } from "types/dataTypes";
 import { ContextType } from "types/contextTypes";
 import { Context } from "../Context";
-import { UpdateBasket } from "pages/shoppingList";
+import { UpdateBasket, UpdateTypes } from "types/hooksTypes";
 
 interface ProductsCardProps {
-   item: Product
-   selectedCategory: string
-   selectedSubCategory: string
-   basket: Product[] | []
-   removeFromBasket: UpdateBasket
-   addToBasket: UpdateBasket
+   item: Product;
+   selectedCategory: string;
+   selectedSubCategory: string;
+   basket: Product[] | [];
+   updateBasket: UpdateBasket;
 }
 
 const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
@@ -25,8 +24,7 @@ export const ProductsCard: FC<ProductsCardProps> =
        selectedCategory,
        selectedSubCategory,
        basket,
-       removeFromBasket,
-       addToBasket
+       updateBasket
     }) => {
       const [isSelected, setSelected] = useState(false);
       const { state } = useContext<ContextType>(Context);
@@ -45,9 +43,9 @@ export const ProductsCard: FC<ProductsCardProps> =
       const changeBasket = () => {
          setSelected(!isSelected);
          if (!isSelected) {
-            addToBasket(item);
+            updateBasket(UpdateTypes.ADD_PRODUCT, item);
          } else {
-            removeFromBasket(item);
+            updateBasket(UpdateTypes.REMOVE_PRODUCT, item);
          }
       };
 

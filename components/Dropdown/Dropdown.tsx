@@ -1,26 +1,24 @@
-import { Dispatch, FC, SetStateAction, useRef } from "react";
+import { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 import styles from './Dropdown.module.scss'
 import cn from 'classnames'
 import { ArrowDown, useOnClickOutside } from "components";
 
 interface DropdownProps {
    selectedValue: string;
-   setDropdownActive: Dispatch<SetStateAction<boolean>>;
    data: string[];
    setValue: Dispatch<SetStateAction<string>> | { (value: string): void }
-   isDropdownActive: boolean;
    withInitialValue: boolean;
 }
 
 export const Dropdown: FC<DropdownProps> =
    ({
-       setDropdownActive,
-       isDropdownActive,
        selectedValue,
        data,
        setValue,
        withInitialValue,
     }) => {
+
+      const [isDropdownActive, setDropdownActive] = useState(false)
 
       const ref = useRef(null);
 

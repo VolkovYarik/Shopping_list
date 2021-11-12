@@ -2,22 +2,22 @@ import styles from './BasketModal.module.scss';
 import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
 import cn from 'classnames';
 import { useOnClickOutside } from "components";
+import { UpdateBasket, UpdateTypes } from "types/hooksTypes";
 
 interface BasketModalProps {
-   cleanupBasket: () => void;
+   updateBasket: UpdateBasket;
    isModalActive: boolean,
    setModalActive: Dispatch<SetStateAction<boolean>>
 }
 
 export const BasketModal: FC<BasketModalProps> =
    ({
-       cleanupBasket,
+       updateBasket,
        isModalActive,
        setModalActive,
        children
     }) => {
       const ref = useRef(null);
-
 
       useOnClickOutside(ref, () => setModalActive(false));
 
@@ -44,7 +44,10 @@ export const BasketModal: FC<BasketModalProps> =
                <div className={styles.modalActions}>
                   <button>Save this bucket</button>
                   <button onClick={() => setModalActive(false)}>Close</button>
-                  <button onClick={cleanupBasket}>Delete all</button>
+                  <button onClick={(event) => {
+                     event.preventDefault()
+                     updateBasket(UpdateTypes.CLEANUP_BASKET)
+                  }}>Delete all</button>
                </div>
             </div>
          </div>

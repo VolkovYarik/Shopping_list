@@ -1,4 +1,4 @@
-import { dictionary, EditableProductsCard, MainLayout, Sidebar } from "components";
+import { dictionary, Dropdown, EditableProductsCard, MainLayout, Sidebar, useProductAttributes } from "components";
 import styles from 'styles/EditDataBase.module.scss';
 import React, { FC, ReactElement, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi";
@@ -10,29 +10,47 @@ import { Keys } from "types/serverSideTypes";
 interface EditDataBaseProps {
    allProductsData: Product[];
    categoriesData: Dictionary<Category>;
-   categories: string[];
 }
 
-const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, categories }) => {
+const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData }) => {
    const [products, setProducts] = useState<Product[] | []>(allProductsData);
-   const [selectedCategory, setSelectedCategory] = useState('all');
-   const [selectedSubCategory, setSelectedSubCategory] = useState('');
 
    const updatingProductList = async (): Promise<void> => {
       const updatedProductsList: Product[] = await getAllProducts()
       setProducts(updatedProductsList);
    }
 
+   const {
+      selectedCategory,
+      setSelectedCategory,
+      selectedSubCategory,
+      setSelectedSubCategory,
+      subCategories
+   } = useProductAttributes(categoriesData, false)
+
    return (
       <MainLayout title="Edit database">
-         <Sidebar
-            selectedCategory={selectedCategory}
-            categories={categories}
-            selectedSubCategory={selectedSubCategory}
-            setSelectedCategory={setSelectedCategory}
-            setSelectedSubCategory={setSelectedSubCategory}
-            categoriesData={categoriesData}
-         />
+         <Sidebar>
+            <span>Select category</span>
+            <Dropdown
+               selectedValue={selectedCategory}
+               data={Object.keys(categoriesData)}
+               setValue={setSelectedCategory}
+               withInitialValue={true}
+            />
+            {
+               selectedCategory !== 'all' &&
+               <>
+                  <span>Select subcategory</span>
+                  <Dropdown
+                     selectedValue={selectedSubCategory}
+                     data={subCategories}
+                     setValue={setSelectedSubCategory}
+                     withInitialValue={true}
+                  />
+               </>
+            }
+         </Sidebar>
          <div className={cn("container", "scrollable")}>
             <div className={styles.editDataBaseContent}>
                <div className={styles.header}>
@@ -48,7 +66,6 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, 
                            key={item._id}
                            selectedCategory={selectedCategory}
                            selectedSubCategory={selectedSubCategory}
-                           categories={categories}
                            categoriesData={categoriesData}
                            updatingProductList={updatingProductList}
                         />
@@ -58,8 +75,7 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData, 
             </div>
          </div>
       </MainLayout>
-   )
-      ;
+   );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -67,10 +83,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
    const allCategoriesData = await getAllCategories();
 
    const categoriesData = dictionary(allCategoriesData, Keys.CATEGORY);
-   const categories = allCategoriesData.map((element) => element.category)
 
    return {
-      props: { allProductsData, categoriesData, categories }
+      props: { allProductsData, categoriesData }
    };
 };
 

@@ -18,12 +18,16 @@
 
   .homeCard {
     @include flexible_column();
-    background-color: $commonColor_primary;
+    background-color: $commonColor_secondary;
     margin: 30px 20px 0;
     min-width: 250px;
     padding-bottom: 20px;
     border-radius: 8px;
     cursor: pointer;
+
+    &:active {
+      transform: translateY(3px);
+    }
 
     .icon {
       width: 100px;

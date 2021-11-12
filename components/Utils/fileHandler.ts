@@ -1,13 +1,14 @@
-import { Dispatch, FormEvent, SetStateAction } from "react";
+import { FileHandlerActionButton, FileHandlerInput } from 'types/utilsTypes'
 
-const fileHandler = (event: FormEvent<HTMLInputElement>, setFile: Dispatch<SetStateAction<Blob | string>>): void => {
+
+const fileHandler: FileHandlerInput = (event, setFile) => {
    event.preventDefault()
    if (event.currentTarget.files !== null) {
       setFile(event.currentTarget.files[0])
    }
 }
 
-const cleanupFileUploading = (event: FormEvent, setFile: Dispatch<SetStateAction<Blob | string>>) => {
+const cleanupFileUploading: FileHandlerActionButton = (event, setFile) => {
    event.preventDefault()
    setFile('')
 }

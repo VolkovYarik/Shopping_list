@@ -3,16 +3,16 @@ import { FC } from "react";
 import { Product } from "types/dataTypes";
 import Image from "next/image";
 import noImage from "assets/noImage.jpg";
-import { UpdateBasket } from "pages/shoppingList";
+import { UpdateBasket, UpdateTypes } from "types/hooksTypes";
 
 const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
 
 interface BasketProductCardProps {
    item: Product;
-   removeFromBasket: UpdateBasket
+   updateBasket: UpdateBasket;
 }
 
-export const BasketProductCard: FC<BasketProductCardProps> = ({item, removeFromBasket}) => {
+export const BasketProductCard: FC<BasketProductCardProps> = ({ item, updateBasket }) => {
    const productImage = item.image !== undefined ? DEV_URL + item.image : noImage
 
    return (
@@ -22,7 +22,7 @@ export const BasketProductCard: FC<BasketProductCardProps> = ({item, removeFromB
                <Image src={item.image ? productImage : noImage} layout={'fill'} />
             </div>
             <span>{item?.name}</span>
-            <button onClick={() => removeFromBasket(item)} />
+            <button onClick={() => updateBasket(UpdateTypes.REMOVE_PRODUCT, item)} />
          </div>
       </li>
    )

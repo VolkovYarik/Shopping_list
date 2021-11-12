@@ -1,30 +1,22 @@
 import { Category, Product } from "./dataTypes";
 
-type CategoriesResponse = {
+export type CategoriesResponse = {
    data: Category[] | []
    success: string
 }
 
-
-type ProductsResponse = {
+export type ProductsResponse = {
    data: Product[] | []
    success: string
 }
 
-type ProductForm = {
+export type ProductForm = {
    name: string;
    category: string;
    class: string
 }
 
-type CategoryForm = {
+export type CategoryForm = {
    category: string;
    subCategories: string[];
-}
-
-export {
-   CategoriesResponse,
-   ProductsResponse,
-   ProductForm,
-   CategoryForm
 }

@@ -2,7 +2,7 @@ import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction, useEffect, use
 import { Category, Dictionary } from "../../types/dataTypes";
 import { ProductForm } from "../../types/axiosApiTypes";
 
-interface useProductAttributesResult {
+type useProductAttributesResult = {
    selectedSubCategory: string;
    selectedCategory: string;
    subCategories: string[];
@@ -12,7 +12,9 @@ interface useProductAttributesResult {
    productNameHandler: ChangeEventHandler<HTMLInputElement>
 }
 
-export const useProductAttributes = (categoriesData: Dictionary<Category>, isProductEditing: boolean, item?: ProductForm): useProductAttributesResult => {
+type UseProductAttributes = (categoriesData: Dictionary<Category>, isProductEditing: boolean, item?: ProductForm) => useProductAttributesResult
+
+export const useProductAttributes: UseProductAttributes = (categoriesData, isProductEditing, item?) => {
 
    const initialCategory: string = isProductEditing ? Object.keys(categoriesData)[0] : 'all';
    const initialSubCategory: string = Object.values(categoriesData)[0].subCategories[0];

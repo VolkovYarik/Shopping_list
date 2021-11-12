@@ -9,7 +9,6 @@ interface EditDatabaseProductCardProps {
    item: Product;
    selectedCategory: string;
    selectedSubCategory: string;
-   categories: string[];
    categoriesData: Dictionary<Category>;
    updatingProductList: { (): Promise<void> };
 }
@@ -21,7 +20,6 @@ export const EditableProductsCard: FC<EditDatabaseProductCardProps> =
        selectedSubCategory,
        updatingProductList,
        categoriesData,
-       categories,
     }) => {
       const [isToggled, setToggled] = useState(false);
 

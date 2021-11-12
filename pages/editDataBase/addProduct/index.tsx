@@ -1,6 +1,6 @@
 import { dictionary, Dropdown, MainLayout, useProductAttributes } from "components";
 import Link from "next/link";
-import React, { FC, FormEvent, useState } from "react";
+import React, { FC, FormEvent } from "react";
 import { createNewProduct, getAllCategories } from "axiosApi";
 import { useRouter } from "next/router";
 import { Category, Dictionary } from "types/dataTypes";
@@ -12,9 +12,6 @@ interface AddProductProps {
 }
 
 const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
-   const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
-   const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
-
    const router = useRouter();
 
    const submitProduct = async (event: FormEvent) => {
@@ -52,10 +49,8 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
                         <span className={'inputLabel'}>Category</span>
                         <Dropdown
                            selectedValue={selectedCategory}
-                           setDropdownActive={setCategoriesDropdownActive}
                            data={Object.keys(categoriesData)}
                            setValue={setSelectedCategory}
-                           isDropdownActive={isCategoriesDropdownActive}
                            withInitialValue={false}
                         />
                      </div>
@@ -63,14 +58,11 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
                         <span className={'inputLabel'}>Subcategory</span>
                         <Dropdown
                            selectedValue={selectedSubCategory}
-                           setDropdownActive={setSubCategoriesDropdownActive}
                            data={subCategories}
                            setValue={setSelectedSubCategory}
-                           isDropdownActive={isSubCategoriesDropdownActive}
                            withInitialValue={false}
                         />
                      </div>
-
                      <div className={'formActions'}>
                         <button type="submit">Submit</button>
                         <Link href={'/editDataBase'}>

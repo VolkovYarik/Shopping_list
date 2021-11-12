@@ -30,7 +30,6 @@ export const ProductCardFront: FC<ProductCardFrontProps> =
       const { dispatch, state } = useContext<ContextType>(Context);
       const [isLoading, setLoading] = useState(false);
 
-
       const uploadImage = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
          event.preventDefault()
          setLoading(true)

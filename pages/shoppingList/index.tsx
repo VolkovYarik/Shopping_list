@@ -1,22 +1,18 @@
 import {
-   addToStorage,
    Basket,
    BasketModal,
    BasketProductCard,
-   clearStorage,
-   Context,
    dictionary,
    Dropdown,
    MainLayout,
    Portal,
    ProductsCard,
-   removeFromStorage,
+   useBasketState,
    useProductAttributes
 } from 'components'
 import styles from 'styles/ShoppingList.module.scss';
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi/";
-import { ContextType } from "types/contextTypes";
 import { Category, Dictionary, Product } from 'types/dataTypes'
 import { GetServerSideProps } from "next";
 import { Keys } from "types/serverSideTypes";
@@ -26,29 +22,10 @@ interface ShoppingListProps {
    categoriesData: Dictionary<Category>;
 }
 
-export type UpdateBasket = (product: Product) => void
-
 const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) => {
    const [isModalActive, setModalActive] = useState(false);
-   const [basket, setBasket] = useState<Product[] | []>([]);
-   const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
-   const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
-   const { state, dispatch } = useContext<ContextType>(Context);
 
-   const addToBasket: UpdateBasket = (product) => {
-      dispatch(addToStorage(product._id));
-      setBasket((prev) => [...prev, product]);
-   };
-
-   const removeFromBasket: UpdateBasket = (product) => {
-      dispatch(removeFromStorage(product._id));
-      setBasket((prev) => prev.filter((item) => item._id !== product._id));
-   };
-
-   const cleanupBasket = (): void => {
-      dispatch(clearStorage());
-      setBasket([]);
-   };
+   const { updateBasket, basket } = useBasketState(productsData)
 
    const {
       selectedCategory,
@@ -57,10 +34,6 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
       setSelectedSubCategory,
       subCategories
    } = useProductAttributes(categoriesData, false)
-
-   useEffect(() => {
-      setBasket(state.storage.map((element) => productsData[element]));
-   }, []);
 
    return (
       <MainLayout title="Shopping list">
@@ -71,10 +44,8 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                      <div className={styles.col}>
                         <Dropdown
                            selectedValue={selectedCategory}
-                           setDropdownActive={setCategoriesDropdownActive}
                            data={Object.keys(categoriesData)}
                            setValue={setSelectedCategory}
-                           isDropdownActive={isCategoriesDropdownActive}
                            withInitialValue={true}
                         />
                      </div>
@@ -82,10 +53,8 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                         {selectedCategory !== "all" &&
                         <Dropdown
                            selectedValue={selectedSubCategory}
-                           setDropdownActive={setSubCategoriesDropdownActive}
                            data={subCategories}
                            setValue={setSelectedSubCategory}
-                           isDropdownActive={isSubCategoriesDropdownActive}
                            withInitialValue={true}
                         />}
 
@@ -104,8 +73,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                         selectedCategory={selectedCategory}
                         selectedSubCategory={selectedSubCategory}
                         basket={basket}
-                        addToBasket={addToBasket}
-                        removeFromBasket={removeFromBasket}
+                        updateBasket={updateBasket}
                      />
                   ))}
                </ul>
@@ -115,11 +83,11 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
             <BasketModal
                isModalActive={isModalActive}
                setModalActive={setModalActive}
-               cleanupBasket={cleanupBasket}
+               updateBasket={updateBasket}
             >
                {basket.map((item) =>
                   <BasketProductCard
-                     removeFromBasket={removeFromBasket}
+                     updateBasket={updateBasket}
                      item={item}
                      key={item._id}
                   />)}

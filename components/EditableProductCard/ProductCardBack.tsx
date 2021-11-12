@@ -24,8 +24,6 @@ export const ProductCardBack: FC<ProductCardBackProps> =
     }) => {
 
       const [isLoading, setLoading] = useState(false);
-      const [isCategoriesDropdownActive, setCategoriesDropdownActive] = useState(false);
-      const [isSubCategoriesDropdownActive, setSubCategoriesDropdownActive] = useState(false);
 
       const submitUpdatedProduct = async (event: FormEvent<HTMLFormElement>) => {
          event.preventDefault();
@@ -65,10 +63,8 @@ export const ProductCardBack: FC<ProductCardBackProps> =
                   <span>Category</span>
                   <Dropdown
                      selectedValue={selectedCategory}
-                     setDropdownActive={setCategoriesDropdownActive}
                      data={Object.keys(categoriesData)}
                      setValue={setSelectedCategory}
-                     isDropdownActive={isCategoriesDropdownActive}
                      withInitialValue={false}
                   />
                </div>
@@ -76,10 +72,8 @@ export const ProductCardBack: FC<ProductCardBackProps> =
                   <span>Subcatergory</span>
                   <Dropdown
                      selectedValue={selectedSubCategory}
-                     setDropdownActive={setSubCategoriesDropdownActive}
                      data={subCategories}
                      setValue={setSelectedSubCategory}
-                     isDropdownActive={isSubCategoriesDropdownActive}
                      withInitialValue={false}
                   />
                </div>
