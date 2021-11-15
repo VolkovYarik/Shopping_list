@@ -8,7 +8,7 @@ import {
    Portal,
    ProductsCard,
    useBasketState,
-   useProductAttributes
+   useCategoriesState
 } from 'components'
 import styles from 'styles/ShoppingList.module.scss';
 import { FC, useState } from "react";
@@ -33,7 +33,7 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
       selectedSubCategory,
       setSelectedSubCategory,
       subCategories
-   } = useProductAttributes(categoriesData, false)
+   } = useCategoriesState(categoriesData)
 
    return (
       <MainLayout title="Shopping list">
@@ -57,7 +57,6 @@ const ShoppingList: FC<ShoppingListProps> = ({ productsData, categoriesData }) =
                            setValue={setSelectedSubCategory}
                            withInitialValue={true}
                         />}
-
                      </div>
                   </div>
                   <div onClick={() => setModalActive(true)} className={styles.iconWrapper}>

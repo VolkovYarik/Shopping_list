@@ -2,10 +2,10 @@ import { addToStorage, clearStorage, removeFromStorage } from "../Context/storag
 import { useContext, useEffect, useState } from "react";
 import { ContextType } from "types/contextTypes";
 import { Context } from "../Context";
-import { Dictionary, Product } from "types/dataTypes";
-import {UpdateBasket, UpdateTypes} from "types/hooksTypes";
+import {  Product } from "types/dataTypes";
+import { UpdateBasket, UpdateTypes, UseBasketState } from "types/hooksTypes";
 
-export const useBasketState = (productsData: Dictionary<Product>) => {
+export const useBasketState: UseBasketState = (productsData) => {
    const { state, dispatch } = useContext<ContextType>(Context);
    const [basket, setBasket] = useState<Product[] | []>([]);
 

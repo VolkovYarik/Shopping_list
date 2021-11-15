@@ -4,7 +4,7 @@ import cn from "classnames";
 import styles from "./EditableProductsCard.module.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { editProductByID } from "axiosApi";
-import { useProductAttributes } from "components";
+import { useCategoriesState, useProductForm } from "components";
 
 interface ProductCardBackProps {
    item: Product;
@@ -37,14 +37,10 @@ export const ProductCardBack: FC<ProductCardBackProps> =
       }
 
       const {
-         currentProductState,
-         productNameHandler,
-         selectedSubCategory,
-         subCategories,
-         setSelectedSubCategory,
-         selectedCategory,
-         setSelectedCategory
-      } = useProductAttributes(categoriesData, true, item);
+         selectedSubCategory, subCategories, setSelectedSubCategory, selectedCategory, setSelectedCategory
+      } = useCategoriesState(categoriesData, item);
+
+      const { productNameHandler, currentProductState } = useProductForm(selectedCategory, selectedSubCategory, item)
 
       return (
          <div className={styles.productsCardBack}>

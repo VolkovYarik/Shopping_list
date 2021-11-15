@@ -1,4 +1,4 @@
-import { dictionary, Dropdown, MainLayout, useProductAttributes } from "components";
+import { dictionary, Dropdown, MainLayout, useCategoriesState, useProductForm } from "components";
 import Link from "next/link";
 import React, { FC, FormEvent } from "react";
 import { createNewProduct, getAllCategories } from "axiosApi";
@@ -21,14 +21,22 @@ const AddProduct: FC<AddProductProps> = ({ categoriesData }) => {
    };
 
    const {
-      currentProductState,
-      productNameHandler,
       selectedSubCategory,
       subCategories,
       setSelectedSubCategory,
       selectedCategory,
       setSelectedCategory
-   } = useProductAttributes(categoriesData, true);
+   } = useCategoriesState(categoriesData, {
+      name: '',
+      category: Object.keys(categoriesData)[0],
+      class: Object.values(categoriesData)[0].subCategories[0]
+   })
+
+   const { currentProductState, productNameHandler, } = useProductForm(selectedCategory, selectedSubCategory, {
+      name: "",
+      category: selectedCategory,
+      class: selectedSubCategory
+   })
 
    return (
       <MainLayout title="Add product">

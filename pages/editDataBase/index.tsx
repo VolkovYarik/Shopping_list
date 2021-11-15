@@ -1,4 +1,4 @@
-import { dictionary, Dropdown, EditableProductsCard, MainLayout, Sidebar, useProductAttributes } from "components";
+import { dictionary, Dropdown, EditableProductsCard, MainLayout, Sidebar, useCategoriesState, } from "components";
 import styles from 'styles/EditDataBase.module.scss';
 import React, { FC, ReactElement, useState } from "react";
 import { getAllCategories, getAllProducts } from "axiosApi";
@@ -19,14 +19,13 @@ const EditDataBase: FC<EditDataBaseProps> = ({ allProductsData, categoriesData }
       const updatedProductsList: Product[] = await getAllProducts()
       setProducts(updatedProductsList);
    }
-
    const {
       selectedCategory,
       setSelectedCategory,
       selectedSubCategory,
       setSelectedSubCategory,
       subCategories
-   } = useProductAttributes(categoriesData, false)
+   } = useCategoriesState(categoriesData);
 
    return (
       <MainLayout title="Edit database">

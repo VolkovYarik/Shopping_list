@@ -13,8 +13,9 @@ import { addToStorage, clearStorage, removeFromStorage } from "./Context/storage
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Edit } from "./Specs/Edit.js";
 import { cleanupFileUploading, dictionary, fileHandler } from "./Utils";
-import { useProductAttributes } from './Hooks/useProductAttributes';
-import { useBasketState } from './Hooks/useBasketState'
+import { useBasketState } from './Hooks/useBasketState';
+import { useCategoriesState } from "./Hooks/useCategoriesState";
+import { useProductForm } from './Hooks/useProductForm'
 
 export {
    Basket,
@@ -41,6 +42,7 @@ export {
    cleanupFileUploading,
    Sidebar,
    Edit,
-   useProductAttributes,
-   useBasketState
+   useBasketState,
+   useCategoriesState,
+   useProductForm
 }
