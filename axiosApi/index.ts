@@ -1,41 +1,62 @@
-import axios, { AxiosInstance } from "axios";
-import { Category, Product } from "types/dataTypes";
-import { CategoriesResponse, CategoryForm, ProductForm, ProductsResponse } from "types/axiosApiTypes";
+import axios, { AxiosInstance } from 'axios';
+import { Category, Product } from 'types/dataTypes';
+import {
+  CategoriesResponse,
+  CategoryForm,
+  ProductForm,
+  ProductsResponse,
+} from 'types/axiosApiTypes';
 
-const DEV_URL: string = process.env.DEV_URL || "http://localhost:3000";
+const DEV_URL: string = process.env.DEV_URL || 'http://localhost:3000';
 
 export const instance: AxiosInstance = axios.create({
-   baseURL: `${DEV_URL}/api`,
+  baseURL: `${DEV_URL}/api`,
 });
 
-export const getAllCategories = (): Promise<Category[]> => {
-   return instance.get<CategoriesResponse>('/categories').then((res) => res.data.data);
+export const getAllCategories = (): Promise<void | Category[]> => {
+  return instance
+    .get<CategoriesResponse>('/categories')
+    .then((res) => {
+      console.log(res);
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const addNewCategory = (body: CategoryForm): Promise<any> => {
-   return instance.post('/categories', body)
+  return instance.post('/categories', body);
 };
 
 export const createNewProduct = (body: ProductForm): Promise<any> => {
-   return instance.post('/products', body)
+  return instance.post('/products', body);
 };
 
 export const deleteProductByID = (id: string | number): Promise<any> => {
-   return instance.delete(`/products/${id}`);
+  return instance.delete(`/products/${id}`);
 };
 
-export const editProductByID = (id: string | number, body: ProductForm): Promise<any> => {
-   return instance.patch(`/products/${id}`, body);
-}
+export const editProductByID = (
+  id: string | number,
+  body: ProductForm
+): Promise<any> => {
+  return instance.patch(`/products/${id}`, body);
+};
 
 export const getAllProducts = (): Promise<Product[]> => {
-   return instance.get<ProductsResponse>('/products').then(res => res.data.data);
+  return instance
+    .get<ProductsResponse>('/products')
+    .then((res) => res.data.data);
 };
 
-export const uploadProductImage = (file: FormData, id: string | number): Promise<any> => {
-   return instance.put(`/upload/${id}`, file, {
-      headers: {
-         'content-type': 'multipart/form-data',
-      }
-   })
-}
+export const uploadProductImage = (
+  file: FormData,
+  id: string | number
+): Promise<any> => {
+  return instance.put(`/upload/${id}`, file, {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  });
+};
